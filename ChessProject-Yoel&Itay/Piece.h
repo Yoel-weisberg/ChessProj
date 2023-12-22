@@ -6,7 +6,7 @@
 class Piece
 {
 public:
-	Piece(const std::string type, const Point location, const Pleyer color,std::vector<Piece>& board);
+	Piece(const std::string type, const Point location, const Player color,std::vector<Piece>& board);
 	virtual int move(const Point& dst);
 	Point getLocation() const;
 	Player getColor() const;
