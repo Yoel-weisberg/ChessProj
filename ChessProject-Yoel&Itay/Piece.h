@@ -8,10 +8,10 @@ class Piece
 public:
 	Piece(const std::string type, const Point location, const Pleyer color,std::vector<Piece>& board);
 	virtual int move(const Point& dst);
-	int getLocation() const;
+	Point getLocation() const;
 	Pleyer getColor() const;
-	int checkIfLeagel() const;
-	virtual int checkIfLegallyForPiece() = 0;
+	int checkIfLeagel(const Point& dst) const;
+	virtual int checkIfLegallyForPiece(const Point& dst) = 0;
 
 protected:
 	std::string _type;
