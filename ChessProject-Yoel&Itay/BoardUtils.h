@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Board.h"
 #include "Piece.h"
 #include "Point.h"
 #include "Player.h"
@@ -25,13 +26,13 @@ enum returnCode
 class BoardUtils
 {
 public:
-	static Player getPointPlayer(const Piece* (&board)[ROWS][COLS], const Point& point);
+	static Player getPointPlayer(const Board& board, const Point& point);
 
 	static bool isPointInBoundaries(const Point& point);
-	static bool isKingInCheck(const Piece* (&board)[ROWS][COLS], const Player& player);
-	static returnCode isMoveValid(const Piece* (&board)[ROWS][COLS], const Player& turn, const Point& src, const Point& dst);
+	static bool isKingInCheck(const Board& board, const Player& player);
+	static returnCode isMoveValid(const Board& board, const Player& turn, const Point& src, const Point& dst);
 
-	static bool movePiece(Piece* (&board)[ROWS][COLS], const Player& turn, const Point& src, const Point& dst);
+	static returnCode movePiece(const Board& board, const Player& turn, const Point& src, const Point& dst);
 
-	static void printBoard(const Piece* (&board)[ROWS][COLS]);
+	static void printBoard(const Board& board);
 };

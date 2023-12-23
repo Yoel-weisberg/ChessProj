@@ -27,6 +27,7 @@ bool Player::isEmpty() const
 	return this->_playerColor == EMPTY;
 }
 
+
 void Player::setColor(const std::string& color)
 {
 	this->_playerColor = color;

@@ -2,8 +2,8 @@
 
 #include <string>
 
-#define WHITE "white"
-#define BLACK "black"
+#define W "white"
+#define B "black"
 #define EMPTY "empty"
 
 

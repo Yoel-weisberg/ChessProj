@@ -7,9 +7,9 @@
  @param		point		The Point to check.
  @return	The Player that the Piece in the given Point belongs to.
  */
-Player BoardUtils::getPointPlayer(const Piece* (&board)[ROWS][COLS], const Point& point)
+Player BoardUtils::getPointPlayer(const Board& board, const Point& point)
 {
-	return board[point.getRow()][point.getCol()]->getColor();
+	return board.board[point.getRow()][point.getCol()]->getColor();
 }
 
 
@@ -25,13 +25,13 @@ bool BoardUtils::isPointInBoundaries(const Point& point)
 }
 
 
-bool BoardUtils::isKingInCheck(const Piece* (&board)[ROWS][COLS], const Player& player)
+bool BoardUtils::isKingInCheck(const Board& board, const Player& player)
 {
 	return false;
 }
 
 
-returnCode BoardUtils::isMoveValid(const Piece* (&board)[ROWS][COLS], const Player& turn, const Point& src, const Point& dst)
+returnCode BoardUtils::isMoveValid(const Board& board, const Player& turn, const Point& src, const Point& dst)
 {
 	// Invalid moves check
 	bool isInBoundaries = isPointInBoundaries(src) && isPointInBoundaries(dst);
@@ -40,20 +40,20 @@ returnCode BoardUtils::isMoveValid(const Piece* (&board)[ROWS][COLS], const Play
 		return INVALID_INDEXES;
 	}
 
-	bool isCurrentInSrc = board[src.getRow()][src.getCol()]->getColor() == turn;
+	bool isCurrentInSrc = board.board[src.getRow()][src.getCol()]->getColor() == turn;
 	if (!isCurrentInSrc)
 	{
 		return MISSING_CURRENT_IN_SRC;
 	}
 
-	bool isCurrentNotInDst = !(board[dst.getRow()][dst.getCol()]->getColor() == turn);
+	bool isCurrentNotInDst = !(board.board[dst.getRow()][dst.getCol()]->getColor() == turn);
 	if (!isCurrentNotInDst)
 	{
 		return DST_OCCUPIED_BY_CURRENT;
 	}
 	
 	// Mobility checks
-	bool isLegalForPiece = board[src.getRow()][src.getCol()]->checkIfLegallyForPiece(dst);
+	bool isLegalForPiece = board.board[src.getRow()][src.getCol()]->checkIfLegallyForPiece(dst);
 	if (!isLegalForPiece)
 	{
 		return ILLEGAL_MOVE_FOR_PIECE;
@@ -73,14 +73,22 @@ returnCode BoardUtils::isMoveValid(const Piece* (&board)[ROWS][COLS], const Play
 }
 
 
-bool BoardUtils::movePiece(Piece* (&board)[ROWS][COLS], const Player& turn, const Point& src, const Point& dst)
+/**
+ @brief		Moves the Piece in the given src Point to the given dst Point.
+ @param		board		The board to move the Piece in.
+ @param		turn		The Player that is playing now.
+ @param		src			The Point to move the Piece from.
+ @param		dst			The Point to move the Piece to.
+ @return	The return code of the move.
+ */
+returnCode BoardUtils::movePiece(const Board& board, const Player& turn, const Point& src, const Point& dst)
 {
-	bool isValidMove = isMoveValid(board, turn, src, dst);
+	returnCode isValidMove = isMoveValid(board, turn, src, dst);
 
 	if (isValidMove == VALID_MOVE || isValidMove == CHECK_MOVE)
 	{
-		// Copy the Piece in src Point to dst Point
-		// Empty the src Point from Piece
+		*board.board[dst.getRow()][dst.getCol()] = *board.board[src.getRow()][src.getCol()];	// Copying the Piece in src Point to dst Point
+		board.board[src.getRow()][src.getCol()]->turnIntoEmpty();		// Emptying the src Point from Piece
 	}
 
 	return isValidMove;
@@ -92,13 +100,13 @@ bool BoardUtils::movePiece(Piece* (&board)[ROWS][COLS], const Player& turn, cons
  @param		board		The board to print.
  @return	void.
  */
-void BoardUtils::printBoard(const Piece* (&board)[ROWS][COLS])
+void BoardUtils::printBoard(const Board& board)
 {
 	for (int row = 0; row < ROWS; row++)
 	{
 		for (int col = 0; col < COLS; col++)
 		{
-			std::cout << board[row][col]->getType() << " ";
+			std::cout << board.board[row][col]->getType() << " ";
 		}
 		std::cout << std::endl;
 	}
