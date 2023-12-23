@@ -14,6 +14,7 @@ public:
 
 	std::string getPlayerColor() const;
 	bool isEmpty() const;
+	void setColor(const std::string& color);
 
 	bool operator==(const Player& other) const;
 

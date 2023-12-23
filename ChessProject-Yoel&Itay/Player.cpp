@@ -27,6 +27,11 @@ bool Player::isEmpty() const
 	return this->_playerColor == EMPTY;
 }
 
+void Player::setColor(const std::string& color)
+{
+	this->_playerColor = color;
+}
+
 
 /**
  @brief		Checks if the calling player is equal to another player (by color).
