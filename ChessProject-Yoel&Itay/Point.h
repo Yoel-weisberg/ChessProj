@@ -2,20 +2,21 @@
 
 #include <string>
 
+
 class Point
 {
 public:
-	Point(const int& x, const int& y);
+	Point(const int& row, const int& col);
 
-	int getX() const;
-	int getY() const;
+	int getRow() const;
+	int getCol() const;
 
-	void setX(const int& x, const int& y);
-	void setY(const int& x, const int& y);
+	void setRow(const int& row);
+	void setCol(const int& col);
 
 	std::string toString() const;
 
 private:
-	int _x;
-	int _y;
+	int _row;
+	int _col;
 };
