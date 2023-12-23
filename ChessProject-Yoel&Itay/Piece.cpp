@@ -30,5 +30,5 @@ void Piece::operator=(const Piece& other)
 void Piece::turnIntoEmpty()
 {
 	this->_color.setColor(EMPTY);
-	this->_type = 'e';
+	this->_type = '#';
 }
