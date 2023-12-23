@@ -6,6 +6,9 @@
 #include "BoardUtils.h"
 #include <vector>
 
+class BoardUtils;
+class Board;
+
 
 class Piece
 {
