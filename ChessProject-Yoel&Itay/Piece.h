@@ -1,8 +1,11 @@
 #pragma once
+
 #include <iostream>
 #include "Point.h"
 #include "Player.h"
 #include <vector>
+
+
 class Piece
 {
 public:
@@ -10,8 +13,7 @@ public:
 	virtual int move(const Point& dst);
 	Point getLocation() const;
 	Player getColor() const;
-	int checkIfLeagel(const Point& dst) const;
-	virtual int checkIfLegallyForPiece(const Point& dst) = 0;
+	virtual int checkIfLegallyForPiece(const Point& dst) const = 0;
 
 protected:
 	std::string _type;

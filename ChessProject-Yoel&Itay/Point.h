@@ -1,5 +1,22 @@
 #pragma once
+
+#include <string>
+
+
 class Point
 {
-	// implement class
+public:
+	Point(const int& row, const int& col);
+
+	int getRow() const;
+	int getCol() const;
+
+	void setRow(const int& row);
+	void setCol(const int& col);
+
+	std::string toString() const;
+
+private:
+	int _row;
+	int _col;
 };
