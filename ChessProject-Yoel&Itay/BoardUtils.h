@@ -31,7 +31,7 @@ public:
 	static bool isKingInCheck(const Piece* (&board)[ROWS][COLS], const Player& player);
 	static returnCode isMoveValid(const Piece* (&board)[ROWS][COLS], const Player& turn, const Point& src, const Point& dst);
 
-	static bool movePiece(Piece* (&board)[ROWS][COLS], const Point& src, const Point& dst);
+	static bool movePiece(Piece* (&board)[ROWS][COLS], const Player& turn, const Point& src, const Point& dst);
 
 	static void printBoard(const Piece* (&board)[ROWS][COLS]);
 };
