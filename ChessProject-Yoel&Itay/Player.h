@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #define WHITE "white"
 #define BLACK "black"
 #define EMPTY "empty"
