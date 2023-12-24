@@ -1,7 +1,7 @@
 #include "Piece.h"
 
-Piece::Piece(const char& type, const Point& location, const Player& color, std::vector<Piece>& board)
-	: _type(type), _location(location), _color(color), _board(board)
+Piece::Piece(const char& type, const Point& location, const Player& color)
+	: _type(type), _location(location), _color(color)
 {
 }
 
@@ -18,6 +18,18 @@ Player Piece::getColor() const
 char Piece::getType() const
 {
 	return this->_type;
+}
+
+returnCode Piece::checkIfLegallyForPiece(const Point& dst, const Board& board) const
+{
+	if (checkIfPiecesInTrip(dst, board) && checkIfTripLegallyForPiece(dst, board))
+	{
+		return VALID_MOVE;
+	}
+	else
+	{
+		return ILLEGAL_MOVE_FOR_PIECE;
+	}
 }
 
 void Piece::operator=(const Piece& other)
