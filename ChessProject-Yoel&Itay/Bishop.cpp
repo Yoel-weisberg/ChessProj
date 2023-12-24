@@ -7,30 +7,28 @@ Bishop::Bishop(const char& type, const Point& location, const Player& color)
 
 bool Bishop::checkIfTripLegallyForPiece(const Point& dst) const
 {
-	int distanceCol = std::abs(this->_location.getCol() - dst.getCol());
-	int distanceRow = std::abs(this->_location.getRow() - dst.getRow());
-
-	if (distanceCol == distanceRow)
-	{
-		return true;
-	}
-	return false;
+	return Bishop::checkIfTripLegallyForPieceBishop(this->_location, dst);
 }
 
 bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 {
-	int distance = std::abs(this->_location.getCol() - dst.getCol());
+	return Bishop::checkForPiecesOnTripBishop(this->_location, dst, board);
+}
+
+bool Bishop::checkForPiecesOnTripBishop(const Point& src, const Point& dst, const Board& board)
+{
+	int distance = std::abs(src.getCol() - dst.getCol());
 	int i = 0;
 
 	// if the dst is above the src
-	if (dst.getRow() > this->_location.getRow())
+	if (dst.getRow() > src.getRow())
 	{
 		// if the dst is above ant to the right of the src
-		if (dst.getCol() > this->_location.getCol())
+		if (dst.getCol() > src.getCol())
 		{
 			for (i = 1; i < distance; i++)
 			{
-				if (board.board[this->_location.getRow() + i][this->_location.getCol() + i]->getType() != EMPTY)
+				if (board.board[src.getRow() + i][src.getCol() + i]->getType() != EMPTY)
 				{
 					return false;
 				}
@@ -38,11 +36,11 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		}
 
 		// if the dst is above and to the left of the src
-		if (dst.getCol() < this->_location.getCol())
+		if (dst.getCol() < src.getCol())
 		{
 			for (i = 1; i < distance; i++)
 			{
-				if (board.board[this->_location.getRow() + i][this->_location.getCol() - i]->getType() != EMPTY)
+				if (board.board[src.getRow() + i][src.getCol() - i]->getType() != EMPTY)
 				{
 					return false;
 				}
@@ -51,14 +49,14 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 	}
 
 	// if the dst is underneath the src
-	if (dst.getRow() < this->_location.getRow())
+	if (dst.getRow() < src.getRow())
 	{
 		// if the dst is underneath ant to the right of the src
-		if (dst.getCol() > this->_location.getCol())
+		if (dst.getCol() > src.getCol())
 		{
 			for (i = 1; i < distance; i++)
 			{
-				if (board.board[this->_location.getRow() - i][this->_location.getCol() + i]->getType() != EMPTY)
+				if (board.board[src.getRow() - i][src.getCol() + i]->getType() != EMPTY)
 				{
 					return false;
 				}
@@ -66,11 +64,11 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		}
 
 		// if the dst is underneath and to the left of the src
-		if (dst.getCol() < this->_location.getCol())
+		if (dst.getCol() < src.getCol())
 		{
 			for (i = 1; i < distance; i++)
 			{
-				if (board.board[this->_location.getRow() - i][this->_location.getCol() - i]->getType() != EMPTY)
+				if (board.board[src.getRow() - i][src.getCol() - i]->getType() != EMPTY)
 				{
 					return false;
 				}
@@ -79,4 +77,16 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 
 		return true;
 	}
+}
+
+bool Bishop::checkIfTripLegallyForPieceBishop(const Point& src ,const Point& dst)
+{
+	int distanceCol = std::abs(src.getCol() - dst.getCol());
+	int distanceRow = std::abs(src.getRow() - dst.getRow());
+
+	if (distanceCol == distanceRow)
+	{
+		return true;
+	}
+	return false;
 }
