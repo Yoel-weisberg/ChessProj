@@ -41,6 +41,6 @@ void Piece::operator=(const Piece& other)
 
 void Piece::turnIntoEmpty()
 {
-	this->_color.setColor(EMPTY_PLEYER);
+	this->_color.setColor(EMPTY_PLAYER);
 	this->_type = EMPTY;
 }

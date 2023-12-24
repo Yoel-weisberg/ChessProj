@@ -8,6 +8,9 @@
 #define ROWS 8
 #define COLS 8
 
+#define PIECES_IN_TRIP		false
+#define NO_PIECES_IN_TRIP	true
+
 class Piece;
 
 

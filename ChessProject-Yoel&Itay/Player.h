@@ -4,7 +4,7 @@
 
 #define W "white"
 #define B "black"
-#define EMPTY_PLEYER "empty"
+#define EMPTY_PLAYER "empty"
 
 
 class Player

@@ -53,7 +53,7 @@ returnCode BoardUtils::isMoveValid(const Board& board, const Player& turn, const
 	}
 	
 	// Mobility checks
-	bool isLegalForPiece = board.board[src.getRow()][src.getCol()]->checkIfLegallyForPiece(dst);
+	bool isLegalForPiece = board.board[src.getRow()][src.getCol()]->checkIfLegallyForPiece(dst, board);
 	if (!isLegalForPiece)
 	{
 		return ILLEGAL_MOVE_FOR_PIECE;
