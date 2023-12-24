@@ -3,9 +3,9 @@
 
 /**
  @brief		Constructor - Initializes the type, location, color of the King.
- @param		type	the type of the piece
+ @param		type		the type of the piece
  @param		location	the location of the piece on the board
- @param		color	the color of the piece
+ @param		color		the color of the piece
  */
 King::King(const char& type, const Point& location, const Player& color) : Piece(type, location, color) {}
 

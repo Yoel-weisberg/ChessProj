@@ -130,6 +130,7 @@
     <ClInclude Include="Bishop.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardUtils.h" />
+    <ClInclude Include="Empty.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="King.h" />
     <ClInclude Include="Knight.h" />
@@ -143,6 +144,7 @@
     <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="BoardUtils.cpp" />
+    <ClCompile Include="Empty.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="King.cpp" />
     <ClCompile Include="Knight.cpp" />
