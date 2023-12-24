@@ -24,7 +24,7 @@ std::string Player::getPlayerColor() const
  */
 bool Player::isEmpty() const
 {
-	return this->_playerColor == EMPTY;
+	return this->_playerColor == EMPTY_PLEYER;
 }
 
 

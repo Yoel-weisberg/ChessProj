@@ -22,7 +22,7 @@ char Piece::getType() const
 
 returnCode Piece::checkIfLegallyForPiece(const Point& dst, const Board& board) const
 {
-	if (checkIfPiecesInTrip(dst, board) && checkIfTripLegallyForPiece(dst, board))
+	if (checkIfTripLegallyForPiece(dst) && checkIfPiecesInTrip(dst, board))
 	{
 		return VALID_MOVE;
 	}

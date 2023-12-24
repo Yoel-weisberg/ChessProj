@@ -30,7 +30,10 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		{
 			for (i = 0; i < distance; i++)
 			{
-				if (board.board[this->_location.getRow() + i][this->_location.getCol() + i]->getType() != EMPTY);
+				if (board.board[this->_location.getRow() + i][this->_location.getCol() + i]->getType() != EMPTY)
+				{
+					return false;
+				}
 			}
 		}
 
@@ -39,7 +42,10 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		{
 			for (i = 0; i < distance; i++)
 			{
-				if (board.board[this->_location.getRow() + i][this->_location.getCol() - i]->getType() != EMPTY);
+				if (board.board[this->_location.getRow() + i][this->_location.getCol() - i]->getType() != EMPTY)
+				{
+					return false;
+				}
 			}
 		}
 	}
@@ -52,7 +58,10 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		{
 			for (i = 0; i < distance; i++)
 			{
-				if (board.board[this->_location.getRow() - i][this->_location.getCol() + i]->getType() != EMPTY);
+				if (board.board[this->_location.getRow() - i][this->_location.getCol() + i]->getType() != EMPTY)
+				{
+					return false;
+				}
 			}
 		}
 
@@ -61,8 +70,13 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		{
 			for (i = 0; i < distance; i++)
 			{
-				if (board.board[this->_location.getRow() - i][this->_location.getCol() - i]->getType() != EMPTY);
+				if (board.board[this->_location.getRow() - i][this->_location.getCol() - i]->getType() != EMPTY)
+				{
+					return false;
+				}
 			}
 		}
+
+		return true;
 	}
 }
