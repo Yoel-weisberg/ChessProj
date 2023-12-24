@@ -1,59 +1,42 @@
 #include "Board.h"
 
-#define B_ROOK1_ROW 0
-#define B_ROOK1_COL 0
-
-#define B_KNIGHT1_ROW 0
-#define B_KNIGHT1_COL 1
-
-#define B_BISHOP1_ROW 0
-#define B_BISHOP1_COL 2
-
-#define B_QUEEN_ROW 0
-#define B_QUEEN_COL 3
-
-#define B_KING_ROW 0
-#define B_KING_COL 4
-
-#define B_BISHOP2_ROW 0
-#define B_BISHOP2_COL 5
-
-#define B_KNIGHT2_ROW 0
-#define B_KNIGHT2_COL 6
-
-#define B_ROOK2_ROW 0
-#define B_ROOK2_COL 7
-
-
-#define W_ROOK1_ROW 7
-#define W_ROOK1_COL 0
-
-#define W_KNIGHT1_ROW 7
-#define W_KNIGHT1_COL 1
-
-#define W_BISHOP1_ROW 7
-#define W_BISHOP1_COL 2
-
-#define W_QUEEN_ROW 7
-#define W_QUEEN_COL 3
-
-#define W_KING_ROW 7
-#define W_KING_COL 4
-
-#define W_BISHOP2_ROW 7
-#define W_BISHOP2_COL 5
-
-#define W_KNIGHT2_ROW 7
-#define W_KNIGHT2_COL 6
-
-#define W_ROOK2_ROW 7
-#define W_ROOK2_COL 7
 
 
 Board::Board() :
 	_rows(ROWS), _cols(COLS)
 {
+	// Adding black pieces
+	this->board[B_ROOK1_ROW][B_ROOK1_COL] = new Rook(BLACK_ROOK, Point(B_ROOK1_ROW, B_ROOK1_COL), Player(B));
+	this->board[B_KNIGHT1_ROW][B_KNIGHT1_COL] = new Knight(BLACK_KNIGHT, Point(B_KNIGHT1_ROW, B_KNIGHT1_COL), Player(B));
+	this->board[B_BISHOP1_ROW][B_BISHOP1_COL] = new Bishop(BLACK_BISHOP, Point(B_BISHOP1_ROW, B_BISHOP1_COL), Player(B));
+	this->board[B_QUEEN_ROW][B_QUEEN_COL] = new Queen(BLACK_QUEEN, Point(B_QUEEN_ROW, B_QUEEN_COL), Player(B));
+	this->board[B_KING_ROW][B_KING_COL] = new King(BLACK_KING, Point(B_KING_ROW, B_KING_COL), Player(B));
+	this->board[B_BISHOP2_ROW][B_BISHOP2_COL] = new Bishop(BLACK_BISHOP, Point(B_BISHOP2_ROW, B_BISHOP2_COL), Player(B));
+	this->board[B_KNIGHT2_ROW][B_KNIGHT2_COL] = new Knight(BLACK_KNIGHT, Point(B_KNIGHT2_ROW, B_KNIGHT2_COL), Player(B));
+	this->board[B_ROOK2_ROW][B_ROOK2_COL] = new Rook(BLACK_ROOK, Point(B_ROOK2_ROW, B_ROOK2_COL), Player(B));
 
+	// Adding black pawns
+	for (int i = 0; i < COLS; i++)
+	{
+		this->board[BLACK_PAWNS_ROW][i] = new Pawn(BLACK_PAWN, Point(BLACK_PAWNS_ROW, i), Player(B));
+	}
+
+
+	// Adding white pieces
+	this->board[W_ROOK1_ROW][W_ROOK1_COL] = new Rook(WHITE_ROOK, Point(W_ROOK1_ROW, W_ROOK1_COL), Player(W));
+	this->board[W_KNIGHT1_ROW][W_KNIGHT1_COL] = new Knight(WHITE_KNIGHT, Point(W_KNIGHT1_ROW, W_KNIGHT1_COL), Player(W));
+	this->board[W_BISHOP1_ROW][W_BISHOP1_COL] = new Bishop(WHITE_BISHOP, Point(W_BISHOP1_ROW, W_BISHOP1_COL), Player(W));
+	this->board[W_QUEEN_ROW][W_QUEEN_COL] = new Queen(WHITE_QUEEN, Point(W_QUEEN_ROW, W_QUEEN_COL), Player(W));
+	this->board[W_KING_ROW][W_KING_COL] = new King(WHITE_KING, Point(W_KING_ROW, W_KING_COL), Player(W));
+	this->board[W_BISHOP2_ROW][W_BISHOP2_COL] = new Bishop(WHITE_BISHOP, Point(W_BISHOP2_ROW, W_BISHOP2_COL), Player(W));
+	this->board[W_KNIGHT2_ROW][W_KNIGHT2_COL] = new Knight(WHITE_KNIGHT, Point(W_KNIGHT2_ROW, W_KNIGHT2_COL), Player(W));
+	this->board[W_ROOK2_ROW][W_ROOK2_COL] = new Rook(WHITE_ROOK, Point(W_ROOK2_ROW, W_ROOK2_COL), Player(W));
+
+	// Adding white pawns
+	for (int i = 0; i < COLS; i++)
+	{
+		this->board[WHITE_PAWNS_ROW][i] = new Pawn(WHITE_PAWN, Point(WHITE_PAWNS_ROW, i), Player(W));
+	}
 }
 
 
