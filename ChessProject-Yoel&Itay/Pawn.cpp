@@ -2,7 +2,7 @@
 
 
 /**
- @brief		Constructor - Initializes the type, location, color and the first move flag.
+ @brief		Constructor - Initializes the type, location, color and the first move flag of the Pawn.
  @param		type		The type of the piece.
  @param		location	The location of the piece on the board.
  @param		color		The color of the piece.
@@ -45,7 +45,7 @@ bool Pawn::checkIfTripLegallyForPiece(const Point& dst) const
 
 /**
  @brief		Checks if there are pieces that block the Pawn's trip.
- @param		dst		The destination point of the piece.
+ @param		dst		The destination point of the Pawn.
  @param		board	The board of the game.
  @return	false if the trip is blocked, true otherwise.
  */
