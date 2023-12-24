@@ -59,3 +59,14 @@ std::string Point::toString() const
 {
 	return std::string(1, 'a' + this->_col) + std::string(1, '8' - this->_row);
 }
+
+
+/**
+ @brief		Checks if the calling point is equal to another point.
+ @param		other		The other point to compare to.
+ @return	True if the points are equal, false otherwise.
+ */
+bool Point::operator==(const Point& other) const
+{
+	return (this->_row == other._row) && (this->_col == other._col);
+}

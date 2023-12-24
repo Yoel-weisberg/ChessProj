@@ -16,6 +16,8 @@ public:
 
 	std::string toString() const;
 
+	bool operator==(const Point& other) const;
+
 private:
 	int _row;
 	int _col;
