@@ -23,9 +23,9 @@ bool Rook::checkIfPiecesInTrip(const Point& dst, const Board& board) const
     {
 
         // if the destination is fartther then the src
-        if (this->_location.getCol() < dst.getCol())
+        if (this->_location.getRow() < dst.getRow())
         {
-            for (i = this->_location.getCol(); i < dst.getCol(); i++)
+            for (i = this->_location.getRow() + 1; i < dst.getRow(); i++)
             {
                 if (board.board[i][dst.getCol()]->getType() != EMPTY)
                 {
@@ -38,7 +38,7 @@ bool Rook::checkIfPiecesInTrip(const Point& dst, const Board& board) const
         else
         {
             // checking if there is somthing between the points
-            for (i = dst.getCol(); i < this->_location.getCol(); i++)
+            for (i = dst.getRow() + 1; i < this->_location.getRow(); i++)
             {
                 if (board.board[i][dst.getCol()]->getType() != EMPTY)
                 {
@@ -54,9 +54,9 @@ bool Rook::checkIfPiecesInTrip(const Point& dst, const Board& board) const
     {
 
         // if the destination is farther then the src
-        if (this->_location.getRow() < dst.getRow())
+        if (this->_location.getCol() < dst.getCol())
         {
-            for (i = this->_location.getRow(); i < dst.getRow(); i++)
+            for (i = this->_location.getCol() + 1; i < dst.getCol(); i++)
             {
                 if (board.board[dst.getRow()][i]->getType() != EMPTY)
                 {
@@ -69,7 +69,7 @@ bool Rook::checkIfPiecesInTrip(const Point& dst, const Board& board) const
         else
         {
             // checking if there is something between the points
-            for (i = dst.getRow(); i < this->_location.getRow(); i++)
+            for (i = dst.getCol() + 1; i < this->_location.getCol(); i++)
             {
                 if (board.board[dst.getRow()][i]->getType() != EMPTY)
                 {

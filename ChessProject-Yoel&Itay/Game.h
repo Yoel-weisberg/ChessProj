@@ -4,6 +4,7 @@
 class Game
 {
 public:
+	Game();
 	void restart();
 	returnCode moveOnBoard(const Point& src, const Point& dst);
 private:
