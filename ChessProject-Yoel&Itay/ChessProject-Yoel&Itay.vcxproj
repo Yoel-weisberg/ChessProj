@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bishop.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardUtils.h" />
     <ClInclude Include="Game.h" />
@@ -135,9 +136,10 @@
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Point.h" />
-    <ClInclude Include="Rock.h" />
+    <ClInclude Include="Rook.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="BoardUtils.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -145,7 +147,7 @@
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Point.cpp" />
-    <ClCompile Include="Rock.cpp" />
+    <ClCompile Include="Rook.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

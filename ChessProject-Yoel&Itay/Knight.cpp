@@ -1,5 +1,10 @@
 #include "Knight.h"
 
+Knight::Knight(const char& type, const Point& location, const Player& color)
+    : Piece(type, location, color)
+{
+}
+
 bool Knight::checkIfTripLegallyForPiece(const Point& dst) const
 {
     int distBetweenCol = std::abs(dst.getCol() - this->_location.getCol());

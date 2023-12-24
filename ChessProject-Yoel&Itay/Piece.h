@@ -6,11 +6,13 @@
 #include "BoardUtils.h"
 #include "Board.h"
 #include <math.h>
-#include <vector>
+#include <string>
+
 
 class BoardUtils;
 class Board;
 
+#define EMPTY '#'
 
 class Piece
 {
