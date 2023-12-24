@@ -1,5 +1,7 @@
 #include "Game.h"
 
+Game::Game() : _board(&Board()), _turn(Player(W)) {}
+
 void Game::restart()
 {
 	this->_board = &Board();

@@ -21,7 +21,7 @@ public:
 	Point getLocation() const;
 	Player getColor() const;
 	char getType() const;
-	virtual returnCode checkIfLegallyForPiece(const Point& dst, const Board& board) const;
+	returnCode checkIfLegallyForPiece(const Point& dst, const Board& board) const;
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const = 0;
 	virtual bool checkIfPiecesInTrip(const Point& dst, const Board& board) const = 0;
 	void operator= (const Piece& other);

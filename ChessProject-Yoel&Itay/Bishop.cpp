@@ -28,7 +28,7 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		// if the dst is above ant to the right of the src
 		if (dst.getCol() > this->_location.getCol())
 		{
-			for (i = 0; i < distance; i++)
+			for (i = 1; i < distance; i++)
 			{
 				if (board.board[this->_location.getRow() + i][this->_location.getCol() + i]->getType() != EMPTY)
 				{
@@ -40,7 +40,7 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		// if the dst is above and to the left of the src
 		if (dst.getCol() < this->_location.getCol())
 		{
-			for (i = 0; i < distance; i++)
+			for (i = 1; i < distance; i++)
 			{
 				if (board.board[this->_location.getRow() + i][this->_location.getCol() - i]->getType() != EMPTY)
 				{
@@ -56,7 +56,7 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		// if the dst is underneath ant to the right of the src
 		if (dst.getCol() > this->_location.getCol())
 		{
-			for (i = 0; i < distance; i++)
+			for (i = 1; i < distance; i++)
 			{
 				if (board.board[this->_location.getRow() - i][this->_location.getCol() + i]->getType() != EMPTY)
 				{
@@ -68,7 +68,7 @@ bool Bishop::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		// if the dst is underneath and to the left of the src
 		if (dst.getCol() < this->_location.getCol())
 		{
-			for (i = 0; i < distance; i++)
+			for (i = 1; i < distance; i++)
 			{
 				if (board.board[this->_location.getRow() - i][this->_location.getCol() - i]->getType() != EMPTY)
 				{
