@@ -1,7 +1,12 @@
 #include "Board.h"
 
 
-
+/**
+ @brief		Constructor - Initializes the board, rows and columns of the board.
+ @note		The board is dynamically initialized with the following pieces:
+			- Black pieces: 2 rooks, 2 knights, 2 bishops, 1 queen, 1 king and 8 pawns.
+			- White pieces: 2 rooks, 2 knights, 2 bishops, 1 queen, 1 king and 8 pawns.
+ */
 Board::Board() :
 	_rows(ROWS), _cols(COLS)
 {
@@ -36,6 +41,24 @@ Board::Board() :
 	for (int i = 0; i < COLS; i++)
 	{
 		this->board[WHITE_PAWNS_ROW][i] = new Pawn(WHITE_PAWN, Point(WHITE_PAWNS_ROW, i), Player(W));
+	}
+}
+
+
+/**
+ @brief		Destructor - Deletes all the dynamically allocated pieces on the board.
+ */
+Board::~Board()
+{
+	for (int row = 0; row < ROWS; row++)
+	{
+		for (int col = 0; col < COLS; ++col)
+		{
+			if (this->board[row][col] != nullptr)
+			{
+				delete this->board[row][col];
+			}
+		}
 	}
 }
 

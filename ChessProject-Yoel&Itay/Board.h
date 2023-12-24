@@ -82,6 +82,7 @@ class Board
 {
 public:
 	Board();
+	~Board();
 
 	int getRows();
 	int getCols();
