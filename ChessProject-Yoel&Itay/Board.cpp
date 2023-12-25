@@ -67,7 +67,7 @@ Board::~Board()
  @brief		Returns the number of rows in the board.
  @return	The number of rows in the board.
  */
-int Board::getRows()
+int Board::getRows() const
 {
 	return this->_rows;
 }
@@ -77,7 +77,28 @@ int Board::getRows()
  @brief		Returns the number of columns in the board.
  @return	The number of columns in the board.
  */
-int Board::getCols()
+int Board::getCols() const
 {
 	return this->_cols;
+}
+
+
+/**
+ @brief		Deep copy assignment operator of the Board class.
+ @param		other		The other Board to copy.
+ @return	void.
+ */
+void Board::operator=(const Board& other)
+{
+	this->_rows = other._rows;
+	this->_cols = other._cols;
+
+	// Copying the other board
+	for (int row = 0; row < this->_rows; row++)
+	{
+		for (int col = 0; col < this->_cols; ++col)
+		{
+			*this->board[row][col] = *other.board[row][col];
+		}
+	}
 }

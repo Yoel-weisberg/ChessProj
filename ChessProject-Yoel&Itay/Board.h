@@ -1,6 +1,13 @@
 #pragma once
 
-#include "Piece.h"
+// Those classes already include Piece.h...
+#include "Rook.h"
+#include "Knight.h"
+#include "Bishop.h"
+#include "Queen.h"
+#include "King.h"
+#include "Pawn.h"
+#include "Empty.h"
 
 #define ROWS 8
 #define COLS 8
@@ -84,8 +91,10 @@ public:
 	Board();
 	~Board();
 
-	int getRows();
-	int getCols();
+	int getRows() const;
+	int getCols() const;
+
+	void operator=(const Board& other);
 
 	// A board is represented by a 2d array of pointers to Pieces
 	Piece* board[ROWS][COLS];
