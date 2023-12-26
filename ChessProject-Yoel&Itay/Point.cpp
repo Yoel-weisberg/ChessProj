@@ -52,6 +52,20 @@ void Point::setCol(const int& col)
 
 
 /**
+ @brief		Converts a string chess-cell representation into a point.
+ @param		chessNotation		The string chess-cell representation to convert to a point.
+ @return	The Point representation of the chess-cell.
+ */
+Point Point::chessNotationToPoint(std::string chessNotation)
+{
+	int col = chessNotation[0] - 'a';
+	int row = '8' - chessNotation[1];
+
+	return Point(row, col);
+}
+
+
+/**
  @brief		Converts the point into a string chess representation.
  @return	The string chess representation of the point.
  */
