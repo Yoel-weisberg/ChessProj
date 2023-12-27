@@ -19,7 +19,7 @@ int main(void)
 		returnCode moveCode = game.moveOnBoard(src, dst);
 		std::cout << "Return code: " << moveCode << std::endl;
 
-		if (moveCode == VALID_MOVE && moveCode == CHECK_MOVE)
+		if (moveCode == VALID_MOVE || moveCode == CHECK_MOVE)
 		{
 			BoardUtils::printBoard(game.getBoard());
 			game.switchTurn();

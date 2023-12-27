@@ -1,9 +1,10 @@
 #include "Piece.h"
 
-Piece::Piece(const char& type, const Point& location, const Player& color)
-	: _type(type), _location(location), _color(color)
+Piece::Piece(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board)
+	: _type(type), _location(location), _color(color), _board(board)
 {
 }
+
 
 Point Piece::getLocation() const
 {
@@ -20,9 +21,14 @@ char Piece::getType() const
 	return this->_type;
 }
 
-returnCode Piece::checkIfLegallyForPiece(const Point& dst, const Board& board) const
+std::vector<Piece*> Piece::getBoard() const
 {
-	if (checkIfTripLegallyForPiece(dst) && checkIfPiecesInTrip(dst, board))
+	return this->_board;
+}
+
+returnCode Piece::checkIfLegallyForPiece(const Point& dst) const
+{
+	if (checkIfTripLegallyForPiece(dst) && checkIfPiecesInTrip(dst))
 	{
 		return VALID_MOVE;
 	}
@@ -43,4 +49,14 @@ void Piece::turnIntoEmpty()
 {
 	this->_color.setColor(EMPTY_PLAYER);
 	this->_type = EMPTY;
+}
+
+Piece* Piece::getElementAtLoc(const std::vector<Piece*>& board, const int& row, const int& col)
+{
+	return board[ROWS * row + col];
+}
+
+void Piece::setElementAtLoc(std::vector<Piece*>& board, const int& row, const int& col, Piece* newValue)
+{
+	board[ROWS * row + col] = newValue;
 }
