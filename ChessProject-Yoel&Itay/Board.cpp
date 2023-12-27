@@ -5,6 +5,7 @@
  @brief		Constructor - Initializes the board, rows and columns of the board.
  @note		The board is dynamically initialized with the following pieces:
 			- Black pieces: 2 rooks, 2 knights, 2 bishops, 1 queen, 1 king and 8 pawns.
+			- Empty pieces: 32 empty pieces.
 			- White pieces: 2 rooks, 2 knights, 2 bishops, 1 queen, 1 king and 8 pawns.
  */
 Board::Board() :
@@ -26,6 +27,14 @@ Board::Board() :
 		this->board[BLACK_PAWNS_ROW][i] = new Pawn(BLACK_PAWN, Point(BLACK_PAWNS_ROW, i), Player(B));
 	}
 
+	// Filling the required points with empty Pieces
+	for (int row = EMPTY_POINTS_ROW_START; row < EMPTY_POINTS_ROW_END; row++)
+	{
+		for (int col = 0; col < COLS; col++)
+		{
+			this->board[row][col] = new Empty('#', Point(row, col), Player(EMPTY_PLAYER));
+		}
+	}
 
 	// Adding white pieces
 	this->board[W_ROOK1_ROW][W_ROOK1_COL] = new Rook(WHITE_ROOK, Point(W_ROOK1_ROW, W_ROOK1_COL), Player(W));
