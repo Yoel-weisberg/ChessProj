@@ -39,5 +39,7 @@ public:
 	static returnCode movePiece(std::vector<Piece*>& board, const Player& turn, const Point& src, const Point& dst);
 
 	static void cloneBoard(const std::vector<Piece*>& srcBoard, std::vector<Piece*>& dstBoard);
+	static void deleteBoard(std::vector<Piece*>& boardToDelete);
+
 	static void printBoard(const std::vector<Piece*>& board);
 };

@@ -217,6 +217,27 @@ void BoardUtils::cloneBoard(const std::vector<Piece*>& srcBoard, std::vector<Pie
 
 
 /**
+ @brief		Frees the memory of the given board.
+ @param		boardToDelete		The board to free its memory.
+ @return	void.
+ */
+void BoardUtils::deleteBoard(std::vector<Piece*>& boardToDelete)
+{
+	for (int row = 0; row < ROWS; row++)
+	{
+		for (int col = 0; col < COLS; ++col)
+		{
+			if (Piece::getElementAtLoc(boardToDelete, row, col) != nullptr)
+			{
+				delete Piece::getElementAtLoc(boardToDelete, row, col);
+			}
+		}
+	}
+}
+
+
+
+/**
  @brief		Prints the given board.
  @param		board		The board to print.
  @return	void.
