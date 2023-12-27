@@ -48,7 +48,6 @@ Game::Game() : _turn(Player(W)) {
 }
 
 
-
 std::vector<Piece*> Game::getBoard() const
 {
 	return this->_board;
@@ -59,6 +58,7 @@ std::vector<Piece*> Game::getBoard() const
 {
 	return std::vector<Piece*>();
 }
+
 
 /**
  @brief		Switches the turn in the game.
@@ -75,8 +75,6 @@ void Game::switchTurn()
 		this->_turn.setColor(W);
 	}
 }
-
-
 
 
 /**

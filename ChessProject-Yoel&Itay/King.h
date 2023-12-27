@@ -17,8 +17,8 @@
 class King : public Piece
 {
 public:
-	King(const char& type, const Point& location, const Player& color);
+	King(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board);
 
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const override;
-	virtual bool checkIfPiecesInTrip(const Point& dst, const Board& board) const override;
+	virtual bool checkIfPiecesInTrip(const Point& dst) const override;
 };

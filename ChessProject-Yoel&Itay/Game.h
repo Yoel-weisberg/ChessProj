@@ -1,4 +1,5 @@
 #pragma once
+
 // Those classes already include Piece.h...
 #include "Rook.h"
 #include "Knight.h"
@@ -8,6 +9,7 @@
 #include "Pawn.h"
 #include "Empty.h"
 #include "BoardUtils.h"
+#include "Player.h"
 
 
 #define BLACK_ROOK		'r'
@@ -80,7 +82,8 @@
 
 #define EMPTY_POINTS_ROW_START	2
 #define EMPTY_POINTS_ROW_END	6
-#include "Player.h"
+
+
 class Game
 {
 public:

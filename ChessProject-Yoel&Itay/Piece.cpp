@@ -11,20 +11,24 @@ Point Piece::getLocation() const
 	return this->_location;
 }
 
+
 Player Piece::getColor() const
 {
 	return this->_color;
 }
+
 
 char Piece::getType() const
 {
 	return this->_type;
 }
 
+
 std::vector<Piece*> Piece::getBoard() const
 {
 	return this->_board;
 }
+
 
 returnCode Piece::checkIfLegallyForPiece(const Point& dst) const
 {
@@ -38,12 +42,6 @@ returnCode Piece::checkIfLegallyForPiece(const Point& dst) const
 	}
 }
 
-void Piece::operator=(const Piece& other)
-{
-	this->_color = other.getColor();
-	this->_location = other.getLocation();
-	this->_type = other.getType();
-}
 
 void Piece::turnIntoEmpty()
 {
@@ -51,10 +49,20 @@ void Piece::turnIntoEmpty()
 	this->_type = EMPTY;
 }
 
+
+void Piece::operator=(const Piece& other)
+{
+	this->_color = other.getColor();
+	this->_location = other.getLocation();
+	this->_type = other.getType();
+}
+
+
 Piece* Piece::getElementAtLoc(const std::vector<Piece*>& board, const int& row, const int& col)
 {
 	return board[ROWS * row + col];
 }
+
 
 void Piece::setElementAtLoc(std::vector<Piece*>& board, const int& row, const int& col, Piece* newValue)
 {

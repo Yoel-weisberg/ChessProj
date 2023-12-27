@@ -6,8 +6,9 @@
  @param		type		the type of the piece
  @param		location	the location of the piece on the board
  @param		color		the color of the piece
+ @param		board		the board of the game
  */
-King::King(const char& type, const Point& location, const Player& color) : Piece(type, location, color) {}
+King::King(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board) : Piece(type, location, color, board) {}
 
 
 /**
@@ -29,30 +30,29 @@ bool King::checkIfTripLegallyForPiece(const Point& dst) const
 /**
  @brief		Checks if there are pieces that block the King's trip.
  @param		dst		The destination point of the King.
- @param		board	The board of the game.
  @return	false if the trip is blocked, true otherwise.
  */
-bool King::checkIfPiecesInTrip(const Point& dst, const Board& board) const
+bool King::checkIfPiecesInTrip(const Point& dst) const
 {
 	if (this->getColor().getPlayerColor() == W)
 	{
 		// If there is a white piece in the destination point - then the white king cannot move into it
-		if (board.board[dst.getRow()][dst.getCol()]->getColor().getPlayerColor() == W)
+		if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == W)
 		{
-			return PIECES_IN_TRIP;
+			return false;
 		}
 
-		return NO_PIECES_IN_TRIP;
+		return true;
 	}
 
 	if (this->getColor().getPlayerColor() == B)
 	{
 		// If there is a black piece in the destination point - then the black king cannot move into it
-		if (board.board[dst.getRow()][dst.getCol()]->getColor().getPlayerColor() == B)
+		if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == B)
 		{
-			return PIECES_IN_TRIP;
+			return false;
 		}
 
-		return NO_PIECES_IN_TRIP;
+		return true;
 	}
 }

@@ -236,7 +236,6 @@ void BoardUtils::deleteBoard(std::vector<Piece*>& boardToDelete)
 }
 
 
-
 /**
  @brief		Prints the given board.
  @param		board		The board to print.
