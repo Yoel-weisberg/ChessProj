@@ -1,6 +1,5 @@
 #include "Queen.h"
-#include "Bishop.h"
-#include "Rook.h"
+
 
 
 /**

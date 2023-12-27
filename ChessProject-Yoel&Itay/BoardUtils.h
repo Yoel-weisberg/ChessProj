@@ -1,7 +1,15 @@
 #pragma once
 
 #include <vector>
-#include "Board.h"
+#include "Empty.h"
+#include "Rook.h"
+#include "Knight.h"
+#include "Bishop.h"
+#include "Queen.h"
+#include "King.h"
+#include "Pawn.h"
+
+#include "Piece.h"
 #include "Point.h"
 #include "Player.h"
 #include "Constants.h"

@@ -12,21 +12,6 @@
 #include "Player.h"
 
 
-#define BLACK_ROOK		'r'
-#define BLACK_KNIGHT	'n'
-#define BLACK_BISHOP	'b'
-#define BLACK_QUEEN		'q'
-#define BLACK_KING		'k'
-#define BLACK_PAWN		'p'
-
-#define WHITE_ROOK		'R'
-#define WHITE_KNIGHT	'N'
-#define WHITE_BISHOP	'B'
-#define WHITE_QUEEN		'Q'
-#define WHITE_KING		'K'
-#define WHITE_PAWN		'P'
-
-
 #define B_ROOK1_ROW		0
 #define B_ROOK1_COL		0
 

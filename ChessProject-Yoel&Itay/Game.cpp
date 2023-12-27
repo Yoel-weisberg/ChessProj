@@ -54,12 +54,6 @@ std::vector<Piece*> Game::getBoard() const
 }
 
 
-std::vector<Piece*> Game::getBoard() const
-{
-	return std::vector<Piece*>();
-}
-
-
 /**
  @brief		Switches the turn in the game.
  @return	void
