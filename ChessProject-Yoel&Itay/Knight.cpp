@@ -1,7 +1,7 @@
 #include "Knight.h"
 
-Knight::Knight(const char& type, const Point& location, const Player& color)
-    : Piece(type, location, color)
+Knight::Knight(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board)
+    : Piece(type, location, color, board)
 {
 }
 
@@ -17,7 +17,7 @@ bool Knight::checkIfTripLegallyForPiece(const Point& dst) const
     return false;
 }
 
-bool Knight::checkIfPiecesInTrip(const Point& dst, const Board& board) const
+bool Knight::checkIfPiecesInTrip(const Point& dst) const
 {
     // the knight is not bothered if there are pieces in its way
     return true;

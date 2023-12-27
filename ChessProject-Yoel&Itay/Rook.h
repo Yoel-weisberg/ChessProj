@@ -4,10 +4,10 @@
 class Rook : public Piece
 {
 public:
-	Rook(const char& type, const Point& location, const Player& color);
+	Rook(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board);
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const override;
-	virtual bool checkIfPiecesInTrip(const Point& dst, const Board& board) const override;
+	virtual bool checkIfPiecesInTrip(const Point& dst) const override;
 
-	static bool checkForPiecesOnTripRook(const Point& src, const Point& dst, const Board& board);
+	static bool checkForPiecesOnTripRook(const Point& src, const Point& dst, std::vector <Piece*>& board);
 	static bool checkIfTripLegallyForPieceRook(const Point& src, const Point& dst);
 };

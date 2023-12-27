@@ -7,7 +7,7 @@
 class Knight : public Piece
 {
 public:
-	Knight(const char& type, const Point& location, const Player& color);
+	Knight(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board);
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const override;
-	virtual bool checkIfPiecesInTrip(const Point& dst, const Board& board) const override;
+	virtual bool checkIfPiecesInTrip(const Point& dst) const override;
 };
