@@ -1,6 +1,5 @@
 #include "Queen.h"
-#include "Bishop.h"
-#include "Rook.h"
+
 
 
 /**
@@ -8,8 +7,9 @@
  @param		type		The type of the piece.
  @param		location	The location of the piece on the board.
  @param		color		The color of the piece.
+ @param		board		The board of the game.
  */
-Queen::Queen(const char& type, const Point& location, const Player& color) : Piece(type, location, color) {}
+Queen::Queen(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board) : Piece(type, location, color, board) {}
 
 
 /**
@@ -27,10 +27,9 @@ bool Queen::checkIfTripLegallyForPiece(const Point& dst) const
 /**
  @brief		Checks if there are pieces that block the Queens's trip.
  @param		dst		The destination point of the Queen.
- @param		board	The board of the game.
  @return	false if the trip is blocked, true otherwise.
  */
-bool Queen::checkIfPiecesInTrip(const Point& dst, const Board& board) const
+bool Queen::checkIfPiecesInTrip(const Point& dst) const
 {
-	return Bishop::checkForPiecesOnTripBishop(this->_location, dst, board) && Rook::checkForPiecesOnTripRook(this->_location, dst, board);
+	return Bishop::checkForPiecesOnTripBishop(this->_location, dst, this->_board) && Rook::checkForPiecesOnTripRook(this->_location, dst, this->_board);
 }
