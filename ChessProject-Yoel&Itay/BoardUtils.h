@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "Board.h"
 #include "Point.h"
 #include "Player.h"
@@ -28,14 +29,15 @@ enum returnCode
 class BoardUtils
 {
 public:
-	static Player getPointPlayer(const Board& board, const Point& point);
-	static Point findKingPoint(const Board& board, const Player& player);
+	static Player getPointPlayer(const std::vector<Piece*>& board, const Point& point);
+	static Point findKingPoint(const std::vector<Piece*>& board, const Player& player);
 
 	static bool isPointInBoundaries(const Point& point);
-	static bool isKingInCheck(const Board& board, const Player& player);
-	static returnCode isMoveValid(const Board& board, const Player& turn, const Point& src, const Point& dst);
+	static bool isKingInCheck(const std::vector<Piece*>& board, const Player& player);
+	static returnCode isMoveValid(const std::vector<Piece*>& board, const Player& turn, const Point& src, const Point& dst);
 
-	static returnCode movePiece(const Board& board, const Player& turn, const Point& src, const Point& dst);
+	static returnCode movePiece(std::vector<Piece*>& board, const Player& turn, const Point& src, const Point& dst);
 
-	static void printBoard(const Board& board);
+	static void cloneBoard(const std::vector<Piece*>& srcBoard, std::vector<Piece*>& dstBoard);
+	static void printBoard(const std::vector<Piece*>& board);
 };
