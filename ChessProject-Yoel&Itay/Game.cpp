@@ -10,6 +10,7 @@ void Game::restart()
 
 returnCode Game::moveOnBoard(const Point& src, const Point& dst)
 {
+	// need to add - communication with the frontend
 	returnCode res = BoardUtils::movePiece(*this->_board, this->_turn, src, dst);
 	return res;
 }
