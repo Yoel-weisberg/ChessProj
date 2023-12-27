@@ -8,6 +8,6 @@ public:
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const override;
 	virtual bool checkIfPiecesInTrip(const Point& dst) const override;
 
-	static bool checkForPiecesOnTripRook(const Point& src, const Point& dst, std::vector <Piece*>& board);
+	static bool checkForPiecesOnTripRook(const Point& src, const Point& dst, const std::vector <Piece*>& board);
 	static bool checkIfTripLegallyForPieceRook(const Point& src, const Point& dst);
 };
