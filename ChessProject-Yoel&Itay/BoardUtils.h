@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Board.h"
-#include "Piece.h"
 #include "Point.h"
 #include "Player.h"
 
@@ -10,8 +9,6 @@
 
 #define PIECES_IN_TRIP		false
 #define NO_PIECES_IN_TRIP	true
-
-class Piece;
 
 
 enum returnCode
@@ -32,6 +29,7 @@ class BoardUtils
 {
 public:
 	static Player getPointPlayer(const Board& board, const Point& point);
+	static Point findKingPoint(const Board& board, const Player& player);
 
 	static bool isPointInBoundaries(const Point& point);
 	static bool isKingInCheck(const Board& board, const Player& player);

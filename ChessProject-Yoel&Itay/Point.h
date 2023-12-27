@@ -14,6 +14,7 @@ public:
 	void setRow(const int& row);
 	void setCol(const int& col);
 
+	static Point chessNotationToPoint(std::string chessNotation);
 	std::string toString() const;
 
 	bool operator==(const Point& other) const;

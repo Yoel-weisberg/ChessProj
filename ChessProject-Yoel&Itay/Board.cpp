@@ -5,6 +5,7 @@
  @brief		Constructor - Initializes the board, rows and columns of the board.
  @note		The board is dynamically initialized with the following pieces:
 			- Black pieces: 2 rooks, 2 knights, 2 bishops, 1 queen, 1 king and 8 pawns.
+			- Empty pieces: 32 empty pieces.
 			- White pieces: 2 rooks, 2 knights, 2 bishops, 1 queen, 1 king and 8 pawns.
  */
 Board::Board() :
@@ -26,6 +27,14 @@ Board::Board() :
 		this->board[BLACK_PAWNS_ROW][i] = new Pawn(BLACK_PAWN, Point(BLACK_PAWNS_ROW, i), Player(B));
 	}
 
+	// Filling the required points with empty Pieces
+	for (int row = EMPTY_POINTS_ROW_START; row < EMPTY_POINTS_ROW_END; row++)
+	{
+		for (int col = 0; col < COLS; col++)
+		{
+			this->board[row][col] = new Empty('#', Point(row, col), Player(EMPTY_PLAYER));
+		}
+	}
 
 	// Adding white pieces
 	this->board[W_ROOK1_ROW][W_ROOK1_COL] = new Rook(WHITE_ROOK, Point(W_ROOK1_ROW, W_ROOK1_COL), Player(W));
@@ -67,7 +76,7 @@ Board::~Board()
  @brief		Returns the number of rows in the board.
  @return	The number of rows in the board.
  */
-int Board::getRows()
+int Board::getRows() const
 {
 	return this->_rows;
 }
@@ -77,7 +86,28 @@ int Board::getRows()
  @brief		Returns the number of columns in the board.
  @return	The number of columns in the board.
  */
-int Board::getCols()
+int Board::getCols() const
 {
 	return this->_cols;
+}
+
+
+/**
+ @brief		Deep copy assignment operator of the Board class.
+ @param		other		The other Board to copy.
+ @return	void.
+ */
+void Board::operator=(const Board& other)
+{
+	this->_rows = other._rows;
+	this->_cols = other._cols;
+
+	// Copying the other board
+	for (int row = 0; row < this->_rows; row++)
+	{
+		for (int col = 0; col < this->_cols; ++col)
+		{
+			*this->board[row][col] = *other.board[row][col];
+		}
+	}
 }

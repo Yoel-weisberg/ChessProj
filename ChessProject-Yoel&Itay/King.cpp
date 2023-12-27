@@ -39,10 +39,10 @@ bool King::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		// If there is a white piece in the destination point - then the white king cannot move into it
 		if (board.board[dst.getRow()][dst.getCol()]->getColor().getPlayerColor() == W)
 		{
-			return false;
+			return PIECES_IN_TRIP;
 		}
 
-		return true;
+		return NO_PIECES_IN_TRIP;
 	}
 
 	if (this->getColor().getPlayerColor() == B)
@@ -50,9 +50,9 @@ bool King::checkIfPiecesInTrip(const Point& dst, const Board& board) const
 		// If there is a black piece in the destination point - then the black king cannot move into it
 		if (board.board[dst.getRow()][dst.getCol()]->getColor().getPlayerColor() == B)
 		{
-			return false;
+			return PIECES_IN_TRIP;
 		}
 
-		return true;
+		return NO_PIECES_IN_TRIP;
 	}
 }
