@@ -5,7 +5,7 @@ Game::Game() : _turn(Player(W)) {
     // Add 64 elements to the vector using push_back
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
-            Piece::setElementAtLoc(this->_board, i, j, nullptr);
+            this->_board.push_back(nullptr);
         }
     }
 

@@ -69,7 +69,7 @@ bool BoardUtils::isKingInCheck(const std::vector<Piece*>& board, const Player& p
 			if (!(currentPiece->getColor() == player) && ((currentPiece->getColor().getPlayerColor() != EMPTY_PLAYER)))
 			{
 				// Checking if the opponent's Pieces threaten the current player's King
-				if (currentPiece->checkIfLegallyForPiece(currentPlayerKing, board) && currentPiece->checkIfPiecesInTrip(currentPlayerKing, board))
+				if (currentPiece->checkIfLegallyForPiece(currentPlayerKing) && currentPiece->checkIfPiecesInTrip(currentPlayerKing))
 				{
 					return true;
 				}
@@ -116,8 +116,8 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 		return DST_OCCUPIED_BY_CURRENT;
 	}
 	
-	bool isTripLegal = Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst, board) &&
-					   Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfPiecesInTrip(dst, board);
+	bool isTripLegal = Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) &&
+					   Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfPiecesInTrip(dst);
 	if (!isTripLegal)
 	{
 		return ILLEGAL_MOVE_FOR_PIECE;
