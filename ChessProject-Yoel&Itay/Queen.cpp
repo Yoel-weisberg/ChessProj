@@ -20,7 +20,7 @@ Queen::Queen(const char& type, const Point& location, const Player& color, std::
  */
 bool Queen::checkIfTripLegallyForPiece(const Point& dst) const
 {
-	return Bishop::checkIfTripLegallyForPieceBishop(this->_location, dst) && Rook::checkIfTripLegallyForPieceRook(this->_location, dst);
+	return Bishop::checkIfTripLegallyForPieceBishop(this->_location, dst) || Rook::checkIfTripLegallyForPieceRook(this->_location, dst);
 }
 
 
