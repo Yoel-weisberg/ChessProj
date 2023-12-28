@@ -1,109 +1,134 @@
-/*
-This file servers as an example of how to use Pipe.h file.
-It is recommended to use the following code in your project, 
-in order to read and write information from and to the Backend
-*/
+#include <iostream>
+#include <string> 
+#include <thread>
 #include "Game.h"
 #include "BoardUtils.h"
 #include "Point.h"
 #include "Pipe.h"
-#include <iostream>
-#include <string> 
-#include <thread>
 
-using std::cout;
-using std::endl;
-using std::string;
+
+#define BUFFER_SIZE 1024
+#define SLEEP_TIME 5000
+#define COORDINATES_SIZE 2
+#define ASCII_ZERO 48
+
+
+void connectToGraphics(Pipe& p);
+void sendBoardToGraphics(Pipe& p, const Game& game);
+
+void runGame(Pipe& p, Game& game);
 
 
 int main()
-{
-	srand(time_t(NULL));
-	int i = 0;
-	
+{	
 	Pipe p;
-	bool isConnect = p.connect();
+	connectToGraphics(p);
+
+	Game game = Game();
 	
-	string ans;
+	sendBoardToGraphics(p, game);
+
+	runGame(p, game);
+	
+	p.close();
+
+	return 0;
+}
+
+
+/**
+ @brief		Connects to the graphics (or exits if the user wants).
+ @param		p		The pipe to connect to the graphics.
+ @return	void.
+ */
+void connectToGraphics(Pipe& p)
+{
+	bool isConnect = p.connect();
+
+	std::string ans = "";
 	while (!isConnect)
 	{
-		cout << "cant connect to graphics" << endl;
-		cout << "Do you try to connect again or exit? (0-try again, 1-exit)" << endl;
+		std::cout << "Cannot connect to the graphics" << std::endl;
+		std::cout << "Do you want to try to connect again or exit? (0: try again, 1: exit)" << std::endl;
 		std::cin >> ans;
 
 		if (ans == "0")
 		{
-			cout << "trying connect again.." << endl;
-			Sleep(5000);
+			std::cout << "Trying to connect again.." << std::endl;
+			Sleep(SLEEP_TIME);
 			isConnect = p.connect();
 		}
-		else 
+		else
 		{
 			p.close();
-			return -1;
+			exit(0);
 		}
 	}
-	
+}
 
-	// msgToGraphics should contain the board string accord the protocol
-	
-	// YOUR CODE
-	Game game = Game();
 
-	returnCode moveCode = UNDEFINED;
-	char msgToGraphics[1024] = { NULL };
+/**
+ @brief		Sends the board as a string to the graphics using the pipe.
+ @param		p		The pipe to the graphics.
+ @param		game	The game object to use to get the board.
+ @return	void.
+ */
+void sendBoardToGraphics(Pipe& p, const Game& game)
+{
+	char msgToGraphics[BUFFER_SIZE] = { NULL };
 	char* boardString = game.returnBoardString();
-	for (i = 0; i < ROWS * COLS; i++)
+
+	// Copying the board string into 'msgToGraphics'
+	for (int i = 0; i < ROWS * COLS; i++)
 	{
 		msgToGraphics[i] = boardString[i];
 	}
-	msgToGraphics[ROWS * COLS] = 1;
-	p.sendMessageToGraphics(msgToGraphics);   // send the board string
 
-	// get message from graphics
-	string move = p.getMessageFromGraphics();
+	msgToGraphics[ROWS * COLS] = 1;		// Adding another character after the board
 
-	while (move != "quit")
+	p.sendMessageToGraphics(msgToGraphics);		// Sending the board to the graphics
+}
+
+
+/**
+ @brief		Runs the game.
+ @param		p		The pipe to the graphics.
+ @param		game	The game object to use to run the game.
+ @return	void.
+ */
+void runGame(Pipe& p, Game& game)
+{
+	std::string move = "";
+	returnCode moveCode = UNDEFINED;
+	char msgToGraphics[BUFFER_SIZE] = { NULL };
+
+	while (move != EXIT)
 	{
-		system("cls");		// Clearing the console using Windows.h (might be changed later because it only works for windows)
+		system("cls");		// Clearing the console using Windows.h (only works for windows)
 
+		// Printing the board and the returnCode of the last move
 		BoardUtils::printBoard(game.getBoard(), game.getTurn());
 		std::cout << "Return code: " << moveCode << std::endl;
 
+		move = p.getMessageFromGraphics();		// Getting the move string from the graphics
 
 		// Translating the move from chess notation to a point
-		Point src = Point::chessNotationToPoint(move.substr(0, 2));
-		Point dst = Point::chessNotationToPoint(move.substr(2, 2));
-
-		// Performing the move
-		moveCode = game.moveOnBoard(src, dst);
+		Point src = Point::chessNotationToPoint(move.substr(0, COORDINATES_SIZE));
+		Point dst = Point::chessNotationToPoint(move.substr(COORDINATES_SIZE, COORDINATES_SIZE));
+		
+		moveCode = game.moveOnBoard(src, dst);		// Performing the move on the board
 
 		// Checking if the move was valid and if so, switching turns
 		if (moveCode == VALID_MOVE || moveCode == CHECK_MOVE)
 		{
 			game.switchTurn();
 		}
-		int code = moveCode;
-		char res = char(48 + code);
 
-		msgToGraphics[0] = res; // msgToGraphics should contain the result of the operation
+		// Building the move code message to send to the graphics
+		msgToGraphics[0] = char(ASCII_ZERO + moveCode);
 		msgToGraphics[1] = NULL;
 
-		/******* JUST FOR EREZ DEBUGGING ******/
-		//int r = rand() % 10; // just for debugging......
-		//msgToGraphics[0] = (char)(1 + '0');
-		//msgToGraphics[1] = 0;
-		/******* JUST FOR EREZ DEBUGGING ******/
-
-
-		// return result to graphics		
-		p.sendMessageToGraphics(msgToGraphics);   
-
-		// get message from graphics
-		move = p.getMessageFromGraphics();
+		// Sending the move code to the graphics
+		p.sendMessageToGraphics(msgToGraphics);
 	}
-
-	p.close();
-
-	return 0;
 }
