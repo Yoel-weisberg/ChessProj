@@ -19,7 +19,7 @@ using std::string;
 int main()
 {
 	srand(time_t(NULL));
-
+	int i = 0;
 	
 	Pipe p;
 	bool isConnect = p.connect();
@@ -45,15 +45,19 @@ int main()
 	}
 	
 
-	char msgToGraphics[1024];
 	// msgToGraphics should contain the board string accord the protocol
 	
 	// YOUR CODE
 	Game game = Game();
 
 	returnCode moveCode = UNDEFINED;
-	strcpy_s(msgToGraphics, game.returnBoardString()); // just example...
-	
+	char msgToGraphics[1024] = { NULL };
+	char* boardString = game.returnBoardString();
+	for (i = 0; i < ROWS * COLS; i++)
+	{
+		msgToGraphics[i] = boardString[i];
+	}
+	msgToGraphics[ROWS * COLS] = 1;
 	p.sendMessageToGraphics(msgToGraphics);   // send the board string
 
 	// get message from graphics
@@ -61,8 +65,6 @@ int main()
 
 	while (move != "quit")
 	{
-		// should handle the string the sent from graphics
-		// according the protocol. Ex: e2e4           (move e2 to e4)
 		system("cls");		// Clearing the console using Windows.h (might be changed later because it only works for windows)
 
 		BoardUtils::printBoard(game.getBoard(), game.getTurn());
@@ -88,9 +90,9 @@ int main()
 		msgToGraphics[1] = NULL;
 
 		/******* JUST FOR EREZ DEBUGGING ******/
-		int r = rand() % 10; // just for debugging......
-		msgToGraphics[0] = (char)(1 + '0');
-		msgToGraphics[1] = 0;
+		//int r = rand() % 10; // just for debugging......
+		//msgToGraphics[0] = (char)(1 + '0');
+		//msgToGraphics[1] = 0;
 		/******* JUST FOR EREZ DEBUGGING ******/
 
 

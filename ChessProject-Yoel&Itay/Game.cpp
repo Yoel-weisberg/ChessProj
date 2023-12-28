@@ -104,7 +104,7 @@ Player Game::getTurn() const
  */
 char* Game::returnBoardString() const
 {
-    char boardString[ROWS * COLS] = "";
+    char boardString[ROWS * COLS + 1] = "";
 
     for (int row = 0; row < ROWS; row++)
     {
@@ -113,7 +113,7 @@ char* Game::returnBoardString() const
             boardString[row * ROWS + col] = Piece::getElementAtLoc(this->_board, row, col)->getType();
         }
     }
-
+    boardString[ROWS * COLS] = NULL;
     return boardString;
 }
 
