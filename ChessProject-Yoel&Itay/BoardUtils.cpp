@@ -34,6 +34,7 @@ Point BoardUtils::findKingPoint(const std::vector<Piece*>& board, const Player& 
 			}
 		}
 	}
+	return Point(-1, -1);		// Should never get here
 }
 
 
@@ -69,7 +70,8 @@ bool BoardUtils::isKingInCheck(const std::vector<Piece*>& board, const Player& p
 			if (!(currentPiece->getColor() == player) && ((currentPiece->getColor().getPlayerColor() != EMPTY_PLAYER)))
 			{
 				// Checking if the opponent's Pieces threaten the current player's King
-				if (currentPiece->checkIfLegallyForPiece(currentPlayerKing) && currentPiece->checkIfPiecesInTrip(currentPlayerKing))
+				if ((currentPiece->checkIfLegallyForPiece(currentPlayerKing) == VALID_MOVE || currentPiece->checkIfLegallyForPiece(currentPlayerKing) == CHECK_MOVE) &&
+					(currentPiece->checkIfPiecesInTrip(currentPlayerKing)))
 				{
 					return true;
 				}
@@ -110,14 +112,14 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 		return MISSING_CURRENT_IN_SRC;
 	}
 
-	bool isCurrentNotInDst = !(Piece::getElementAtLoc(board, src.getRow(), src.getCol())->getColor() == turn);
+	bool isCurrentNotInDst = !(Piece::getElementAtLoc(board, dst.getRow(), dst.getCol())->getColor() == turn);
 	if (!isCurrentNotInDst)
 	{
 		return DST_OCCUPIED_BY_CURRENT;
 	}
-	
-	bool isTripLegal = Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) &&
-					   Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfPiecesInTrip(dst);
+
+	bool isTripLegal = (Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) == VALID_MOVE || Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) == CHECK_MOVE) &&
+		Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfPiecesInTrip(dst);
 	if (!isTripLegal)
 	{
 		return ILLEGAL_MOVE_FOR_PIECE;
@@ -129,8 +131,9 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 	BoardUtils::cloneBoard(board, boardCopy);
 
 	// Performing the move on the copied board
-	Piece::setElementAtLoc(boardCopy, dst.getRow(), dst.getCol(), Piece::getElementAtLoc(board, src.getRow(), src.getCol()));		// Copying the Piece in src Point to dst Point (moving the Piece)
-	Piece::getElementAtLoc(boardCopy, src.getRow(), src.getCol())->turnIntoEmpty();		// Emptying the src Point from Piece (Removing the Piece from the src Point)
+	Piece::setElementAtLoc(boardCopy, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(boardCopy, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), boardCopy));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
+	deletePiece(Piece::getElementAtLoc(boardCopy, src.getRow(), src.getCol()));		// Deleting the Piece in src Point from the copied board
+	Piece::setElementAtLoc(boardCopy, src.getRow(), src.getCol(), new Empty('#', Point(src.getRow(), src.getCol()), Player(EMPTY_PLAYER), boardCopy));
 
 	// Checking if the move causes Check on the current player
 	bool CausesSelfCheck = isKingInCheck(boardCopy, turn);
@@ -143,7 +146,7 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 
 	// If the function got here - the move is guaranteed to be valid
 	// Checking if the move caused Check on the opponent's King
-	if (isKingInCheck(board, Player(turn.getPlayerColor() == W ? B : W)))
+	if (isKingInCheck(board, Player(turn.getPlayerColor() == WHITE_PLAYER ? BLACK_PLAYER : WHITE_PLAYER)))
 	{
 		return CHECK_MOVE;
 	}
@@ -166,8 +169,9 @@ returnCode BoardUtils::movePiece(std::vector<Piece*>& board, const Player& turn,
 
 	if (isValidMove == VALID_MOVE || isValidMove == CHECK_MOVE)
 	{
-		Piece::setElementAtLoc(board, dst.getRow(), dst.getCol(), Piece::getElementAtLoc(board, src.getRow(), src.getCol()));		// Copying the Piece in src Point to dst Point
-		Piece::getElementAtLoc(board, src.getRow(), src.getCol())->turnIntoEmpty();			// Emptying the src Point from Piece
+		Piece::setElementAtLoc(board, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), board));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
+		deletePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()));		// Deleting the Piece in src Point from the copied board
+		Piece::setElementAtLoc(board, src.getRow(), src.getCol(), new Empty('#', Point(src.getRow(), src.getCol()), Player(EMPTY_PLAYER), board));
 	}
 
 	return isValidMove;
@@ -175,40 +179,100 @@ returnCode BoardUtils::movePiece(std::vector<Piece*>& board, const Player& turn,
 
 
 /**
- @brief		Clone the given src board into the given dst board.
+ @brief		Clones the given Piece into a new Piece with the given Point and board.
+ @param		pieceToClone		The Piece to clone.
+ @param		pointToSet			The Point to set to the cloned Piece.
+ @param		boardToSet			The board to set to the cloned Piece.
+ @return	The new cloned Piece.
+ */
+Piece* BoardUtils::clonePiece(const Piece* pieceToClone, const Point& pointToSet, std::vector<Piece*>& boardToSet)
+{
+	const char pieceType = pieceToClone->getType();
+	const Player pieceColor = pieceToClone->getColor();
+
+	if (pieceType == WHITE_ROOK || pieceType == BLACK_ROOK)
+	{
+		return new Rook(pieceType, pointToSet, pieceColor, boardToSet);
+	}
+	else if (pieceType == WHITE_KNIGHT || pieceType == BLACK_KNIGHT)
+	{
+		return new Knight(pieceType, pointToSet, pieceColor, boardToSet);
+	}
+	else if (pieceType == WHITE_BISHOP || pieceType == BLACK_BISHOP)
+	{
+		return new Bishop(pieceType, pointToSet, pieceColor, boardToSet);
+	}
+	else if (pieceType == WHITE_QUEEN || pieceType == BLACK_QUEEN)
+	{
+		return new Queen(pieceType, pointToSet, pieceColor, boardToSet);
+	}
+	else if (pieceType == WHITE_KING || pieceType == BLACK_KING)
+	{
+		return new King(pieceType, pointToSet, pieceColor, boardToSet);
+	}
+	else if (pieceType == WHITE_PAWN || pieceType == BLACK_PAWN)
+	{
+		return new Pawn(pieceType, pointToSet, pieceColor, boardToSet);
+	}
+	else
+	{
+		return new Empty(pieceType, pointToSet, pieceColor, boardToSet);
+	}
+}
+
+
+/**
+ @brief		Deletes the given Piece.
+ @param		pieceToDelete		The Piece to delete.
+ @return	void.
+ */
+void BoardUtils::deletePiece(const Piece* pieceToDelete)
+{
+	delete pieceToDelete;
+}
+
+
+/**
+ @brief		Clone the given src board into the given dst board (Deep Copy).
  @param		srcBoard		The board to clone.
  @param		dstBoard		The board to clone into.
  @return	void.
  */
 void BoardUtils::cloneBoard(const std::vector<Piece*>& srcBoard, std::vector<Piece*>& dstBoard)
 {
+	dstBoard.reserve(ROWS * COLS);
+	for (int i = 0; i < ROWS * COLS; i++)
+	{
+		dstBoard.push_back(nullptr);
+	}
+
 	for (int i = 0; i < ROWS * COLS; i++)
 	{
 		if (srcBoard[i]->getType() == EMPTY)
 		{
 			dstBoard[i] = new Empty(srcBoard[i]->getType(), srcBoard[i]->getLocation(), srcBoard[i]->getColor(), dstBoard);
 		}
-		if (srcBoard[i]->getType() == 'R' || srcBoard[i]->getType() == 'r')
+		else if (srcBoard[i]->getType() == 'R' || srcBoard[i]->getType() == 'r')
 		{
 			dstBoard[i] = new Rook(srcBoard[i]->getType(), srcBoard[i]->getLocation(), srcBoard[i]->getColor(), dstBoard);
 		}
-		if (srcBoard[i]->getType() == 'N' || srcBoard[i]->getType() == 'n')
+		else if (srcBoard[i]->getType() == 'N' || srcBoard[i]->getType() == 'n')
 		{
 			dstBoard[i] = new Knight(srcBoard[i]->getType(), srcBoard[i]->getLocation(), srcBoard[i]->getColor(), dstBoard);
 		}
-		if (srcBoard[i]->getType() == 'B' || srcBoard[i]->getType() == 'b')
+		else if (srcBoard[i]->getType() == 'B' || srcBoard[i]->getType() == 'b')
 		{
 			dstBoard[i] = new Bishop(srcBoard[i]->getType(), srcBoard[i]->getLocation(), srcBoard[i]->getColor(), dstBoard);
 		}
-		if (srcBoard[i]->getType() == 'Q' || srcBoard[i]->getType() == 'q')
+		else if (srcBoard[i]->getType() == 'Q' || srcBoard[i]->getType() == 'q')
 		{
 			dstBoard[i] = new Queen(srcBoard[i]->getType(), srcBoard[i]->getLocation(), srcBoard[i]->getColor(), dstBoard);
 		}
-		if (srcBoard[i]->getType() == 'K' || srcBoard[i]->getType() == 'k')
+		else if (srcBoard[i]->getType() == 'K' || srcBoard[i]->getType() == 'k')
 		{
 			dstBoard[i] = new King(srcBoard[i]->getType(), srcBoard[i]->getLocation(), srcBoard[i]->getColor(), dstBoard);
 		}
-		if (srcBoard[i]->getType() == 'P' || srcBoard[i]->getType() == 'p')
+		else if (srcBoard[i]->getType() == 'P' || srcBoard[i]->getType() == 'p')
 		{
 			dstBoard[i] = new Pawn(srcBoard[i]->getType(), srcBoard[i]->getLocation(), srcBoard[i]->getColor(), dstBoard);
 		}
@@ -227,9 +291,10 @@ void BoardUtils::deleteBoard(std::vector<Piece*>& boardToDelete)
 	{
 		for (int col = 0; col < COLS; ++col)
 		{
-			if (Piece::getElementAtLoc(boardToDelete, row, col) != nullptr)
+			Piece* currentPiece = Piece::getElementAtLoc(boardToDelete, row, col);
+			if (currentPiece != nullptr)
 			{
-				delete Piece::getElementAtLoc(boardToDelete, row, col);
+				delete currentPiece;
 			}
 		}
 	}
@@ -237,18 +302,58 @@ void BoardUtils::deleteBoard(std::vector<Piece*>& boardToDelete)
 
 
 /**
+ @brief		Sets a color for the console
+ @param		color		The color to set
+ @return	void
+ */
+void BoardUtils::setConsoleColor(unsigned int color)
+{
+	HANDLE hConsole;
+
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, color);
+
+}
+
+
+/**
  @brief		Prints the given board.
  @param		board		The board to print.
+ @param		turn		The Player that is playing now (used to highlight the current player's Pieces).
  @return	void.
  */
-void BoardUtils::printBoard(const std::vector<Piece*>& board)
+void BoardUtils::printBoard(const std::vector<Piece*>& board, const Player& turn)
 {
+	setConsoleColor(CYAN);
+	std::cout << "  a b c d e f g h" << std::endl;
+	setConsoleColor(WHITE);
+
 	for (int row = 0; row < ROWS; row++)
 	{
+		setConsoleColor(CYAN);
+		std::cout << ROWS - row << " ";
+		setConsoleColor(WHITE);
+
 		for (int col = 0; col < COLS; col++)
 		{
+			if (Piece::getElementAtLoc(board, row, col)->getColor() == turn)
+			{
+				setConsoleColor(GREEN);
+			}
+			else if (Piece::getElementAtLoc(board, row, col)->getColor().getPlayerColor() != EMPTY_PLAYER)
+			{
+				setConsoleColor(GREY);
+			}
+
 			std::cout << Piece::getElementAtLoc(board, row, col)->getType() << " ";
+			setConsoleColor(WHITE);
 		}
-		std::cout << std::endl;
+		setConsoleColor(CYAN);
+		std::cout << ROWS - row << " " << std::endl;
+		setConsoleColor(WHITE);
 	}
+
+	setConsoleColor(CYAN);
+	std::cout << "  a b c d e f g h" << std::endl;
+	setConsoleColor(WHITE);
 }

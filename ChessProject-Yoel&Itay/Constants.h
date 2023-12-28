@@ -3,6 +3,7 @@
 
 enum returnCode
 {
+	UNDEFINED = -1,						// Initial value
 	VALID_MOVE = 0,						// Valid move
 	CHECK_MOVE = 1,						// Valid move
 	MISSING_CURRENT_IN_SRC = 2,			// Invalid move
@@ -28,3 +29,13 @@ enum returnCode
 #define WHITE_QUEEN		'Q'
 #define WHITE_KING		'K'
 #define WHITE_PAWN		'P'
+
+
+#define EXIT			"q"
+
+
+// Console Colors
+#define GREEN	2
+#define WHITE	15
+#define CYAN	3
+#define GREY	7

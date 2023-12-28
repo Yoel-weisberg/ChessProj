@@ -2,7 +2,7 @@
 
 
 /**
- @brief		Constructor - Initializes the type, location, color of Empty.
+ @brief		Constructor - Initializes the type, location, color and board (reference) of the Empty object.
  @param		type		the type of the piece
  @param		location	the location of the piece on the board
  @param		color		the color of the piece
