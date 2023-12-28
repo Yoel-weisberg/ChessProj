@@ -10,7 +10,7 @@ int main(void)
 	std::string move = "";
 	returnCode moveCode = UNDEFINED;
 
-	while (move != "q")
+	while (move != EXIT)
 	{
 		system("cls");		// Clearing the console using Windows.h (might be changed later because it only works for windows)
 

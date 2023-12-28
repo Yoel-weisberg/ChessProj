@@ -31,6 +31,9 @@ enum returnCode
 #define WHITE_PAWN		'P'
 
 
+#define EXIT			"q"
+
+
 // Console Colors
 #define GREEN	2
 #define WHITE	15

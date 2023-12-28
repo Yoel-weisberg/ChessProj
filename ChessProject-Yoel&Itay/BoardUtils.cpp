@@ -291,9 +291,10 @@ void BoardUtils::deleteBoard(std::vector<Piece*>& boardToDelete)
 	{
 		for (int col = 0; col < COLS; ++col)
 		{
-			if (Piece::getElementAtLoc(boardToDelete, row, col) != nullptr)
+			Piece* currentPiece = Piece::getElementAtLoc(boardToDelete, row, col);
+			if (currentPiece != nullptr)
 			{
-				delete Piece::getElementAtLoc(boardToDelete, row, col);
+				delete currentPiece;
 			}
 		}
 	}

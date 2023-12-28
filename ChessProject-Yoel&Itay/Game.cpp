@@ -53,6 +53,15 @@ Game::Game() : _turn(Player(WHITE_PLAYER)) {
 
 
 /**
+ @brief     Destructor - Deletes the board of the game object.
+ */
+Game::~Game()
+{
+    BoardUtils::deleteBoard(this->_board);
+}
+
+
+/**
  @brief     Returns the board of the game.
  @return	The board of the game.
  */
