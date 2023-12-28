@@ -104,13 +104,13 @@ Player Game::getTurn() const
  */
 char* Game::returnBoardString() const
 {
-    std::string boardString = "";
+    char boardString[ROWS * COLS] = "";
 
     for (int row = 0; row < ROWS; row++)
     {
         for (int col = 0; col < COLS; col++)
         {
-            boardString += Piece::getElementAtLoc(this->_board, row, col)->getType();
+            boardString[row * ROWS + col] = Piece::getElementAtLoc(this->_board, row, col)->getType();
         }
     }
 
