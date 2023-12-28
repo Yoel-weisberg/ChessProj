@@ -3,7 +3,7 @@
 
 
 /**
- @brief		Constructor - Initializes the location, color and type of the Queen.
+ @brief		Constructor - Initializes the location, color, type and board (reference) of the Queen.
  @param		type		The type of the piece.
  @param		location	The location of the piece on the board.
  @param		color		The color of the piece.

@@ -1,21 +1,62 @@
 #include "Rook.h"
 
-bool Rook::checkIfTripLegallyForPiece(const Point& dst) const
-{
-    return Rook::checkIfTripLegallyForPieceRook(this->_location, dst);
-}
 
+/**
+ @brief		Constructor - Initializes the type, location, color and board (reference) of the Rook.
+ @param		type		The type of the piece.
+ @param		location	The location of the piece on the board.
+ @param		color		The color of the piece.
+ @param		board		The board of the game.
+ */
 Rook::Rook(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board)
     : Piece(type, location, color, board)
 {
 }
 
+
+/**
+ @brief		Checks if the trip is legal for the Rook.
+ @param		dst		The destination point of the piece.
+ @return	true if the trip is legal, false otherwise.
+ */
+bool Rook::checkIfTripLegallyForPiece(const Point& dst) const
+{
+    return Rook::checkIfTripLegallyForPieceRook(this->_location, dst);
+}
+
+
+/**
+ @brief		Checks if there are pieces that block the Rook's trip.
+ @param		dst		The destination point of the Rook.
+ @return	false if the trip is blocked, true otherwise.
+ */
 bool Rook::checkIfPiecesInTrip(const Point& dst) const
 {
     return Rook::checkForPiecesOnTripRook(this->_location, dst, this->_board);
 }
 
-bool Rook::checkForPiecesOnTripRook(const Point& src, const Point& dst, const std::vector<Piece*>& board)
+
+/**
+ @brief		Checks if the trip is legal for the Rook.
+ @param		dst		The destination point of the piece.
+ @return	true if the trip is legal, false otherwise.
+ */
+bool Rook::checkIfTripLegallyForPieceRook(const Point& src, const Point& dst)
+{
+    if (dst.getCol() == src.getCol() || dst.getRow() == src.getRow())
+    {
+        return true;
+    }
+    return false;
+}
+
+
+/**
+ @brief		Checks if there are pieces that block the Rook's trip.
+ @param		dst		The destination point of the Rook.
+ @return	false if the trip is blocked, true otherwise.
+ */
+bool Rook::checkForPiecesOnTripRook(const Point& src, const Point& dst, const std::vector <Piece*>& board)
 {
     int i = 0, distance = 0;
 
@@ -75,13 +116,4 @@ bool Rook::checkForPiecesOnTripRook(const Point& src, const Point& dst, const st
         }
     }
     return true;
-}
-
-bool Rook::checkIfTripLegallyForPieceRook(const Point& src, const Point& dst)
-{
-    if (dst.getCol() == src.getCol() || dst.getRow() == src.getRow())
-    {
-        return true;
-    }
-    return false;
 }

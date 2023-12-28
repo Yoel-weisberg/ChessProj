@@ -77,6 +77,8 @@ public:
 	std::vector<Piece*> getBoard() const;
 	void switchTurn();
 
+	Player getTurn() const;
+
 	returnCode moveOnBoard(const Point& src, const Point& dst);
 
 

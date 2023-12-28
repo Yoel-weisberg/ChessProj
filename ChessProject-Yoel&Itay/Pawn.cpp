@@ -2,7 +2,7 @@
 
 
 /**
- @brief		Constructor - Initializes the type, location, color and the first move flag of the Pawn.
+ @brief		Constructor - Initializes the type, location color, board (reference) and the "first move flag" of the Pawn.
  @param		type		The type of the piece.
  @param		location	The location of the piece on the board.
  @param		color		The color of the piece.
@@ -19,7 +19,7 @@ Pawn::Pawn(const char& type, const Point& location, const Player& color, std::ve
 bool Pawn::checkIfTripLegallyForPiece(const Point& dst) const
 {
 	// Validating trip for the white player
-	if (this->_color.getPlayerColor() == W)
+	if (this->_color.getPlayerColor() == WHITE_PLAYER)
 	{
 		if (dst == REGULAR_MOVE_NORTHWARD || (dst == FIRST_MOVE_NORTHWARD && this->_isFirstMove) ||
 			dst == WHITE_ATE_LEFT || dst == WHITE_ATE_RIGHT)
@@ -30,7 +30,7 @@ bool Pawn::checkIfTripLegallyForPiece(const Point& dst) const
 	}
 
 	// Validating trip for the black player
-	if (this->_color.getPlayerColor() == B)
+	if (this->_color.getPlayerColor() == BLACK_PLAYER)
 	{
 		if (dst == REGULAR_MOVE_SOUTHWARD || (dst == FIRST_MOVE_SOUTHWARD && this->_isFirstMove) ||
 			dst == BLACK_ATE_LEFT || dst == BLACK_ATE_RIGHT)
@@ -51,7 +51,7 @@ bool Pawn::checkIfTripLegallyForPiece(const Point& dst) const
  */
 bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 {
-	if (this->_color.getPlayerColor() == W)
+	if (this->_color.getPlayerColor() == WHITE_PLAYER)
 	{
 		if (dst == REGULAR_MOVE_NORTHWARD)
 		{
@@ -75,7 +75,7 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 		if (dst == WHITE_ATE_LEFT || dst == WHITE_ATE_RIGHT)
 		{
 			// Allowing the white player to move diagonally only if there is a black piece in the destination point
-			if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == B)
+			if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == BLACK_PLAYER)
 			{
 				return true;
 			}
@@ -83,7 +83,7 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 		}
 	}
 
-	if (this->_color.getPlayerColor() == B)
+	if (this->_color.getPlayerColor() == BLACK_PLAYER)
 	{
 		if (dst == REGULAR_MOVE_SOUTHWARD)
 		{
@@ -107,7 +107,7 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 		if (dst == BLACK_ATE_LEFT || dst == BLACK_ATE_RIGHT)
 		{
 			// Allowing the black player to move diagonally only if there is a white piece in the destination point
-			if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == W)
+			if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == WHITE_PLAYER)
 			{
 				return true;
 			}

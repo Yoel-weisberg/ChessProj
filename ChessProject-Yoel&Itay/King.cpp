@@ -2,7 +2,7 @@
 
 
 /**
- @brief		Constructor - Initializes the type, location, color of the King.
+ @brief		Constructor - Initializes the type, location color and board (reference) of the King.
  @param		type		the type of the piece
  @param		location	the location of the piece on the board
  @param		color		the color of the piece
@@ -34,10 +34,10 @@ bool King::checkIfTripLegallyForPiece(const Point& dst) const
  */
 bool King::checkIfPiecesInTrip(const Point& dst) const
 {
-	if (this->getColor().getPlayerColor() == W)
+	if (this->getColor().getPlayerColor() == WHITE_PLAYER)
 	{
 		// If there is a white piece in the destination point - then the white king cannot move into it
-		if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == W)
+		if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == WHITE_PLAYER)
 		{
 			return false;
 		}
@@ -45,14 +45,15 @@ bool King::checkIfPiecesInTrip(const Point& dst) const
 		return true;
 	}
 
-	if (this->getColor().getPlayerColor() == B)
+	if (this->getColor().getPlayerColor() == BLACK_PLAYER)
 	{
 		// If there is a black piece in the destination point - then the black king cannot move into it
-		if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == B)
+		if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == BLACK_PLAYER)
 		{
 			return false;
 		}
 
 		return true;
 	}
+	return false;
 }

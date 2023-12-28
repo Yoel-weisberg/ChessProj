@@ -2,8 +2,8 @@
 
 #include <string>
 
-#define W "white"
-#define B "black"
+#define WHITE_PLAYER "white"
+#define BLACK_PLAYER "black"
 #define EMPTY_PLAYER "empty"
 
 
