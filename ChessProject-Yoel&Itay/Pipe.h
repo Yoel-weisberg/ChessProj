@@ -1,3 +1,4 @@
+#pragma once
 /****************************** Module Header ******************************\
 * Module Name:	CppNamedPipeClient.cpp
 * Project:		CppNamedPipeClient

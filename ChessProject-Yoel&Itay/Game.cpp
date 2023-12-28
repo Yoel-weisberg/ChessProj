@@ -102,7 +102,7 @@ Player Game::getTurn() const
  @brief     Returns the board as a string.
  @return    The board as a string.
  */
-std::string Game::returnBoardString() const
+char* Game::returnBoardString() const
 {
     std::string boardString = "";
 

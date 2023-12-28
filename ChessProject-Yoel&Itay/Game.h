@@ -79,7 +79,7 @@ public:
 	void switchTurn();
 
 	Player getTurn() const;
-	std::string returnBoardString() const;
+	char* returnBoardString() const;
 
 	returnCode moveOnBoard(const Point& src, const Point& dst);
 
