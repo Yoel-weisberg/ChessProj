@@ -4,7 +4,7 @@
 #include "Game.h"
 #include "BoardUtils.h"
 #include "Point.h"
-#include "Pipe.h"
+#include "../GameGraphics/Pipe.h"
 
 
 #define BUFFER_SIZE 1024
