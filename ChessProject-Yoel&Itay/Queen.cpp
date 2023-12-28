@@ -31,5 +31,9 @@ bool Queen::checkIfTripLegallyForPiece(const Point& dst) const
  */
 bool Queen::checkIfPiecesInTrip(const Point& dst) const
 {
-	return Bishop::checkForPiecesOnTripBishop(this->_location, dst, this->_board) || Rook::checkForPiecesOnTripRook(this->_location, dst, this->_board);
+	if (Bishop::checkIfTripLegallyForPieceBishop(this->_location, dst))
+	{
+		return Bishop::checkForPiecesOnTripBishop(this->_location, dst, this->_board);
+	}
+	return Rook::checkForPiecesOnTripRook(this->_location, dst, this->_board);
 }
