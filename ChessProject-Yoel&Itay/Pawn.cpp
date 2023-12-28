@@ -117,3 +117,8 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 
 	return false;
 }
+
+void Pawn::falseFirstMove()
+{
+	this->_isFirstMove = false;
+}

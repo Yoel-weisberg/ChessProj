@@ -114,3 +114,5 @@ void Piece::setElementAtLoc(std::vector<Piece*>& board, const int& row, const in
 {
 	board[ROWS * row + col] = newValue;
 }
+
+void Piece::falseFirstMove() {}

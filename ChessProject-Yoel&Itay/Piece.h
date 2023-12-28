@@ -34,6 +34,8 @@ public:
 	static Piece* getElementAtLoc(const std::vector <Piece*>& board, const int& row, const int& col);
 	static void setElementAtLoc(std::vector <Piece*>& board, const int& row, const int& col, Piece* newValue);
 
+
+	virtual void falseFirstMove();
 protected:
 	char _type;
 	Point _location;

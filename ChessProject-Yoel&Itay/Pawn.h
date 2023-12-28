@@ -24,6 +24,7 @@ public:
 
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const override;
 	virtual bool checkIfPiecesInTrip(const Point& dst) const override;
+	virtual void falseFirstMove() override;
 
 private:
 	bool _isFirstMove;

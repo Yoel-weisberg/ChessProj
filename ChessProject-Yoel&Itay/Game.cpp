@@ -105,5 +105,9 @@ Player Game::getTurn() const
 returnCode Game::moveOnBoard(const Point& src, const Point& dst)
 {
     returnCode res = BoardUtils::movePiece(this->_board, this->_turn, src, dst);
+    if ((res == VALID_MOVE || res == CHECK_MOVE) && (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getType() == 'p' || Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getType() == 'P'))
+    {
+        Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->falseFirstMove();
+    }
     return res;
 }
