@@ -99,6 +99,26 @@ Player Game::getTurn() const
 
 
 /**
+ @brief     Returns the board as a string.
+ @return    The board as a string.
+ */
+std::string Game::returnBoardString() const
+{
+    std::string boardString = "";
+
+    for (int row = 0; row < ROWS; row++)
+    {
+        for (int col = 0; col < COLS; col++)
+        {
+            boardString += Piece::getElementAtLoc(this->_board, row, col)->getType();
+        }
+    }
+
+    return boardString;
+}
+
+
+/**
  @brief		Moves a piece on the game board.
  @return	The returnCode of the move.
  */
