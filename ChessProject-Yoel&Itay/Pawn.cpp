@@ -65,7 +65,7 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 		if (dst == FIRST_MOVE_NORTHWARD)
 		{
 			if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() != EMPTY_PLAYER ||
-				Piece::getElementAtLoc(this->_board, dst.getRow() - 1, dst.getCol())->getColor().getPlayerColor() != EMPTY_PLAYER)
+				Piece::getElementAtLoc(this->_board, dst.getRow() + 1, dst.getCol())->getColor().getPlayerColor() != EMPTY_PLAYER)
 			{
 				return false;
 			}
@@ -97,7 +97,7 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 		if (dst == FIRST_MOVE_SOUTHWARD)
 		{
 			if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() != EMPTY_PLAYER ||
-				Piece::getElementAtLoc(this->_board, dst.getRow() + 1, dst.getCol())->getColor().getPlayerColor() != EMPTY_PLAYER)
+				Piece::getElementAtLoc(this->_board, dst.getRow() - 1, dst.getCol())->getColor().getPlayerColor() != EMPTY_PLAYER)
 			{
 				return false;
 			}
@@ -114,4 +114,6 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 			return false;
 		}
 	}
+
+	return false;
 }

@@ -90,6 +90,8 @@ bool Bishop::checkForPiecesOnTripBishop(const Point& src, const Point& dst, cons
                 }
             }
         }
+
+        return true;
     }
 
     // if the dst is underneath the src

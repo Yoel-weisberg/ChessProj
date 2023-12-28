@@ -67,7 +67,7 @@ bool BoardUtils::isKingInCheck(const std::vector<Piece*>& board, const Player& p
 			Piece* currentPiece = Piece::getElementAtLoc(board, row, col);
 
 			// searching for opponent's Pieces
-			if (!(currentPiece->getColor() == player) && ((currentPiece->getColor().getPlayerColor() != EMPTY_PLAYER)))
+			if ((currentPiece->getColor().getPlayerColor() != player.getPlayerColor()) && (currentPiece->getColor().getPlayerColor() != EMPTY_PLAYER))
 			{
 				// Checking if the opponent's Pieces threaten the current player's King
 				if ((currentPiece->checkIfLegallyForPiece(currentPlayerKing) == VALID_MOVE || currentPiece->checkIfLegallyForPiece(currentPlayerKing) == CHECK_MOVE) &&
@@ -141,15 +141,16 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 	{
 		return CAUSES_CHECK_ON_CURRENT;
 	}
-	BoardUtils::deleteBoard(boardCopy);		// Deleting the copied board
+	
 
 
 	// If the function got here - the move is guaranteed to be valid
 	// Checking if the move caused Check on the opponent's King
-	if (isKingInCheck(board, Player(turn.getPlayerColor() == WHITE_PLAYER ? BLACK_PLAYER : WHITE_PLAYER)))
+	if (isKingInCheck(boardCopy, Player(turn.getPlayerColor() == WHITE_PLAYER ? BLACK_PLAYER : WHITE_PLAYER)))
 	{
 		return CHECK_MOVE;
 	}
+	BoardUtils::deleteBoard(boardCopy);		// Deleting the copied board
 
 	return VALID_MOVE;
 }
