@@ -11,6 +11,7 @@ int main(void)
 
 	while (move != "q")
 	{
+		std::cout << "Enter move" << std::endl;
 		std::cin >> move;
 
 		Point src = Point::chessNotationToPoint(move.substr(0, 2));
