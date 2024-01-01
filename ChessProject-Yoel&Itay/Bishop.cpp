@@ -1,6 +1,5 @@
 #include "Bishop.h"
 
-
 /**
  @brief		Constructor - Initializes the type, location, color and board (reference) of the Bishop.
  @param		type		The type of the piece.
