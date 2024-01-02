@@ -6,7 +6,7 @@ in order to read and write information from and to the Backend
 #include "Game.h"
 #include "BoardUtils.h"
 #include "Point.h"
-#include "Pipe.h"
+#include "../GameGraphics/Pipe.h"
 #include <iostream>
 #include <string> 
 #include <thread>

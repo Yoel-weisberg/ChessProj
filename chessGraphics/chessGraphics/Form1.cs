@@ -213,10 +213,10 @@ namespace chessGraphics
             "Valid move - you made chess",
             "Invalid move - not your player",
             "Invalid move - destination is not free",
-            "Invalid move - chess wil occure",
+            "Invalid move - check will occure",
             "Invalid move - out of bounds",
             "Invalid move - illegeal movement with piece",
-            "Invalid move - source and dest are equal",
+            "Invalid move - source and dest are the same",
             "Game over - check mate",
             "Unknown message"
             };
