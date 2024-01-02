@@ -116,8 +116,10 @@ namespace chessGraphics
 
             matBoard = new Button[BOARD_SIZE, BOARD_SIZE];
 
-            btnBoard.FlatAppearance.MouseOverBackColor = Color.LightGray;
-            
+            // By default, when a button is hovered - it's brightness increases
+
+            //btnBoard.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 244, 246, 128);
+
             Button newBtn;
             Point pnt;
 
@@ -142,9 +144,10 @@ namespace chessGraphics
                     matBoard[i, j] = newBtn;
 
                     newBtn.FlatAppearance.MouseOverBackColor = btnBoard.FlatAppearance.MouseOverBackColor ;
-                    newBtn.BackColor = isColBlack ? Color.Gray : Color.White;
+                    newBtn.BackColor = isColBlack ? Color.FromArgb(255, 119, 153, 84) : Color.FromArgb(255, 233, 237, 204);
                     newBtn.FlatAppearance.BorderColor = btnBoard.FlatAppearance.BorderColor;
-                    newBtn.FlatAppearance.BorderSize = btnBoard.FlatAppearance.BorderSize;
+                    newBtn.FlatAppearance.MouseDownBackColor = btnBoard.FlatAppearance.MouseDownBackColor;
+                    newBtn.FlatAppearance.BorderSize = 0;
                     newBtn.FlatStyle = btnBoard.FlatStyle;
 
                     newBtn.Size = new System.Drawing.Size(btnBoard.Width, btnBoard.Height);
@@ -210,13 +213,13 @@ namespace chessGraphics
         // index is the message number in the protocol
         string[] messages =  {
             "Valid move",
-            "Valid move - you made chess",
+            "Valid move - you made check",
             "Invalid move - not your player",
             "Invalid move - destination is not free",
             "Invalid move - check will occure",
             "Invalid move - out of bounds",
             "Invalid move - illegeal movement with piece",
-            "Invalid move - source and dest are the same",
+            "Invalid move - source and destination are the same",
             "Game over - check mate",
             "Unknown message"
             };
