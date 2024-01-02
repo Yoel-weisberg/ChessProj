@@ -173,8 +173,19 @@ returnCode BoardUtils::movePiece(std::vector<Piece*>& board, const Player& turn,
 		Piece::setElementAtLoc(board, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), board));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
 		deletePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()));		// Deleting the Piece in src Point from the copied board
 		Piece::setElementAtLoc(board, src.getRow(), src.getCol(), new Empty('#', Point(src.getRow(), src.getCol()), Player(EMPTY_PLAYER), board));
-	}
 
+		if (Pawn::enPassantOccured)
+		{
+			removePieceFromBoard(board, Pawn::toWherePawnMoved2Squares);
+			Pawn::enPassantOccured = false;
+			Pawn::pawnMove2SquaresLastTurn = false;
+			Pawn::toWherePawnMoved2Squares = Point(-1, -1);
+
+			return ENPASSANT_MOVE;
+		}
+
+		Piece::getElementAtLoc(board, dst.getRow(), dst.getCol())->falseFirstMove();
+	}
 	return isValidMove;
 }
 
@@ -299,6 +310,19 @@ void BoardUtils::deleteBoard(std::vector<Piece*>& boardToDelete)
 			}
 		}
 	}
+}
+
+
+/**
+ @brief		Removes the Piece in the given Point from the given board.
+ @param		board		The board to remove the Piece from.
+ @param		point		The Point to remove the Piece from.
+ @return	void.
+ */
+void BoardUtils::removePieceFromBoard(std::vector<Piece*>& board, const Point& point)
+{
+	deletePiece(Piece::getElementAtLoc(board, point.getRow(), point.getCol()));		// Deleting the Piece in dst Point from the board
+	Piece::setElementAtLoc(board, point.getRow(), point.getCol(), new Empty('#', Point(point.getRow(), point.getCol()), Player(EMPTY_PLAYER), board));
 }
 
 

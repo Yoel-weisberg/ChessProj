@@ -15,30 +15,31 @@
 
 void connectToGraphics(Pipe& p);
 void sendBoardToGraphics(Pipe& p, const Game& game);
-void runGameFrontEnd(Game& game);
+void runGameGraphics(Pipe& p, Game& game);
 
-void runGame(Pipe& p, Game& game);
+void runGameConsole(Game& game);
 
 
 int main()
 {
 	Pipe p;
 	Game game = Game();
-	bool consoleOrFronded = false;
-	
-	if (consoleOrFronded)
+
+	bool runFrontend = true;
+
+	if (runFrontend)
 	{
 		connectToGraphics(p);
 
 		sendBoardToGraphics(p, game);
 
-		runGame(p, game);
+		runGameGraphics(p, game);
 
 		p.close();
 	}
 	else
 	{
-		runGameFrontEnd(game);
+		runGameConsole(game);
 	}
 
 	return 0;
@@ -100,12 +101,12 @@ void sendBoardToGraphics(Pipe& p, const Game& game)
 
 
 /**
- @brief		Runs the game.
+ @brief		Runs the game in the graphics.
  @param		p		The pipe to the graphics.
  @param		game	The game object to use to run the game.
  @return	void.
  */
-void runGame(Pipe& p, Game& game)
+void runGameGraphics(Pipe& p, Game& game)
 {
 	std::string move = "";
 	returnCode moveCode = UNDEFINED;
@@ -142,11 +143,18 @@ void runGame(Pipe& p, Game& game)
 	}
 }
 
-void runGameFrontEnd(Game& game)
+
+/**
+ @brief		Runs the game in the console.
+ @param		game	The game object to use to run the game.
+ @return	void.
+ */
+void runGameConsole(Game& game)
 {
 
 	returnCode moveCode = UNDEFINED;
 	std::string move = "";
+
 	while (move != "q")
 	{
 		system("cls");		// Clearing the console using Windows.h (might be changed later because it only works for windows)
@@ -154,9 +162,9 @@ void runGameFrontEnd(Game& game)
 		BoardUtils::printBoard(game.getBoard(), game.getTurn());
 		std::cout << "Return code: " << moveCode << std::endl;
 
-
 		std::cout << "enter move: ";
 		std::cin >> move;
+
 		// Translating the move from chess notation to a point
 		Point src = Point::chessNotationToPoint(move.substr(0, 2));
 		Point dst = Point::chessNotationToPoint(move.substr(2, 2));

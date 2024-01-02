@@ -12,7 +12,8 @@ enum returnCode
 	INVALID_INDEXES = 5,				// Invalid move
 	ILLEGAL_MOVE_FOR_PIECE = 6,			// Invalid move
 	SAME_SRC_DST_POINTS = 7,			// Invalid move
-	//	CHECKMATE_MOVE = 8					// Valid move
+	CHECKMATE_MOVE = 8,					// Valid move
+	ENPASSANT_MOVE = 9					// Valid move
 };
 
 
@@ -31,7 +32,7 @@ enum returnCode
 #define WHITE_PAWN		'P'
 
 
-#define EXIT			"q"
+#define EXIT			"quit"
 
 
 // Console Colors

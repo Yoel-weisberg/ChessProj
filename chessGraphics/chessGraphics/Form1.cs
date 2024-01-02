@@ -51,7 +51,7 @@ namespace chessGraphics
                 }
                 else
                 {
-                    isCurPlWhite = (s[s.Length - 1] == '0');
+                    isCurPlWhite = !(s[s.Length - 1] == '0');
                     paintBoard(s);
                 }
 
@@ -131,7 +131,7 @@ namespace chessGraphics
             
             this.SuspendLayout();
 
-            lblCurrentPlayer.Text = isCurPlWhite ? "Black" : "White";
+            //lblCurrentPlayer.Text = isCurPlWhite ? "White" : "Black";
 
             for (i = 0; i < BOARD_SIZE; i++)
             {
@@ -213,14 +213,15 @@ namespace chessGraphics
         // index is the message number in the protocol
         string[] messages =  {
             "Valid move",
-            "Valid move - you made check",
-            "Invalid move - not your player",
-            "Invalid move - destination is not free",
-            "Invalid move - check will occure",
-            "Invalid move - out of bounds",
-            "Invalid move - illegeal movement with piece",
-            "Invalid move - source and destination are the same",
-            "Game over - check mate",
+            "Valid move: you made check",
+            "Invalid move: not your player",
+            "Invalid move: destination is not free",
+            "Invalid move: check will occure",
+            "Invalid move: out of bounds",
+            "Invalid move: illegeal movement with piece",
+            "Invalid move: source and destination are the same",
+            "Game over: check mate",
+            "Valid move: en-passant",
             "Unknown message"
             };
 
@@ -282,16 +283,31 @@ namespace chessGraphics
                     }
                     else if (res.ToLower().StartsWith("valid"))
                     {
-                        isCurPlWhite = !isCurPlWhite;
-                        lblCurrentPlayer.Text = isCurPlWhite ? "Black" : "White";
+
 
                         matBoard[dstSquare.Row, dstSquare.Col].BackgroundImage = matBoard[srcSquare.Row, srcSquare.Col].BackgroundImage;
                         matBoard[srcSquare.Row, srcSquare.Col].BackgroundImage = null;
 
                         matBoard[srcSquare.Row, srcSquare.Col].FlatAppearance.BorderColor = Color.Blue;
                         matBoard[dstSquare.Row, dstSquare.Col].FlatAppearance.BorderColor = Color.Blue;
-                    
-                    }
+
+                        // En passant
+                        if (res.Contains("en-passant"))
+                        {
+                             if (lblCurrentPlayer.Text == "White")         // turn = whitePlayer
+                             {
+                                 matBoard[dstSquare.Row + 1, dstSquare.Col].BackgroundImage = null;
+                             }
+                             else if (lblCurrentPlayer.Text == "Black")    // turn = blackPlayer
+                             {
+                                 matBoard[dstSquare.Row - 1, dstSquare.Col].BackgroundImage = null;
+                             }
+                        }
+
+                        // Changing turns
+                        isCurPlWhite = !isCurPlWhite;
+                        lblCurrentPlayer.Text = isCurPlWhite ? "White" : "Black";
+                     }
 
                     lblEngineCalc.Visible = false;
                     lblResult.Text = string.Format("{0}", res);

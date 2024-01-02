@@ -37,6 +37,8 @@ public:
 	static void cloneBoard(const std::vector<Piece*>& srcBoard, std::vector<Piece*>& dstBoard);
 	static void deleteBoard(std::vector<Piece*>& boardToDelete);
 
+	static void removePieceFromBoard(std::vector<Piece*>& board, const Point& point);
+
 	static void setConsoleColor(unsigned int color);
 
 	static void printBoard(const std::vector<Piece*>& board, const Player& turn);
