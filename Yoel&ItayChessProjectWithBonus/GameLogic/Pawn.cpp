@@ -2,13 +2,13 @@
 
 
 /**
- @brief		Constructor - Initializes the type, location color, board (reference) and the "first move flag" of the Pawn.
+ @brief		Constructor - Initializes the type, location color and the board (reference).
  @param		type		The type of the piece.
  @param		location	The location of the piece on the board.
  @param		color		The color of the piece.
  @param		board		The board of the game.
  */
-Pawn::Pawn(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board) : Piece(type, location, color, board), _isFirstMove(true) {}
+Pawn::Pawn(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board) : Piece(type, location, color, board) {}
 
 
 /**
@@ -116,9 +116,4 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 	}
 
 	return false;
-}
-
-void Pawn::falseFirstMove()
-{
-	this->_isFirstMove = false;
 }

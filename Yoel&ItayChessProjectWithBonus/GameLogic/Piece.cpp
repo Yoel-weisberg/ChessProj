@@ -5,7 +5,7 @@
  @brief		Constructor - Inializes the type, location, color and board (reference) of the piece.
  */
 Piece::Piece(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board)
-	: _type(type), _location(location), _color(color), _board(board)
+	: _type(type), _location(location), _color(color), _board(board), _isFirstMove(true)
 {
 }
 
@@ -88,6 +88,11 @@ void Piece::operator=(const Piece& other)
 	this->_type = other.getType();
 }
 
+bool Piece::isFirstMove() const
+{
+	return _isFirstMove;
+}
+
 
 /**
  @brief		Returns the piece at the given location from the given board.
@@ -115,4 +120,12 @@ void Piece::setElementAtLoc(std::vector<Piece*>& board, const int& row, const in
 	board[ROWS * row + col] = newValue;
 }
 
-void Piece::falseFirstMove() {}
+void Piece::falseFirstMove() 
+{
+	this->_isFirstMove = false;
+}
+
+bool Piece::checkForCastling(const Point& dst) const
+{
+	return false;
+}

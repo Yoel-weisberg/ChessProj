@@ -57,3 +57,38 @@ bool King::checkIfPiecesInTrip(const Point& dst) const
 	}
 	return false;
 }
+
+bool King::checkForCastling(const Point& dst) const
+{
+	// checking if pleyer had been moved
+	if (this->_isFirstMove)
+	{
+		if (this->_color.getPlayerColor() == WHITE_PLAYER)
+		{
+			if (dst == W_KING_CASTELING_LEFT || dst == W_KING_CASTELING_RIGHT)
+			{
+					if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->isFirstMove())
+					{
+						if (Rook::checkForPiecesOnTripRook(dst, this->_location, this->_board))
+						{
+							return true;
+						}
+					}
+			}
+		}
+		else if (this->_color.getPlayerColor() == BLACK_PLAYER)
+		{
+			if (dst == B_KING_CASTELING_LEFT || dst == B_KING_CASTELING_RIGHT)
+			{
+				if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->isFirstMove())
+				{
+					if (Rook::checkForPiecesOnTripRook(dst, this->_location, this->_board))
+					{
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}

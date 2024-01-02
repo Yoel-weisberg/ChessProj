@@ -30,15 +30,17 @@ public:
 
 	void turnIntoEmpty();
 	void operator= (const Piece& other);
-
+	bool isFirstMove() const;
 	static Piece* getElementAtLoc(const std::vector <Piece*>& board, const int& row, const int& col);
 	static void setElementAtLoc(std::vector <Piece*>& board, const int& row, const int& col, Piece* newValue);
 
-
 	virtual void falseFirstMove();
+
+	virtual bool checkForCastling(const Point& dst) const;
 protected:
 	char _type;
 	Point _location;
 	Player _color;
+	bool _isFirstMove;
 	std::vector <Piece*>& _board;
 };
