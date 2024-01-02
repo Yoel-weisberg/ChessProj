@@ -102,8 +102,8 @@ bool Rook::checkForPiecesOnTripRook(const Point& src, const Point& dst, const st
                 {
                     return false;
                 }
-                return true;
             }
+            return true;
         }
         // if the src is farther than the dst
         else
