@@ -15,22 +15,31 @@
 
 void connectToGraphics(Pipe& p);
 void sendBoardToGraphics(Pipe& p, const Game& game);
+void runGameFrontEnd(Game& game);
 
 void runGame(Pipe& p, Game& game);
 
 
 int main()
-{	
+{
 	Pipe p;
-	connectToGraphics(p);
-
 	Game game = Game();
+	bool consoleOrFronded = false;
 	
-	sendBoardToGraphics(p, game);
+	if (consoleOrFronded)
+	{
+		connectToGraphics(p);
 
-	runGame(p, game);
-	
-	p.close();
+		sendBoardToGraphics(p, game);
+
+		runGame(p, game);
+
+		p.close();
+	}
+	else
+	{
+		runGameFrontEnd(game);
+	}
 
 	return 0;
 }
@@ -115,7 +124,7 @@ void runGame(Pipe& p, Game& game)
 		// Translating the move from chess notation to a point
 		Point src = Point::chessNotationToPoint(move.substr(0, COORDINATES_SIZE));
 		Point dst = Point::chessNotationToPoint(move.substr(COORDINATES_SIZE, COORDINATES_SIZE));
-		
+
 		moveCode = game.moveOnBoard(src, dst);		// Performing the move on the board
 
 		// Checking if the move was valid and if so, switching turns
@@ -130,5 +139,35 @@ void runGame(Pipe& p, Game& game)
 
 		// Sending the move code to the graphics
 		p.sendMessageToGraphics(msgToGraphics);
+	}
+}
+
+void runGameFrontEnd(Game& game)
+{
+
+	returnCode moveCode = UNDEFINED;
+	std::string move = "";
+	while (move != "q")
+	{
+		system("cls");		// Clearing the console using Windows.h (might be changed later because it only works for windows)
+
+		BoardUtils::printBoard(game.getBoard(), game.getTurn());
+		std::cout << "Return code: " << moveCode << std::endl;
+
+
+		std::cout << "enter move: ";
+		std::cin >> move;
+		// Translating the move from chess notation to a point
+		Point src = Point::chessNotationToPoint(move.substr(0, 2));
+		Point dst = Point::chessNotationToPoint(move.substr(2, 2));
+
+		// Performing the move
+		moveCode = game.moveOnBoard(src, dst);
+
+		// Checking if the move was valid and if so, switching turns
+		if (moveCode == VALID_MOVE || moveCode == CHECK_MOVE)
+		{
+			game.switchTurn();
+		}
 	}
 }
