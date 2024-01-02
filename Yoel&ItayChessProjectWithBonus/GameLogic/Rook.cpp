@@ -50,6 +50,41 @@ bool Rook::checkIfTripLegallyForPieceRook(const Point& src, const Point& dst)
     return false;
 }
 
+bool Rook::checkForCastling(const Point& dst) const
+{
+    // checking if player had been moved
+    if (this->_isFirstMove)
+    {
+        if (this->_color.getPlayerColor() == WHITE_PLAYER)
+        {
+            if (dst == W_ROOK_CASTELING_LEFT || dst == W_ROOK_CASTELING_RIGHT)
+            {
+                if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->isFirstMove())
+                {
+                    if (Rook::checkForPiecesOnTripRook(dst, this->_location, this->_board))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (this->_color.getPlayerColor() == BLACK_PLAYER)
+        {
+            if (dst == B_ROOK_CASTELING_LEFT || dst == B_ROOK_CASTELING_RIGHT)
+            {
+                if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->isFirstMove())
+                {
+                    if (Rook::checkForPiecesOnTripRook(dst, this->_location, this->_board))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
 
 /**
  @brief		Checks if there are pieces that block the Rook's trip.

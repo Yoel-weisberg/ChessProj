@@ -60,7 +60,7 @@ bool King::checkIfPiecesInTrip(const Point& dst) const
 
 bool King::checkForCastling(const Point& dst) const
 {
-	// checking if pleyer had been moved
+	// checking if player had been moved
 	if (this->_isFirstMove)
 	{
 		if (this->_color.getPlayerColor() == WHITE_PLAYER)
