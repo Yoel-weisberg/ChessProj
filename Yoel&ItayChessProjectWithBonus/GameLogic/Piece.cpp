@@ -74,7 +74,7 @@ std::vector<Piece*> Piece::getBoard() const
  */
 returnCode Piece::checkIfLegallyForPiece(const Point& dst) const
 {
-	if (checkIfTripLegallyForPiece(dst) && checkIfPiecesInTrip(dst))
+	if (this->checkIfTripLegallyForPiece(dst) && this->checkIfPiecesInTrip(dst))
 	{
 		return VALID_MOVE;
 	}

@@ -47,6 +47,7 @@ bool BoardUtils::isPointInBoundaries(const Point& point)
 bool BoardUtils::isKingInCheck(const std::vector<Piece*>& board, const Player& player)
 {
 	Point currentPlayerKing = findKingPoint(board, player);
+	returnCode isTripLegal = UNDEFINED;
 
 	for (int row = 0; row < ROWS; row++)
 	{
@@ -58,8 +59,8 @@ bool BoardUtils::isKingInCheck(const std::vector<Piece*>& board, const Player& p
 			if ((currentPiece->getColor().getPlayerColor() != player.getPlayerColor()) && (currentPiece->getColor().getPlayerColor() != EMPTY_PLAYER))
 			{
 				// Checking if the opponent's Pieces threaten the current player's King
-				if ((currentPiece->checkIfLegallyForPiece(currentPlayerKing) == VALID_MOVE || currentPiece->checkIfLegallyForPiece(currentPlayerKing) == CHECK_MOVE) &&
-					(currentPiece->checkIfPiecesInTrip(currentPlayerKing)))
+				isTripLegal = currentPiece->checkIfLegallyForPiece(currentPlayerKing);
+				if (isTripLegal == VALID_MOVE)		// All types of valid moves (Regular move, Check move, En-Passant move)
 				{
 					return true;
 				}
