@@ -5,8 +5,16 @@
  @brief		Constructor - Inializes the type, location, color and board (reference) of the piece.
  */
 Piece::Piece(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board)
-	: _type(type), _location(location), _color(color), _board(board), _isFirstMove(true)
+	: _type(type), _location(location), _color(color), _board(board), _isFirstMove(true) {}
+
+
+/**
+ @brief		Returns the type of the piece.
+ @return	The type of the piece.
+ */
+char Piece::getType() const
 {
+	return this->_type;
 }
 
 
@@ -31,12 +39,22 @@ Player Piece::getColor() const
 
 
 /**
- @brief		Returns the type of the piece.
- @return	The type of the piece.
+ @brief		Returns if the piece is in its first move or not.
+ @return	True if the piece is in its first move, false otherwise.
  */
-char Piece::getType() const
+bool Piece::isFirstMove() const
 {
-	return this->_type;
+	return _isFirstMove;
+}
+
+
+/**
+ @brief		Sets the first move attribute of the piece to false.
+ @return	void.
+ */
+void Piece::falseFirstMove()
+{
+	this->_isFirstMove = false;
 }
 
 
@@ -66,17 +84,6 @@ returnCode Piece::checkIfLegallyForPiece(const Point& dst) const
 
 
 /**
- @brief		Turns the calling piece into an empty piece.
- @return	void.
- */
-void Piece::turnIntoEmpty()
-{
-	this->_color.setColor(EMPTY_PLAYER);
-	this->_type = EMPTY;
-}
-
-
-/**
  @brief		operator= ---> Copies the member's values of the given piece to the calling piece.
  @param		other	The piece to copy from.
  @return	void.
@@ -86,11 +93,6 @@ void Piece::operator=(const Piece& other)
 	this->_color = other.getColor();
 	this->_location = other.getLocation();
 	this->_type = other.getType();
-}
-
-bool Piece::isFirstMove() const
-{
-	return _isFirstMove;
 }
 
 
@@ -120,11 +122,12 @@ void Piece::setElementAtLoc(std::vector<Piece*>& board, const int& row, const in
 	board[ROWS * row + col] = newValue;
 }
 
-void Piece::falseFirstMove() 
-{
-	this->_isFirstMove = false;
-}
 
+/**
+ @brief		Checks if the piece can castle to the given destination point.
+ @param		dst		The destination point to castle to.
+ @return	True if the piece can castle to the given destination point, false otherwise.
+ */
 bool Piece::checkForCastling(const Point& dst) const
 {
 	return false;

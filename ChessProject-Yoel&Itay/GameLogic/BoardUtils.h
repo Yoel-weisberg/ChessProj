@@ -22,7 +22,6 @@
 class BoardUtils
 {
 public:
-	static Player getPointPlayer(const std::vector<Piece*>& board, const Point& point);
 	static Point findKingPoint(const std::vector<Piece*>& board, const Player& player);
 
 	static bool isPointInBoundaries(const Point& point);

@@ -25,6 +25,7 @@ public:
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const override;
 	virtual bool checkIfPiecesInTrip(const Point& dst) const override;
 
+	// Static variables for en-passant
 	static bool pawnMove2SquaresLastTurn;
 	static Point toWherePawnMoved2Squares;
 	static bool enPassantOccured;

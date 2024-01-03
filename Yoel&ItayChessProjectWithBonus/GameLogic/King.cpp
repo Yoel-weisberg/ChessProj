@@ -55,9 +55,16 @@ bool King::checkIfPiecesInTrip(const Point& dst) const
 
 		return true;
 	}
+
 	return false;
 }
 
+
+/**
+ @brief		Checks if the King can perform castling.
+ @param		dst		The destination point of the King.
+ @return	true if the King can perform castling, false otherwise.
+ */
 bool King::checkForCastling(const Point& dst) const
 {
 	// checking if pleyer had been moved
@@ -67,15 +74,16 @@ bool King::checkForCastling(const Point& dst) const
 		{
 			if (dst == W_KING_CASTELING_LEFT || dst == W_KING_CASTELING_RIGHT)
 			{
-					if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->isFirstMove())
+				if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->isFirstMove())
+				{
+					if (Rook::checkForPiecesOnTripRook(dst, this->_location, this->_board))
 					{
-						if (Rook::checkForPiecesOnTripRook(dst, this->_location, this->_board))
-						{
-							return true;
-						}
+						return true;
 					}
+				}
 			}
 		}
+
 		else if (this->_color.getPlayerColor() == BLACK_PLAYER)
 		{
 			if (dst == B_KING_CASTELING_LEFT || dst == B_KING_CASTELING_RIGHT)
@@ -90,5 +98,6 @@ bool King::checkForCastling(const Point& dst) const
 			}
 		}
 	}
+
 	return false;
 }

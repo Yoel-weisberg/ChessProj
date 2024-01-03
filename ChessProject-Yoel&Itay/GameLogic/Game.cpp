@@ -5,7 +5,8 @@
  @brief		Constructor - Initializes the turn and the board of the game object.
  @note		The board is initialized with 64 elements, 32 of them are nullptrs and the other 32 are pieces.
  */
-Game::Game() : _turn(Player(WHITE_PLAYER)) {
+Game::Game() : _turn(Player(WHITE_PLAYER))
+{
     // Initializing board vector with 64 nullptrs using push_back
     this->_board.reserve(ROWS * COLS);
     for (int i = 0; i < ROWS * COLS; i++)
@@ -24,12 +25,14 @@ Game::Game() : _turn(Player(WHITE_PLAYER)) {
     Piece::setElementAtLoc(this->_board, B_ROOK2_ROW, B_ROOK2_COL, new Rook(BLACK_ROOK, Point(B_ROOK2_ROW, B_ROOK2_COL), Player(BLACK_PLAYER), this->_board));
 
     // Adding black pawns
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 8; i++)
+    {
         Piece::setElementAtLoc(this->_board, BLACK_PAWNS_ROW, i, new Pawn(BLACK_PAWN, Point(BLACK_PAWNS_ROW, i), Player(BLACK_PLAYER), this->_board));
     }
 
     // Filling the required points with empty Pieces
-    for (int row = EMPTY_POINTS_ROW_START; row < EMPTY_POINTS_ROW_END; row++) {
+    for (int row = EMPTY_POINTS_ROW_START; row < EMPTY_POINTS_ROW_END; row++)
+    {
         for (int col = 0; col < 8; col++) {
             Piece::setElementAtLoc(this->_board, row, col, new Empty('#', Point(row, col), Player(EMPTY_PLAYER), this->_board));
         }
@@ -46,7 +49,8 @@ Game::Game() : _turn(Player(WHITE_PLAYER)) {
     Piece::setElementAtLoc(this->_board, W_ROOK2_ROW, W_ROOK2_COL, new Rook(WHITE_ROOK, Point(W_ROOK2_ROW, W_ROOK2_COL), Player(WHITE_PLAYER), this->_board));
 
     // Adding white pawns
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 8; i++)
+    {
         Piece::setElementAtLoc(this->_board, WHITE_PAWNS_ROW, i, new Pawn(WHITE_PAWN, Point(WHITE_PAWNS_ROW, i), Player(WHITE_PLAYER), this->_board));
     }
 }
@@ -72,6 +76,16 @@ std::vector<Piece*> Game::getBoard() const
 
 
 /**
+ @brief		Returns the current turn in the game.
+ @return	The current turn in the game.
+ */
+Player Game::getTurn() const
+{
+    return this->_turn;
+}
+
+
+/**
  @brief		Switches the turn in the game.
  @return	void
  */
@@ -85,16 +99,6 @@ void Game::switchTurn()
     {
         this->_turn.setColor(WHITE_PLAYER);
     }
-}
-
-
-/**
- @brief		Returns the current turn in the game.
- @return	The current turn in the game.
- */
-Player Game::getTurn() const
-{
-    return this->_turn;
 }
 
 

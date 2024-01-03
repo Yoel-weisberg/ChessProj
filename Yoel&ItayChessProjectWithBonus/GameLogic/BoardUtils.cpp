@@ -2,18 +2,6 @@
 
 
 /**
- @brief		Returns the Player that the Piece in the given Point belongs to.
- @param		board		The board to check.
- @param		point		The Point to check.
- @return	The Player that the Piece in the given Point belongs to.
- */
-Player BoardUtils::getPointPlayer(const std::vector<Piece*>& board, const Point& point)
-{
-	return Piece::getElementAtLoc(board, point.getRow(), point.getCol())->getColor();
-}
-
-
-/**
  @brief		Returns the Point of the King of the given Player.
  @param		board		The board to check.
  @param		player		The Player to find its King.
@@ -118,9 +106,8 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 		return DST_OCCUPIED_BY_CURRENT;
 	}
 
-	bool isTripLegal = (Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) == VALID_MOVE || Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) == CHECK_MOVE) &&
-		Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfPiecesInTrip(dst);
-	if (!isTripLegal)
+	returnCode isTripLegal = Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst);
+	if ((isTripLegal != VALID_MOVE) && (isTripLegal != CHECK_MOVE))
 	{
 		return ILLEGAL_MOVE_FOR_PIECE;
 	}
@@ -178,8 +165,6 @@ returnCode BoardUtils::movePiece(std::vector<Piece*>& board, const Player& turn,
 		{
 			removePieceFromBoard(board, Pawn::toWherePawnMoved2Squares);
 			Pawn::enPassantOccured = false;
-			Pawn::pawnMove2SquaresLastTurn = false;
-			Pawn::toWherePawnMoved2Squares = Point(-1, -1);
 
 			return ENPASSANT_MOVE;
 		}

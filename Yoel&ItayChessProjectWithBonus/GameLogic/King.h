@@ -14,11 +14,11 @@
 #define SOUTH_WEST	Point(this->_location.getRow() + 1, this->_location.getCol() - 1)
 #define SOUTH_EAST	Point(this->_location.getRow() + 1, this->_location.getCol() + 1)
 
-#define W_KING_CASTELING_RIGHT Point(0, 6)
-#define W_KING_CASTELING_LEFT Point(0, 1)
+#define W_KING_CASTELING_RIGHT	Point(0, 6)
+#define W_KING_CASTELING_LEFT	Point(0, 1)
 
-#define B_KING_CASTELING_LEFT Point(7, 1)
-#define B_KING_CASTELING_RIGHT Point(0, 6)
+#define B_KING_CASTELING_LEFT	Point(7, 1)
+#define B_KING_CASTELING_RIGHT	Point(0, 6)
 
 
 class King : public Piece

@@ -8,10 +8,7 @@
  @param		color		the color of the piece
  @param		board		the board of the game
  */
-Knight::Knight(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board)
-    : Piece(type, location, color, board)
-{
-}
+Knight::Knight(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board) : Piece(type, location, color, board) {}
 
 
 /**
@@ -28,6 +25,7 @@ bool Knight::checkIfTripLegallyForPiece(const Point& dst) const
     {
         return true;
     }
+
     return false;
 }
 
@@ -35,10 +33,10 @@ bool Knight::checkIfTripLegallyForPiece(const Point& dst) const
 /**
  @brief		Checks if there are pieces that block the Knight's trip.
  @param		dst		The destination point of the Knight.
- @return	false if the trip is blocked, true otherwise.
+ @return	true
+ @note		The Knight can jump over other pieces - so this function always returns true.
  */
 bool Knight::checkIfPiecesInTrip(const Point& dst) const
 {
-    // the knight is not bothered if there are pieces in its way
     return true;
 }

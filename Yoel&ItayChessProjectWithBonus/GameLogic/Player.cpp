@@ -19,15 +19,10 @@ std::string Player::getPlayerColor() const
 
 
 /**
- @brief		Returns true if the player is empty.
- @return	True if the player is empty, false otherwise.
+ @brief		Sets the color of the player.
+ @param		color		The color to set.
+ @return	void.
  */
-bool Player::isEmpty() const
-{
-	return this->_playerColor == EMPTY_PLAYER;
-}
-
-
 void Player::setColor(const std::string& color)
 {
 	this->_playerColor = color;
