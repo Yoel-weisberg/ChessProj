@@ -30,6 +30,9 @@ public:
 
 	static returnCode movePiece(std::vector<Piece*>& board, const Player& turn, const Point& src, const Point& dst);
 
+	static void duplicatePieceOnBoard(std::vector<Piece*>& board, const Point& src, const Point& dst);
+	static void removePieceFromBoard(std::vector<Piece*>& board, const Point& point);
+
 	static Piece* clonePiece(const Piece* pieceToClone, const Point& pointToSet, std::vector<Piece*>& boardToSet);
 	static void deletePiece(const Piece* pieceToDelete);
 
@@ -37,6 +40,5 @@ public:
 	static void deleteBoard(std::vector<Piece*>& boardToDelete);
 
 	static void setConsoleColor(unsigned int color);
-
 	static void printBoard(const std::vector<Piece*>& board, const Player& turn);
 };

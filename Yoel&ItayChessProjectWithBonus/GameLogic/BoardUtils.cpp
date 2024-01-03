@@ -118,9 +118,8 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 	BoardUtils::cloneBoard(board, boardCopy);
 
 	// Performing the move on the copied board
-	Piece::setElementAtLoc(boardCopy, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(boardCopy, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), boardCopy));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
-	deletePiece(Piece::getElementAtLoc(boardCopy, src.getRow(), src.getCol()));		// Deleting the Piece in src Point from the copied board
-	Piece::setElementAtLoc(boardCopy, src.getRow(), src.getCol(), new Empty('#', Point(src.getRow(), src.getCol()), Player(EMPTY_PLAYER), boardCopy));
+	duplicatePieceOnBoard(boardCopy, src, dst);		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
+	removePieceFromBoard(boardCopy, src);			// Deleting the Piece in src Point from the copied board
 
 	// Checking if the move causes Check on the current player
 	bool CausesSelfCheck = isKingInCheck(boardCopy, turn);
@@ -129,7 +128,6 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 		return CAUSES_CHECK_ON_CURRENT;
 	}
 	
-
 
 	// If the function got here - the move is guaranteed to be valid
 	// Checking if the move caused Check on the opponent's King
@@ -157,9 +155,8 @@ returnCode BoardUtils::movePiece(std::vector<Piece*>& board, const Player& turn,
 
 	if (isValidMove == VALID_MOVE || isValidMove == CHECK_MOVE)
 	{
-		Piece::setElementAtLoc(board, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), board));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
-		deletePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()));		// Deleting the Piece in src Point from the copied board
-		Piece::setElementAtLoc(board, src.getRow(), src.getCol(), new Empty('#', Point(src.getRow(), src.getCol()), Player(EMPTY_PLAYER), board));
+		duplicatePieceOnBoard(board, src, dst);		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
+		removePieceFromBoard(board, src);			// Deleting the Piece in src Point from the board
 
 		if (Pawn::enPassantOccured)
 		{
@@ -176,7 +173,34 @@ returnCode BoardUtils::movePiece(std::vector<Piece*>& board, const Player& turn,
 
 
 /**
- @brief		Clones the given Piece into a new Piece with the given Point and board.
+ @brief		Duplicates the Piece in the given src Point to the given dst Point.
+ @param		board		The board to duplicate the Piece on.
+ @param		src			The Point to duplicate the Piece from.
+ @param		dst			The Point to duplicate the Piece to.
+ @return	void.
+ */
+void BoardUtils::duplicatePieceOnBoard(std::vector<Piece*>& board, const Point& src, const Point& dst)
+{
+	deletePiece(Piece::getElementAtLoc(board, dst.getRow(), dst.getCol()));		// Deleting the Piece in dst Point from the board
+	Piece::setElementAtLoc(board, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), board));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
+}
+
+
+/**
+ @brief		Removes the Piece in the given Point from the given board.
+ @param		board		The board to remove the Piece from.
+ @param		point		The Point to remove the Piece from.
+ @return	void.
+ */
+void BoardUtils::removePieceFromBoard(std::vector<Piece*>& board, const Point& point)
+{
+	deletePiece(Piece::getElementAtLoc(board, point.getRow(), point.getCol()));		// Deleting the Piece in the given Point from the board
+	Piece::setElementAtLoc(board, point.getRow(), point.getCol(), new Empty('#', Point(point.getRow(), point.getCol()), Player(EMPTY_PLAYER), board));
+}
+
+
+/**
+ @brief		Clones the given Piece into a new Piece with the given Point and board
  @param		pieceToClone		The Piece to clone.
  @param		pointToSet			The Point to set to the cloned Piece.
  @param		boardToSet			The board to set to the cloned Piece.
@@ -299,19 +323,6 @@ void BoardUtils::deleteBoard(std::vector<Piece*>& boardToDelete)
 
 
 /**
- @brief		Removes the Piece in the given Point from the given board.
- @param		board		The board to remove the Piece from.
- @param		point		The Point to remove the Piece from.
- @return	void.
- */
-void BoardUtils::removePieceFromBoard(std::vector<Piece*>& board, const Point& point)
-{
-	deletePiece(Piece::getElementAtLoc(board, point.getRow(), point.getCol()));		// Deleting the Piece in dst Point from the board
-	Piece::setElementAtLoc(board, point.getRow(), point.getCol(), new Empty('#', Point(point.getRow(), point.getCol()), Player(EMPTY_PLAYER), board));
-}
-
-
-/**
  @brief		Sets a color for the console
  @param		color		The color to set
  @return	void
@@ -322,7 +333,6 @@ void BoardUtils::setConsoleColor(unsigned int color)
 
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, color);
-
 }
 
 
