@@ -1,5 +1,8 @@
 #pragma once
 
+#define ROWS 8
+#define COLS 8
+
 
 enum returnCode
 {

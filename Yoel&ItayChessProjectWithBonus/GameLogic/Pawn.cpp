@@ -16,6 +16,58 @@ Pawn::Pawn(const char& type, const Point& location, const Player& color, std::ve
 
 
 /**
+ @brief		Returns all the possible destinations of the King.
+ @return	vector of all the possible destination Points of the King.
+ */
+std::vector<Point> Pawn::returnPossibleDestinations() const
+{
+	std::vector<Point> possibleDestinations;
+
+	if (this->_color.getPlayerColor() == WHITE_PLAYER)
+	{
+		if (Point::isPointInBoundaries(REGULAR_MOVE_NORTHWARD) && this->checkIfLegallyForPiece(REGULAR_MOVE_NORTHWARD) == VALID_MOVE)
+		{
+			possibleDestinations.push_back(REGULAR_MOVE_NORTHWARD);
+		}
+		if (Point::isPointInBoundaries(FIRST_MOVE_NORTHWARD) && this->checkIfLegallyForPiece(FIRST_MOVE_NORTHWARD) == VALID_MOVE)
+		{
+			possibleDestinations.push_back(FIRST_MOVE_NORTHWARD);
+		}
+		if (Point::isPointInBoundaries(WHITE_DIAGONAL_LEFT) && this->checkIfLegallyForPiece(WHITE_DIAGONAL_LEFT) == VALID_MOVE)
+		{
+			possibleDestinations.push_back(WHITE_DIAGONAL_LEFT);
+		}
+		if (Point::isPointInBoundaries(WHITE_DIAGONAL_RIGHT) && this->checkIfLegallyForPiece(WHITE_DIAGONAL_RIGHT) == VALID_MOVE)
+		{
+			possibleDestinations.push_back(WHITE_DIAGONAL_RIGHT);
+		}
+	}
+
+	else if (this->_color.getPlayerColor() == BLACK_PLAYER)
+	{
+		if (Point::isPointInBoundaries(REGULAR_MOVE_SOUTHWARD) && this->checkIfLegallyForPiece(REGULAR_MOVE_SOUTHWARD) == VALID_MOVE)
+		{
+			possibleDestinations.push_back(REGULAR_MOVE_SOUTHWARD);
+		}
+		if (Point::isPointInBoundaries(FIRST_MOVE_SOUTHWARD) && this->checkIfLegallyForPiece(FIRST_MOVE_SOUTHWARD) == VALID_MOVE)
+		{
+			possibleDestinations.push_back(FIRST_MOVE_SOUTHWARD);
+		}
+		if (Point::isPointInBoundaries(BLACK_DIAGONAL_LEFT) && this->checkIfLegallyForPiece(BLACK_DIAGONAL_LEFT) == VALID_MOVE)
+		{
+			possibleDestinations.push_back(BLACK_DIAGONAL_LEFT);
+		}
+		if (Point::isPointInBoundaries(BLACK_DIAGONAL_RIGHT) && this->checkIfLegallyForPiece(BLACK_DIAGONAL_RIGHT) == VALID_MOVE)
+		{
+			possibleDestinations.push_back(BLACK_DIAGONAL_RIGHT);
+		}
+	}
+
+	return possibleDestinations;
+}
+
+
+/**
  @brief		Checks if the trip is legal for the Pawn.
  @param		dst		The destination point of the piece.
  @return	true if the trip is legal, false otherwise.

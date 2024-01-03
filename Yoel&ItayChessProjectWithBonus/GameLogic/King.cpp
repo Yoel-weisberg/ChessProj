@@ -12,6 +12,53 @@ King::King(const char& type, const Point& location, const Player& color, std::ve
 
 
 /**
+ @brief		Returns all the possible destinations of the King.
+ @return	vector of all the possible destination Points of the King.
+ */
+std::vector<Point> King::returnPossibleDestinations() const
+{
+	std::vector<Point> possibleDestinations;
+	std::string currentKingColor = this->_color.getPlayerColor();
+
+
+	if (Point::isPointInBoundaries(NORTH) && Piece::getElementAtLoc(this->_board, NORTH.getRow(), NORTH.getCol())->getColor().getPlayerColor() != currentKingColor)
+	{
+		possibleDestinations.push_back(NORTH);
+	}
+	if (Point::isPointInBoundaries(SOUTH) && Piece::getElementAtLoc(this->_board, SOUTH.getRow(), SOUTH.getCol())->getColor().getPlayerColor() != currentKingColor)
+	{
+		possibleDestinations.push_back(SOUTH);
+	}
+	if (Point::isPointInBoundaries(WEST) && Piece::getElementAtLoc(this->_board, WEST.getRow(), WEST.getCol())->getColor().getPlayerColor() != currentKingColor)
+	{
+		possibleDestinations.push_back(WEST);
+	}
+	if (Point::isPointInBoundaries(EAST) && Piece::getElementAtLoc(this->_board, EAST.getRow(), EAST.getCol())->getColor().getPlayerColor() != currentKingColor)
+	{
+		possibleDestinations.push_back(EAST);
+	}
+	if (Point::isPointInBoundaries(NORTH_WEST) && Piece::getElementAtLoc(this->_board, NORTH_WEST.getRow(), NORTH_WEST.getCol())->getColor().getPlayerColor() != currentKingColor)
+	{
+		possibleDestinations.push_back(NORTH_WEST);
+	}
+	if (Point::isPointInBoundaries(NORTH_EAST) && Piece::getElementAtLoc(this->_board, NORTH_EAST.getRow(), NORTH_EAST.getCol())->getColor().getPlayerColor() != currentKingColor)
+	{
+		possibleDestinations.push_back(NORTH_EAST);
+	}
+	if (Point::isPointInBoundaries(SOUTH_WEST) && Piece::getElementAtLoc(this->_board, SOUTH_WEST.getRow(), SOUTH_WEST.getCol())->getColor().getPlayerColor() != currentKingColor)
+	{
+		possibleDestinations.push_back(SOUTH_WEST);
+	}
+	if (Point::isPointInBoundaries(SOUTH_EAST) && Piece::getElementAtLoc(this->_board, SOUTH_EAST.getRow(), SOUTH_EAST.getCol())->getColor().getPlayerColor() != currentKingColor)
+	{
+		possibleDestinations.push_back(SOUTH_EAST);
+	}
+
+	return possibleDestinations;
+}
+
+
+/**
  @brief		Checks if the trip is legal for the King.
  @param		dst		The destination point of the piece.
  @return	true if the trip is legal, false otherwise.

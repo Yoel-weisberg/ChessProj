@@ -12,6 +12,88 @@ Rook::Rook(const char& type, const Point& location, const Player& color, std::ve
 
 
 /**
+ @brief		Returns all the possible destinations of the Rook.
+ @return	vector of all the possible destination Points of the Rook.
+ */
+std::vector<Point> Rook::returnPossibleDestinations() const
+{
+    return Rook::returnPossibleDestinationsRook(*this);
+}
+
+
+/**
+ @brief		Returns all the possible destinations of the Rook.
+ @return	vector of all the possible destination Points of the Rook.
+ */
+std::vector<Point> Rook::returnPossibleDestinationsRook(const Piece& piece)
+{
+    std::vector<Point> possibleDestinations;
+
+    // North
+    for (int row = piece.getLocation().getRow() - 1, col = piece.getLocation().getCol(); row >= 0; row--)
+    {
+        Point currentDstPoint = Point(row, col);
+
+        if (piece.checkIfPiecesInTrip(currentDstPoint))
+        {
+            break;
+        }
+        if (piece.checkIfTripLegallyForPiece(currentDstPoint))
+        {
+			possibleDestinations.push_back(currentDstPoint);
+        }
+    }
+
+    // South
+    for (int row = piece.getLocation().getRow() + 1, col = piece.getLocation().getCol(); row < ROWS; row++)
+    {
+        Point currentDstPoint = Point(row, col);
+
+        if (piece.checkIfPiecesInTrip(currentDstPoint))
+        {
+            break;
+        }
+        if (piece.checkIfTripLegallyForPiece(currentDstPoint))
+        {
+            possibleDestinations.push_back(currentDstPoint);
+        }
+    }
+
+    // West
+    for (int row = piece.getLocation().getRow(), col = piece.getLocation().getCol() - 1; col >= 0; col--)
+    {
+        Point currentDstPoint = Point(row, col);
+
+        if (piece.checkIfPiecesInTrip(currentDstPoint))
+        {
+            break;
+        }
+        if (piece.checkIfTripLegallyForPiece(currentDstPoint))
+        {
+            possibleDestinations.push_back(currentDstPoint);
+        }
+    }
+
+    // East
+    for (int row = piece.getLocation().getRow(), col = piece.getLocation().getCol() + 1; col < COLS; col++)
+    {
+        Point currentDstPoint = Point(row, col);
+
+        if (piece.checkIfPiecesInTrip(currentDstPoint))
+        {
+            break;
+        }
+        if (piece.checkIfTripLegallyForPiece(currentDstPoint))
+        {
+            possibleDestinations.push_back(currentDstPoint);
+        }
+    }
+
+    return possibleDestinations;
+}
+
+
+/**
  @brief		Checks if the trip is legal for the Rook.
  @param		dst		The destination point of the piece.
  @return	true if the trip is legal, false otherwise.

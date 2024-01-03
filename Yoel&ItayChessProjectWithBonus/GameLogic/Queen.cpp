@@ -13,6 +13,22 @@ Queen::Queen(const char& type, const Point& location, const Player& color, std::
 
 
 /**
+ @brief		Returns all the possible destinations of the King.
+ @return	vector of all the possible destination Points of the King.
+ */
+std::vector<Point> Queen::returnPossibleDestinations() const
+{
+	std::vector<Point> possibleDestinationsBishop = Bishop::returnPossibleDestinationsBishop(*this);
+	std::vector<Point> possibleDestinationsRook = Rook::returnPossibleDestinationsRook(*this);
+
+	std::vector<Point> possibleDestinations;
+	possibleDestinations.insert(possibleDestinations.end(), possibleDestinationsBishop.begin(), possibleDestinationsBishop.end());
+
+	return possibleDestinations;
+}
+
+
+/**
  @brief		Checks if the trip is legal for the Queen.
  @param		dst		The destination point of the piece.
  @return	true if the trip is legal, false otherwise.

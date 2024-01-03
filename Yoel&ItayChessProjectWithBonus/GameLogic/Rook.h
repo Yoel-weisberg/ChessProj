@@ -14,6 +14,9 @@ class Rook : public Piece
 public:
 	Rook(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board);
 
+	virtual std::vector<Point> returnPossibleDestinations() const override;
+	static std::vector<Point> returnPossibleDestinationsRook(const Piece& piece);
+
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const override;
 	virtual bool checkIfPiecesInTrip(const Point& dst) const override;
 

@@ -30,6 +30,8 @@ public:
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const = 0;
 	virtual bool checkIfPiecesInTrip(const Point& dst) const = 0;
 
+	virtual std::vector<Point> returnPossibleDestinations() const = 0;
+
 	void operator= (const Piece& other);
 	
 	static Piece* getElementAtLoc(const std::vector <Piece*>& board, const int& row, const int& col);
