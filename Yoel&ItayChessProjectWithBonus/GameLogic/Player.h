@@ -1,10 +1,7 @@
 #pragma once
 
 #include <string>
-
-#define WHITE_PLAYER "white"
-#define BLACK_PLAYER "black"
-#define EMPTY_PLAYER "empty"
+#include "Constants.h"
 
 
 class Player

@@ -3,6 +3,8 @@
 #define ROWS 8
 #define COLS 8
 
+#define EXIT			"quit"
+
 
 enum returnCode
 {
@@ -34,8 +36,13 @@ enum returnCode
 #define WHITE_KING		'K'
 #define WHITE_PAWN		'P'
 
+#define EMPTY '#'
 
-#define EXIT			"quit"
+
+#define WHITE_PLAYER "white"
+#define BLACK_PLAYER "black"
+#define EMPTY_PLAYER "empty"
+
 
 #define B_ROOK1_ROW		0
 #define B_ROOK1_COL		0

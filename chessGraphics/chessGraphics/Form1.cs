@@ -279,7 +279,13 @@ namespace chessGraphics
 
                     if (res.ToLower().StartsWith("game over"))
                     {
-                        isGameOver = true;
+                         matBoard[dstSquare.Row, dstSquare.Col].BackgroundImage = matBoard[srcSquare.Row, srcSquare.Col].BackgroundImage;
+                         matBoard[srcSquare.Row, srcSquare.Col].BackgroundImage = null;
+
+                         matBoard[srcSquare.Row, srcSquare.Col].FlatAppearance.BorderColor = Color.Blue;
+                         matBoard[dstSquare.Row, dstSquare.Col].FlatAppearance.BorderColor = Color.Blue;
+
+                         isGameOver = true;
                     }
                     else if (res.ToLower().StartsWith("valid"))
                     {
