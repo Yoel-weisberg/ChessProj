@@ -118,6 +118,12 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 		return DST_OCCUPIED_BY_CURRENT;
 	}
 
+	bool isCastling = Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkForCastling(dst);
+	if (isCastling)
+	{
+		return VALID_MOVE;
+	}
+
 	bool isTripLegal = (Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) == VALID_MOVE || Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) == CHECK_MOVE) &&
 		Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfPiecesInTrip(dst);
 	if (!isTripLegal)
@@ -170,11 +176,49 @@ returnCode BoardUtils::movePiece(std::vector<Piece*>& board, const Player& turn,
 
 	if (isValidMove == VALID_MOVE || isValidMove == CHECK_MOVE)
 	{
-		Piece::setElementAtLoc(board, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), board));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
-		deletePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()));		// Deleting the Piece in src Point from the copied board
-		Piece::setElementAtLoc(board, src.getRow(), src.getCol(), new Empty('#', Point(src.getRow(), src.getCol()), Player(EMPTY_PLAYER), board));
-	}
+		// if it is possible there is a casteling
+		if (Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkForCastling(dst))
+		{
+			// moving white pieces
+			if (dst == W_KING_CASTELING_LEFT)
+			{
+				BoardUtils::actualMoveOfPiece(board, Point(W_ROOK2_ROW, W_ROOK2_COL), W_ROOK_CASTELING_RIGHT);
+			}
+			else if (dst == W_KING_CASTELING_RIGHT)
+			{
+				BoardUtils::actualMoveOfPiece(board, Point(W_ROOK1_ROW, W_ROOK1_COL), W_ROOK_CASTELING_LEFT);
+			}
+			else if (dst == W_ROOK_CASTELING_RIGHT)
+			{
+				BoardUtils::actualMoveOfPiece(board, Point(W_KING_ROW, W_KING_COL), W_KING_CASTELING_LEFT);
+			}
+			else if (dst == W_ROOK_CASTELING_LEFT)
+			{
+				BoardUtils::actualMoveOfPiece(board, Point(W_KING_ROW, W_KING_COL), W_KING_CASTELING_RIGHT);
+			}
 
+			// moving black pieces
+			if (dst == B_KING_CASTELING_LEFT)
+			{
+				BoardUtils::actualMoveOfPiece(board, Point(B_ROOK2_ROW, B_ROOK2_COL), B_ROOK_CASTELING_RIGHT);
+			}
+			else if (dst == B_KING_CASTELING_RIGHT)
+			{
+				BoardUtils::actualMoveOfPiece(board, Point(B_ROOK1_ROW, B_ROOK1_COL), B_ROOK_CASTELING_LEFT);
+			}
+			else if (dst == B_ROOK_CASTELING_RIGHT)
+			{
+				BoardUtils::actualMoveOfPiece(board, Point(B_KING_ROW, B_KING_COL), B_KING_CASTELING_LEFT);
+			}
+			else if (dst == B_ROOK_CASTELING_LEFT)
+			{
+				BoardUtils::actualMoveOfPiece(board, Point(W_KING_ROW, B_KING_COL), B_KING_CASTELING_RIGHT);
+			}
+		}
+
+	}
+	// moving the piece to its place
+	BoardUtils::actualMoveOfPiece(board, src, dst);
 	return isValidMove;
 }
 
@@ -357,4 +401,11 @@ void BoardUtils::printBoard(const std::vector<Piece*>& board, const Player& turn
 	setConsoleColor(CYAN);
 	std::cout << "  a b c d e f g h" << std::endl;
 	setConsoleColor(WHITE);
+}
+
+void BoardUtils::actualMoveOfPiece(std::vector<Piece*>& board, const Point& src, const Point& dst)
+{
+	Piece::setElementAtLoc(board, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), board));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
+	deletePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()));		// Deleting the Piece in src Point from the copied board
+	Piece::setElementAtLoc(board, src.getRow(), src.getCol(), new Empty('#', Point(src.getRow(), src.getCol()), Player(EMPTY_PLAYER), board));
 }

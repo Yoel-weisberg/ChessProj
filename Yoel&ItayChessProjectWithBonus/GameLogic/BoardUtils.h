@@ -40,4 +40,6 @@ public:
 	static void setConsoleColor(unsigned int color);
 
 	static void printBoard(const std::vector<Piece*>& board, const Player& turn);
+
+	static void actualMoveOfPiece(std::vector<Piece*>& board, const Point& src, const Point& dst);
 };

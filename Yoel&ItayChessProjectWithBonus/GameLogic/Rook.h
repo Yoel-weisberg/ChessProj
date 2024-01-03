@@ -5,8 +5,8 @@
 #define W_ROOK_CASTELING_RIGHT Point(7, 5)
 #define W_ROOK_CASTELING_LEFT Point(7, 2)
 
-#define B_ROOK_CASTELING_LEFT Point(0, 2)
 #define B_ROOK_CASTELING_RIGHT Point(0, 5)
+#define B_ROOK_CASTELING_LEFT Point(0, 2)
 
 
 class Rook : public Piece

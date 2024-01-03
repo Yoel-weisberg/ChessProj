@@ -17,8 +17,8 @@
 #define W_KING_CASTELING_RIGHT Point(7, 1)
 #define W_KING_CASTELING_LEFT Point(7, 6)
 
-#define B_KING_CASTELING_LEFT Point(0, 1)
-#define B_KING_CASTELING_RIGHT Point(0, 6)
+#define B_KING_CASTELING_RIGHT Point(0, 1)
+#define B_KING_CASTELING_LEFT Point(0, 6)
 
 
 class King : public Piece
