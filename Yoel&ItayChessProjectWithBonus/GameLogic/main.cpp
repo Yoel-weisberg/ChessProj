@@ -29,7 +29,8 @@ void setConsoleColor(unsigned int color);
 int main()
 {
 	Pipe p;
-	bool runFrontend = true;
+	std::string userChoice = "";
+	bool runFrontend = false;
 	Game* game = nullptr;
 
 	std::string saveToFileOrNot = " ";
@@ -65,6 +66,17 @@ int main()
 	{
 		game = new Game();
 	}
+
+	while (userChoice != "1" && userChoice != "2")
+	{
+		std::cout << "1) Console\n2) Graphics\n";
+		setConsoleColor(GREEN);
+		std::cin >> userChoice;
+		setConsoleColor(WHITE);
+		system("cls");
+	}
+
+	runFrontend = userChoice == "1" ? false : true;
 
 	if (runFrontend)
 	{
