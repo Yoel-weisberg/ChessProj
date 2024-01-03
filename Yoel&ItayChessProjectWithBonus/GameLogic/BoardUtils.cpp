@@ -150,7 +150,7 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 		return VALID_MOVE;
 	}
 
-	bool isTripLegal = Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst);
+	returnCode isTripLegal = Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst);
 	if ((isTripLegal != VALID_MOVE) && (isTripLegal != CHECK_MOVE))
 	{
 		return ILLEGAL_MOVE_FOR_PIECE;
