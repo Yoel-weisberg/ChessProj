@@ -24,7 +24,7 @@
 class King : public Piece
 {
 public:
-	King(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board);
+	King(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board, const bool& isFirstMove = true);
 
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const override;
 	virtual bool checkIfPiecesInTrip(const Point& dst) const override;

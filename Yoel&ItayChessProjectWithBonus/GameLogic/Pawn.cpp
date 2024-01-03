@@ -12,7 +12,7 @@ bool Pawn::enPassantOccured = false;
  @param		color		The color of the piece.
  @param		board		The board of the game.
  */
-Pawn::Pawn(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board) : Piece(type, location, color, board) {}
+Pawn::Pawn(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board, const bool& isFirstMove = true) : Piece(type, location, color, board, isFirstMove) {}
 
 
 /**

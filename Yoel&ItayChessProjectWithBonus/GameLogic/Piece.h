@@ -17,7 +17,7 @@
 class Piece
 {
 public:
-	Piece(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board);
+	Piece(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board, const bool& isFirstMove = true);
 
 	char getType() const;
 	Point getLocation() const;

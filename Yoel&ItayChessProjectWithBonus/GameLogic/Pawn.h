@@ -20,7 +20,7 @@
 class Pawn : public Piece
 {
 public:
-	Pawn(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board);
+	Pawn(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board, const bool& isFirstMove = true);
 
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const override;
 	virtual bool checkIfPiecesInTrip(const Point& dst) const override;

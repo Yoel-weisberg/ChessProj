@@ -8,7 +8,7 @@
 class Queen : public Piece
 {
 public:
-	Queen(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board);
+	Queen(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board, const bool& isFirstMove = true);
 
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const override;
 	virtual bool checkIfPiecesInTrip(const Point& dst) const override;

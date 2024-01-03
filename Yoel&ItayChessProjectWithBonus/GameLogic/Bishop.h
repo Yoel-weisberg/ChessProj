@@ -6,7 +6,7 @@
 class Bishop : public Piece
 {
 public:
-	Bishop(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board);
+	Bishop(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board, const bool& isFirstMove = true);
 
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const override;
 	virtual bool checkIfPiecesInTrip(const Point& dst) const override;

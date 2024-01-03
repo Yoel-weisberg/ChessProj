@@ -9,7 +9,7 @@
  @param		color		The color of the piece.
  @param		board		The board of the game.
  */
-Queen::Queen(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board) : Piece(type, location, color, board) {}
+Queen::Queen(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board, const bool& isFirstMove = true) : Piece(type, location, color, board, isFirstMove) {}
 
 
 /**

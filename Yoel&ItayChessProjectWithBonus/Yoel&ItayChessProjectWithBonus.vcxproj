@@ -26,6 +26,7 @@
     <ClInclude Include="GameLogic\BoardUtils.h" />
     <ClInclude Include="GameLogic\Constants.h" />
     <ClInclude Include="GameLogic\Empty.h" />
+    <ClInclude Include="GameLogic\FileManager.h" />
     <ClInclude Include="GameLogic\Game.h" />
     <ClInclude Include="GameLogic\King.h" />
     <ClInclude Include="GameLogic\Knight.h" />
@@ -40,6 +41,7 @@
     <ClCompile Include="GameLogic\Bishop.cpp" />
     <ClCompile Include="GameLogic\BoardUtils.cpp" />
     <ClCompile Include="GameLogic\Empty.cpp" />
+    <ClCompile Include="GameLogic\FileManager.cpp" />
     <ClCompile Include="GameLogic\Game.cpp" />
     <ClCompile Include="GameLogic\King.cpp" />
     <ClCompile Include="GameLogic\Knight.cpp" />

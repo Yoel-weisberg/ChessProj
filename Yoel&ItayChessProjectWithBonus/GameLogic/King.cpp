@@ -8,7 +8,7 @@
  @param		color		the color of the piece
  @param		board		the board of the game
  */
-King::King(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board) : Piece(type, location, color, board) {}
+King::King(const char& type, const Point& location, const Player& color, std::vector<Piece*>& board, const bool& isFirstMove = true) : Piece(type, location, color, board, isFirstMove) {}
 
 
 /**

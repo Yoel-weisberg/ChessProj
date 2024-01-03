@@ -4,8 +4,8 @@
 /**
  @brief		Constructor - Inializes the type, location, color and board (reference) of the piece.
  */
-Piece::Piece(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board)
-	: _type(type), _location(location), _color(color), _board(board), _isFirstMove(true) {}
+Piece::Piece(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board, const bool& isFirstMove = true)
+	: _type(type), _location(location), _color(color), _board(board), _isFirstMove(isFirstMove) {}
 
 
 /**
