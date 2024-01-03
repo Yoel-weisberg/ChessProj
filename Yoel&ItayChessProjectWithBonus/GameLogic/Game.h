@@ -16,6 +16,7 @@ class Game
 {
 public:
 	Game();
+	Game(const std::vector <Piece*>& board);
 	~Game();
 
 	std::vector<Piece*> getBoard() const;

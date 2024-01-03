@@ -55,6 +55,9 @@ Game::Game() : _turn(Player(WHITE_PLAYER))
     }
 }
 
+Game::Game(const std::vector<Piece*>& board) : _board(board), _turn(WHITE_PLAYER) {}
+
+
 
 /**
  @brief     Destructor - Deletes the board of the game object.

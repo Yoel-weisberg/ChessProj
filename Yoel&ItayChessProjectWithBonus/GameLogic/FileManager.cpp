@@ -120,4 +120,21 @@ Game* FileManage::openGameFromFile(const std::string& fileName)
             gameVector.push_back(&Knight(type, location, Player(WHITE_PLAYER), gameVector, isFirstMove));
         }
     }
+    Game resGame = Game(gameVector);
+    return &resGame;
+}
+
+bool FileManage::saveGameIntoFile(const Game& game, const std::string& name)
+{
+    int i = 0;
+    std::ofstream outputFile(name);
+    if (outputFile.is_open()) 
+    {
+        for (i = 0; i < ROWS * COLS; i++)
+        {
+            outputFile << game.getBoard()[i]->getType();
+        }
+        return true;
+    }
+    return false;
 }
