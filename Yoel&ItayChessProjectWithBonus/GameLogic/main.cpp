@@ -12,7 +12,8 @@
 #define SLEEP_TIME 5000
 #define COORDINATES_SIZE 2
 #define ASCII_ZERO 48
-#define YES 'y'
+#define YES "y"
+#define NO "n"
 
 
 void connectToGraphics(Pipe& p);
@@ -22,27 +23,41 @@ void runGameGraphics(Pipe& p, Game& game);
 void runGameConsole(Game& game);
 
 
+void setConsoleColor(unsigned int color);
+
+
 int main()
 {
 	Pipe p;
+	bool runFrontend = true;
+	Game* game = nullptr;
 
-	bool runFrontend = false;
-	char saveToFileOrNot = ' ';
-	char openFromFile = ' ';
+	std::string saveToFileOrNot = " ";
+	std::string openFromFile = "";
 	bool isSaveSuccessful = false;
 	std::string fileName;
-	Game* game = nullptr;
-	std::cout << "Would you like to open the game from a file? (y/n): ";
-	std::cin >> openFromFile;
+
+	setConsoleColor(WHITE);
+	while (openFromFile != YES && openFromFile != NO)
+	{
+		std::cout << "Would you like to open the game from a file? (y/n): ";
+		setConsoleColor(GREEN);
+		std::cin >> openFromFile;
+		setConsoleColor(WHITE);
+		system("cls");
+	}
 
 	if (openFromFile == YES)
 	{
-		std::cout << "from what file do you want me to import it? ";
+		std::cout << "From what file do you want to import it? ";
+		setConsoleColor(GREEN);
 		std::cin >> fileName;
+		setConsoleColor(WHITE);
 		game = FileManage::openGameFromFile(fileName);
+
 		if (game == nullptr)
 		{
-			std::cout << "unable to open the file, creating a new board" << std::endl;
+			std::cout << "Unable to open the file, creating a new board" << std::endl;
 			game = new Game();
 		}
 	}
@@ -188,7 +203,6 @@ void runGameGraphics(Pipe& p, Game& game)
  */
 void runGameConsole(Game& game)
 {
-
 	returnCode moveCode = UNDEFINED;
 	std::string move = "";
 
@@ -218,4 +232,18 @@ void runGameConsole(Game& game)
 			}
 		}
 	}
+}
+
+
+/**
+ @brief		Sets a color for the console
+ @param		color		The color to set
+ @return	void
+ */
+void setConsoleColor(unsigned int color)
+{
+	HANDLE hConsole;
+
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, color);
 }
