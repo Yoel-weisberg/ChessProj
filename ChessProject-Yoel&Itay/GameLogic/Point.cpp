@@ -66,16 +66,6 @@ Point Point::chessNotationToPoint(std::string chessNotation)
 
 
 /**
- @brief		Converts the point into a string chess representation.
- @return	The string chess representation of the point.
- */
-std::string Point::toString() const
-{
-	return std::string(1, 'a' + this->_col) + std::string(1, '8' - this->_row);
-}
-
-
-/**
  @brief		Checks if the calling point is equal to another point.
  @param		other		The other point to compare to.
  @return	True if the points are equal, false otherwise.

@@ -19,23 +19,22 @@ class Piece
 public:
 	Piece(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board);
 
+	char getType() const;
 	Point getLocation() const;
 	Player getColor() const;
-	char getType() const;
 	std::vector<Piece*> getBoard() const;
+
+	virtual void falseFirstMove();
 
 	returnCode checkIfLegallyForPiece(const Point& dst) const;
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const = 0;
 	virtual bool checkIfPiecesInTrip(const Point& dst) const = 0;
 
-	void turnIntoEmpty();
 	void operator= (const Piece& other);
 
 	static Piece* getElementAtLoc(const std::vector <Piece*>& board, const int& row, const int& col);
 	static void setElementAtLoc(std::vector <Piece*>& board, const int& row, const int& col, Piece* newValue);
 
-
-	virtual void falseFirstMove();
 protected:
 	char _type;
 	Point _location;

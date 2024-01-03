@@ -8,10 +8,7 @@
  @param		color		The color of the piece.
  @param		board		The board of the game.
  */
-Bishop::Bishop(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board)
-	: Piece(type, location, color, board)
-{
-}
+Bishop::Bishop(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board) : Piece(type, location, color, board) {}
 
 
 /**
@@ -126,6 +123,3 @@ bool Bishop::checkForPiecesOnTripBishop(const Point& src, const Point& dst, cons
 
     return false;
 }
-
-
-

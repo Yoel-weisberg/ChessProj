@@ -55,5 +55,6 @@ bool King::checkIfPiecesInTrip(const Point& dst) const
 
 		return true;
 	}
+
 	return false;
 }

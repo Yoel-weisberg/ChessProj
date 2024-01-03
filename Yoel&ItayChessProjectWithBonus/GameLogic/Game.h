@@ -1,6 +1,5 @@
 #pragma once
 
-// Those classes already include Piece.h...
 #include "Rook.h"
 #include "Knight.h"
 #include "Bishop.h"
@@ -20,13 +19,12 @@ public:
 	~Game();
 
 	std::vector<Piece*> getBoard() const;
-	void switchTurn();
-
 	Player getTurn() const;
+
+	void switchTurn();
 	char* returnBoardString() const;
 
 	returnCode moveOnBoard(const Point& src, const Point& dst);
-
 
 private:
 	std::vector <Piece*> _board;

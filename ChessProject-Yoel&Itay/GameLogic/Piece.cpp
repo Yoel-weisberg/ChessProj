@@ -5,8 +5,16 @@
  @brief		Constructor - Inializes the type, location, color and board (reference) of the piece.
  */
 Piece::Piece(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board)
-	: _type(type), _location(location), _color(color), _board(board)
+	: _type(type), _location(location), _color(color), _board(board) {}
+
+
+/**
+ @brief		Returns the type of the piece.
+ @return	The type of the piece.
+ */
+char Piece::getType() const
 {
+	return this->_type;
 }
 
 
@@ -31,16 +39,6 @@ Player Piece::getColor() const
 
 
 /**
- @brief		Returns the type of the piece.
- @return	The type of the piece.
- */
-char Piece::getType() const
-{
-	return this->_type;
-}
-
-
-/**
  @brief		Returns the board-reference of the piece.
  @return	The board-reference of the piece.
  */
@@ -51,28 +49,25 @@ std::vector<Piece*> Piece::getBoard() const
 
 
 /**
+ @brief		False the first move of the Pawns.
+ @return	Void.
+ @note		Used for the Pawn's first move.
+ */
+void Piece::falseFirstMove() {}
+
+
+/**
  @brief		Checks if the Piece can move to the given destination point.
  @return	The return code of the move (VALID_MOVE, ILLEGAL_MOVE_FOR_PIECE)
  */
 returnCode Piece::checkIfLegallyForPiece(const Point& dst) const
 {
-	if (checkIfTripLegallyForPiece(dst) && checkIfPiecesInTrip(dst))
+	if (this->checkIfTripLegallyForPiece(dst) && this->checkIfPiecesInTrip(dst))
 	{
 		return VALID_MOVE;
 	}
 
 	return ILLEGAL_MOVE_FOR_PIECE;
-}
-
-
-/**
- @brief		Turns the calling piece into an empty piece.
- @return	void.
- */
-void Piece::turnIntoEmpty()
-{
-	this->_color.setColor(EMPTY_PLAYER);
-	this->_type = EMPTY;
 }
 
 
@@ -114,5 +109,3 @@ void Piece::setElementAtLoc(std::vector<Piece*>& board, const int& row, const in
 {
 	board[ROWS * row + col] = newValue;
 }
-
-void Piece::falseFirstMove() {}

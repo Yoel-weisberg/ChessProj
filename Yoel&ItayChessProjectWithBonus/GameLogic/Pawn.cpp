@@ -1,5 +1,9 @@
 #include "Pawn.h"
 
+bool Pawn::pawnMove2SquaresLastTurn = false;
+Point Pawn::toWherePawnMoved2Squares = Point(-1, -1);
+bool Pawn::enPassantOccured = false;
+
 
 /**
  @brief		Constructor - Initializes the type, location color and the board (reference).
@@ -21,8 +25,7 @@ bool Pawn::checkIfTripLegallyForPiece(const Point& dst) const
 	// Validating trip for the white player
 	if (this->_color.getPlayerColor() == WHITE_PLAYER)
 	{
-		if (dst == REGULAR_MOVE_NORTHWARD || (dst == FIRST_MOVE_NORTHWARD && this->_isFirstMove) ||
-			dst == WHITE_ATE_LEFT || dst == WHITE_ATE_RIGHT)
+		if (dst == REGULAR_MOVE_NORTHWARD || (dst == FIRST_MOVE_NORTHWARD && this->isFirstMove()) || dst == WHITE_DIAGONAL_LEFT || dst == WHITE_DIAGONAL_RIGHT)
 		{
 			return true;
 		}
@@ -32,8 +35,7 @@ bool Pawn::checkIfTripLegallyForPiece(const Point& dst) const
 	// Validating trip for the black player
 	if (this->_color.getPlayerColor() == BLACK_PLAYER)
 	{
-		if (dst == REGULAR_MOVE_SOUTHWARD || (dst == FIRST_MOVE_SOUTHWARD && this->_isFirstMove) ||
-			dst == BLACK_ATE_LEFT || dst == BLACK_ATE_RIGHT)
+		if (dst == REGULAR_MOVE_SOUTHWARD || (dst == FIRST_MOVE_SOUTHWARD && this->isFirstMove()) || dst == BLACK_DIAGONAL_LEFT || dst == BLACK_DIAGONAL_RIGHT)
 		{
 			return true;
 		}
@@ -59,6 +61,9 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 			{
 				return false;
 			}
+
+			Pawn::pawnMove2SquaresLastTurn = false;
+
 			return true;
 		}
 
@@ -69,16 +74,36 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 			{
 				return false;
 			}
+
+			Pawn::pawnMove2SquaresLastTurn = true;
+			Pawn::toWherePawnMoved2Squares = dst;
+
 			return true;
 		}
 
-		if (dst == WHITE_ATE_LEFT || dst == WHITE_ATE_RIGHT)
+		// Allowing the white player to move diagonally only if there is a black piece in the destination point or in an en-passant move
+		if (dst == WHITE_DIAGONAL_LEFT || dst == WHITE_DIAGONAL_RIGHT)
 		{
-			// Allowing the white player to move diagonally only if there is a black piece in the destination point
 			if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == BLACK_PLAYER)
 			{
+				Pawn::pawnMove2SquaresLastTurn = false;
 				return true;
 			}
+
+			else if (dst == WHITE_DIAGONAL_LEFT && Pawn::pawnMove2SquaresLastTurn && (Pawn::toWherePawnMoved2Squares == Point(this->_location.getRow(), this->_location.getCol() - 1)))
+			{
+				Pawn::pawnMove2SquaresLastTurn = false;
+				Pawn::enPassantOccured = true;
+				return true;
+			}
+
+			else if (dst == WHITE_DIAGONAL_RIGHT && Pawn::pawnMove2SquaresLastTurn && (Pawn::toWherePawnMoved2Squares == Point(this->_location.getRow(), this->_location.getCol() + 1)))
+			{
+				Pawn::pawnMove2SquaresLastTurn = false;
+				Pawn::enPassantOccured = true;
+				return true;
+			}
+
 			return false;
 		}
 	}
@@ -91,6 +116,9 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 			{
 				return false;
 			}
+
+			Pawn::pawnMove2SquaresLastTurn = false;
+
 			return true;
 		}
 
@@ -101,16 +129,36 @@ bool Pawn::checkIfPiecesInTrip(const Point& dst) const
 			{
 				return false;
 			}
+
+			Pawn::pawnMove2SquaresLastTurn = true;
+			Pawn::toWherePawnMoved2Squares = dst;
+
 			return true;
 		}
 
-		if (dst == BLACK_ATE_LEFT || dst == BLACK_ATE_RIGHT)
+		// Allowing the black player to move diagonally only if there is a white piece in the destination point or in an en-passant move
+		if (dst == BLACK_DIAGONAL_LEFT || dst == BLACK_DIAGONAL_RIGHT)
 		{
-			// Allowing the black player to move diagonally only if there is a white piece in the destination point
 			if (Piece::getElementAtLoc(this->_board, dst.getRow(), dst.getCol())->getColor().getPlayerColor() == WHITE_PLAYER)
 			{
+				Pawn::pawnMove2SquaresLastTurn = false;
 				return true;
 			}
+
+			else if (dst == BLACK_DIAGONAL_LEFT && Pawn::pawnMove2SquaresLastTurn && (Pawn::toWherePawnMoved2Squares == Point(this->_location.getRow(), this->_location.getCol() - 1)))
+			{
+				Pawn::pawnMove2SquaresLastTurn = false;
+				Pawn::enPassantOccured = true;
+				return true;
+			}
+
+			else if (dst == BLACK_DIAGONAL_RIGHT && Pawn::pawnMove2SquaresLastTurn && (Pawn::toWherePawnMoved2Squares == Point(this->_location.getRow(), this->_location.getCol() + 1)))
+			{
+				Pawn::pawnMove2SquaresLastTurn = false;
+				Pawn::enPassantOccured = true;
+				return true;
+			}
+
 			return false;
 		}
 	}

@@ -2,18 +2,6 @@
 
 
 /**
- @brief		Returns the Player that the Piece in the given Point belongs to.
- @param		board		The board to check.
- @param		point		The Point to check.
- @return	The Player that the Piece in the given Point belongs to.
- */
-Player BoardUtils::getPointPlayer(const std::vector<Piece*>& board, const Point& point)
-{
-	return Piece::getElementAtLoc(board, point.getRow(), point.getCol())->getColor();
-}
-
-
-/**
  @brief		Returns the Point of the King of the given Player.
  @param		board		The board to check.
  @param		player		The Player to find its King.
@@ -59,6 +47,7 @@ bool BoardUtils::isPointInBoundaries(const Point& point)
 bool BoardUtils::isKingInCheck(const std::vector<Piece*>& board, const Player& player)
 {
 	Point currentPlayerKing = findKingPoint(board, player);
+	returnCode isTripLegal = UNDEFINED;
 
 	for (int row = 0; row < ROWS; row++)
 	{
@@ -70,8 +59,8 @@ bool BoardUtils::isKingInCheck(const std::vector<Piece*>& board, const Player& p
 			if ((currentPiece->getColor().getPlayerColor() != player.getPlayerColor()) && (currentPiece->getColor().getPlayerColor() != EMPTY_PLAYER))
 			{
 				// Checking if the opponent's Pieces threaten the current player's King
-				if ((currentPiece->checkIfLegallyForPiece(currentPlayerKing) == VALID_MOVE || currentPiece->checkIfLegallyForPiece(currentPlayerKing) == CHECK_MOVE) &&
-					(currentPiece->checkIfPiecesInTrip(currentPlayerKing)))
+				isTripLegal = currentPiece->checkIfLegallyForPiece(currentPlayerKing);
+				if (isTripLegal == VALID_MOVE)		// All types of valid moves (Regular move, Check move, En-Passant move)
 				{
 					return true;
 				}
@@ -118,9 +107,8 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 		return DST_OCCUPIED_BY_CURRENT;
 	}
 
-	bool isTripLegal = (Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) == VALID_MOVE || Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) == CHECK_MOVE) &&
-		Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfPiecesInTrip(dst);
-	if (!isTripLegal)
+	returnCode isTripLegal = Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst);
+	if ((isTripLegal != VALID_MOVE) && (isTripLegal != CHECK_MOVE))
 	{
 		return ILLEGAL_MOVE_FOR_PIECE;
 	}
@@ -131,9 +119,8 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 	BoardUtils::cloneBoard(board, boardCopy);
 
 	// Performing the move on the copied board
-	Piece::setElementAtLoc(boardCopy, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(boardCopy, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), boardCopy));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
-	deletePiece(Piece::getElementAtLoc(boardCopy, src.getRow(), src.getCol()));		// Deleting the Piece in src Point from the copied board
-	Piece::setElementAtLoc(boardCopy, src.getRow(), src.getCol(), new Empty('#', Point(src.getRow(), src.getCol()), Player(EMPTY_PLAYER), boardCopy));
+	duplicatePieceOnBoard(boardCopy, src, dst);		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
+	removePieceFromBoard(boardCopy, src);			// Deleting the Piece in src Point from the copied board
 
 	// Checking if the move causes Check on the current player
 	bool CausesSelfCheck = isKingInCheck(boardCopy, turn);
@@ -142,7 +129,6 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 		return CAUSES_CHECK_ON_CURRENT;
 	}
 	
-
 
 	// If the function got here - the move is guaranteed to be valid
 	// Checking if the move caused Check on the opponent's King
@@ -170,12 +156,38 @@ returnCode BoardUtils::movePiece(std::vector<Piece*>& board, const Player& turn,
 
 	if (isValidMove == VALID_MOVE || isValidMove == CHECK_MOVE)
 	{
-		Piece::setElementAtLoc(board, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), board));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
-		deletePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()));		// Deleting the Piece in src Point from the copied board
-		Piece::setElementAtLoc(board, src.getRow(), src.getCol(), new Empty('#', Point(src.getRow(), src.getCol()), Player(EMPTY_PLAYER), board));
+		duplicatePieceOnBoard(board, src, dst);		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
+		removePieceFromBoard(board, src);			// Deleting the Piece in src Point from the board
 	}
 
 	return isValidMove;
+}
+
+
+/**
+ @brief		Duplicates the Piece in the given src Point to the given dst Point.
+ @param		board		The board to duplicate the Piece on.
+ @param		src			The Point to duplicate the Piece from.
+ @param		dst			The Point to duplicate the Piece to.
+ @return	void.
+ */
+void BoardUtils::duplicatePieceOnBoard(std::vector<Piece*>& board, const Point& src, const Point& dst)
+{
+	deletePiece(Piece::getElementAtLoc(board, dst.getRow(), dst.getCol()));		// Deleting the Piece in dst Point from the board
+	Piece::setElementAtLoc(board, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), board));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
+}
+
+
+/**
+ @brief		Removes the Piece in the given Point from the given board.
+ @param		board		The board to remove the Piece from.
+ @param		point		The Point to remove the Piece from.
+ @return	void.
+ */
+void BoardUtils::removePieceFromBoard(std::vector<Piece*>& board, const Point& point)
+{
+	deletePiece(Piece::getElementAtLoc(board, point.getRow(), point.getCol()));		// Deleting the Piece in the given Point from the board
+	Piece::setElementAtLoc(board, point.getRow(), point.getCol(), new Empty('#', Point(point.getRow(), point.getCol()), Player(EMPTY_PLAYER), board));
 }
 
 
@@ -313,7 +325,6 @@ void BoardUtils::setConsoleColor(unsigned int color)
 
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, color);
-
 }
 
 

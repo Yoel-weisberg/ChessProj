@@ -21,8 +21,7 @@ bool Pawn::checkIfTripLegallyForPiece(const Point& dst) const
 	// Validating trip for the white player
 	if (this->_color.getPlayerColor() == WHITE_PLAYER)
 	{
-		if (dst == REGULAR_MOVE_NORTHWARD || (dst == FIRST_MOVE_NORTHWARD && this->_isFirstMove) ||
-			dst == WHITE_ATE_LEFT || dst == WHITE_ATE_RIGHT)
+		if (dst == REGULAR_MOVE_NORTHWARD || (dst == FIRST_MOVE_NORTHWARD && this->_isFirstMove) || dst == WHITE_ATE_LEFT || dst == WHITE_ATE_RIGHT)
 		{
 			return true;
 		}
@@ -32,8 +31,7 @@ bool Pawn::checkIfTripLegallyForPiece(const Point& dst) const
 	// Validating trip for the black player
 	if (this->_color.getPlayerColor() == BLACK_PLAYER)
 	{
-		if (dst == REGULAR_MOVE_SOUTHWARD || (dst == FIRST_MOVE_SOUTHWARD && this->_isFirstMove) ||
-			dst == BLACK_ATE_LEFT || dst == BLACK_ATE_RIGHT)
+		if (dst == REGULAR_MOVE_SOUTHWARD || (dst == FIRST_MOVE_SOUTHWARD && this->_isFirstMove) || dst == BLACK_ATE_LEFT || dst == BLACK_ATE_RIGHT)
 		{
 			return true;
 		}

@@ -8,10 +8,7 @@
  @param		color		The color of the piece.
  @param		board		The board of the game.
  */
-Rook::Rook(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board)
-    : Piece(type, location, color, board)
-{
-}
+Rook::Rook(const char& type, const Point& location, const Player& color, std::vector <Piece*>& board) : Piece(type, location, color, board) {}
 
 
 /**
@@ -110,6 +107,7 @@ bool Rook::checkForPiecesOnTripRook(const Point& src, const Point& dst, const st
             }
             return true;
         }
+
         // if the src is farther than the dst
         else
         {
@@ -140,6 +138,7 @@ bool Rook::checkForPiecesOnTripRook(const Point& src, const Point& dst, const st
             }
             return true;
         }
+
         // if the src is farther than the dst
         else
         {
@@ -154,5 +153,6 @@ bool Rook::checkForPiecesOnTripRook(const Point& src, const Point& dst, const st
             return true;
         }
     }
+
     return false;
 }

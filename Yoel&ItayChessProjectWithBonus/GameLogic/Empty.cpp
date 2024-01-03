@@ -13,6 +13,7 @@ Empty::Empty(const char& type, const Point& location, const Player& color, std::
 
 /**
  @brief		Empty Piece cannot move
+ @param		dst		the destination point
  @return	false
  */
 bool Empty::checkIfTripLegallyForPiece(const Point& dst) const
@@ -23,6 +24,7 @@ bool Empty::checkIfTripLegallyForPiece(const Point& dst) const
 
 /**
  @brief		Empty Piece cannot move
+ @param		dst		the destination point
  @return	false
  */
 bool Empty::checkIfPiecesInTrip(const Point& dst) const
