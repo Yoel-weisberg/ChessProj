@@ -7,6 +7,7 @@
 #include "King.h"
 #include "Pawn.h"
 #include "Empty.h"
+
 #include "BoardUtils.h"
 #include "Constants.h"
 #include "Player.h"

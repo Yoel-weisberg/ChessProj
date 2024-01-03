@@ -52,6 +52,18 @@ void Point::setCol(const int& col)
 
 
 /**
+ @brief		Returns true if the given Point is in the board boundaries.
+ @param		point		The Point to check.
+ @return	True if the given Point is in the board boundaries, false otherwise.
+ */
+bool Point::isPointInBoundaries(const Point& point)
+{
+	return ((point.getRow() >= 0) && (point.getRow() < ROWS)) &&
+		   ((point.getCol() >= 0) && (point.getCol() < COLS));
+}
+
+
+/**
  @brief		Converts a string chess-cell representation into a point.
  @param		chessNotation		The string chess-cell representation to convert to a point.
  @return	The Point representation of the chess-cell.

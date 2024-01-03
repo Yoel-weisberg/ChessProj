@@ -27,18 +27,6 @@ Point BoardUtils::findKingPoint(const std::vector<Piece*>& board, const Player& 
 
 
 /**
- @brief		Returns true if the given Point is in the board boundaries.
- @param		point		The Point to check.
- @return	True if the given Point is in the board boundaries, false otherwise.
- */
-bool BoardUtils::isPointInBoundaries(const Point& point)
-{
-	return ((point.getRow() >= 0) && (point.getRow() < ROWS)) &&
-		((point.getCol() >= 0) && (point.getCol() < COLS));
-}
-
-
-/**
  @brief		Returns true if the given Player's King is in check.
  @param		board		The board to check.
  @param		player		The Player to check if its King is in check.
@@ -73,6 +61,55 @@ bool BoardUtils::isKingInCheck(const std::vector<Piece*>& board, const Player& p
 
 
 /**
+ @brief		Returns true if the given Player's King is in checkmate.
+ @param		board		The board to check.
+ @param		player		The Player to check if its King is in checkmate.
+ @return	True if the given Player's King is in checkmate, false otherwise.
+ @note		This function is called when the given player's King is already in check.
+ */
+bool BoardUtils::isKingInCheckMate(const std::vector<Piece*>& board, const Player& player)
+{
+	for (int row = 0; row < ROWS; row++)
+	{
+		for (int col = 0; col < COLS; col++)
+		{
+			Piece* currentPiece = Piece::getElementAtLoc(board, row, col);
+
+			// Searching for pieces from the same color as the king that this function is checking
+			if (currentPiece->getColor() == player)
+			{
+				// Creating an array of all the possible moves of the current piece
+				std::vector<Point> possibleDestinations = currentPiece->returnPossibleDestinations();
+
+				// Iterating over all the possible destinations of the current piece
+				for (Point possibleDst : possibleDestinations)
+				{
+					// Creating a copy of the board
+					std::vector<Piece*> boardCopy;
+					BoardUtils::cloneBoard(board, boardCopy);
+
+					// Performing the move on the copied board
+					duplicatePieceOnBoard(boardCopy, currentPiece->getLocation(), possibleDst);		// Deep copying the current piece to the current possible dst Point (modifying the copied board...)
+					removePieceFromBoard(boardCopy, currentPiece->getLocation());					// Deleting the current piece from the copied board
+
+					// Checking if after the move the given player's King is still in check
+					if (!(isKingInCheck(boardCopy, currentPiece->getColor())))
+					{
+						BoardUtils::deleteBoard(boardCopy);		// Deleting the copied board
+						return false;
+					}
+
+					BoardUtils::deleteBoard(boardCopy);		// Deleting the copied board
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+
+/**
  @brief		Returns the return code of the given move.
  @param		board		The board to check.
  @param		turn		The Player that is playing now.
@@ -83,7 +120,7 @@ bool BoardUtils::isKingInCheck(const std::vector<Piece*>& board, const Player& p
 returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Player& turn, const Point& src, const Point& dst)
 {
 	// Invalid moves check
-	bool isInBoundaries = isPointInBoundaries(src) && isPointInBoundaries(dst);
+	bool isInBoundaries = Point::isPointInBoundaries(src) && Point::isPointInBoundaries(dst);
 	if (!isInBoundaries)
 	{
 		return INVALID_INDEXES;
@@ -113,9 +150,8 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 		return VALID_MOVE;
 	}
 
-	bool isTripLegal = (Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) == VALID_MOVE || Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst) == CHECK_MOVE) &&
-		Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfPiecesInTrip(dst);
-	if (!isTripLegal)
+	returnCode isTripLegal = Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkIfLegallyForPiece(dst);
+	if ((isTripLegal != VALID_MOVE) && (isTripLegal != CHECK_MOVE))
 	{
 		return ILLEGAL_MOVE_FOR_PIECE;
 	}
@@ -138,9 +174,16 @@ returnCode BoardUtils::isMoveValid(const std::vector<Piece*>& board, const Playe
 	
 
 	// If the function got here - the move is guaranteed to be valid
-	// Checking if the move caused Check on the opponent's King
+	// --- CHECKING IF THE MOVE CAUSED CHECK ON THE OPPONENT'S KING ---
 	if (isKingInCheck(boardCopy, Player(turn.getPlayerColor() == WHITE_PLAYER ? BLACK_PLAYER : WHITE_PLAYER)))
 	{
+		// --- CHECKING IF THE MOVE CAUSED CHECKMATE ON THE OPPONENT'S KING ---
+		if (isKingInCheckMate(boardCopy, Player(turn.getPlayerColor() == WHITE_PLAYER ? BLACK_PLAYER : WHITE_PLAYER)))
+		{
+			BoardUtils::deleteBoard(boardCopy);		// Deleting the copied board
+			return CHECKMATE_MOVE;
+		}
+
 		return CHECK_MOVE;
 	}
 	BoardUtils::deleteBoard(boardCopy);		// Deleting the copied board
@@ -161,28 +204,17 @@ returnCode BoardUtils::movePiece(std::vector<Piece*>& board, const Player& turn,
 {
 	returnCode isValidMove = isMoveValid(board, turn, src, dst);
 
-	if (isValidMove == VALID_MOVE || isValidMove == CHECK_MOVE)
+	if (isValidMove == VALID_MOVE || isValidMove == CHECK_MOVE || isValidMove == CHECKMATE_MOVE)
 	{
+		// Performing the move on the actual game board
+		duplicatePieceOnBoard(board, src, dst);		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
+		removePieceFromBoard(board, src);			// Deleting the Piece in src Point from the board
+
+		Piece::getElementAtLoc(board, dst.getRow(), dst.getCol())->falseFirstMove();
+
 		// if it is possible there is a casteling
 		if (Piece::getElementAtLoc(board, src.getRow(), src.getCol())->checkForCastling(dst))
 		{
-			// moving white pieces
-			if (dst == W_KING_CASTELING_LEFT)
-			{
-				BoardUtils::actualMoveOfPiece(board, Point(W_ROOK2_ROW, W_ROOK2_COL), W_ROOK_CASTELING_RIGHT);
-			}
-			else if (dst == W_KING_CASTELING_RIGHT)
-			{
-				BoardUtils::actualMoveOfPiece(board, Point(W_ROOK1_ROW, W_ROOK1_COL), W_ROOK_CASTELING_LEFT);
-			}
-			else if (dst == W_ROOK_CASTELING_RIGHT)
-			{
-				BoardUtils::actualMoveOfPiece(board, Point(W_KING_ROW, W_KING_COL), W_KING_CASTELING_LEFT);
-			}
-			else if (dst == W_ROOK_CASTELING_LEFT)
-			{
-				BoardUtils::actualMoveOfPiece(board, Point(W_KING_ROW, W_KING_COL), W_KING_CASTELING_RIGHT);
-			}
 
 			// moving black pieces
 			if (dst == B_KING_CASTELING_LEFT)
@@ -202,7 +234,16 @@ returnCode BoardUtils::movePiece(std::vector<Piece*>& board, const Player& turn,
 				BoardUtils::actualMoveOfPiece(board, Point(W_KING_ROW, B_KING_COL), B_KING_CASTELING_RIGHT);
 			}
 		}
-		BoardUtils::actualMoveOfPiece(board, src, dst);
+
+		// Checking if the move was en-passant
+		if (Pawn::enPassantOccured)
+		{
+			removePieceFromBoard(board, Pawn::toWherePawnMoved2Squares);
+			Pawn::enPassantOccured = false;
+
+
+			return ENPASSANT_MOVE;
+		}
 	}
 	// moving the piece to its place
 	return isValidMove;
@@ -235,6 +276,33 @@ void BoardUtils::removePieceFromBoard(std::vector<Piece*>& board, const Point& p
 }
 
 
+
+
+/**
+ @brief		Duplicates the Piece in the given src Point to the given dst Point.
+ @param		board		The board to duplicate the Piece on.
+ @param		src			The Point to duplicate the Piece from.
+ @param		dst			The Point to duplicate the Piece to.
+ @return	void.
+ */
+void BoardUtils::duplicatePieceOnBoard(std::vector<Piece*>& board, const Point& src, const Point& dst)
+{
+	deletePiece(Piece::getElementAtLoc(board, dst.getRow(), dst.getCol()));		// Deleting the Piece in dst Point from the board
+	Piece::setElementAtLoc(board, dst.getRow(), dst.getCol(), clonePiece(Piece::getElementAtLoc(board, src.getRow(), src.getCol()), Point(dst.getRow(), dst.getCol()), board));		// Deep copying the Piece in src Point to dst Point (duplicating the Piece)
+}
+
+
+/**
+ @brief		Removes the Piece in the given Point from the given board.
+ @param		board		The board to remove the Piece from.
+ @param		point		The Point to remove the Piece from.
+ @return	void.
+ */
+void BoardUtils::removePieceFromBoard(std::vector<Piece*>& board, const Point& point)
+{
+	deletePiece(Piece::getElementAtLoc(board, point.getRow(), point.getCol()));		// Deleting the Piece in the given Point from the board
+	Piece::setElementAtLoc(board, point.getRow(), point.getCol(), new Empty('#', Point(point.getRow(), point.getCol()), Player(EMPTY_PLAYER), board));
+}
 
 
 /**
@@ -335,6 +403,12 @@ void BoardUtils::cloneBoard(const std::vector<Piece*>& srcBoard, std::vector<Pie
 		{
 			dstBoard[i] = new Pawn(srcBoard[i]->getType(), srcBoard[i]->getLocation(), srcBoard[i]->getColor(), dstBoard);
 		}
+
+		// Copying the firstMove field
+		if (!srcBoard[i]->isFirstMove())
+		{
+			dstBoard[i]->falseFirstMove();
+		}
 	}
 }
 
@@ -415,6 +489,7 @@ void BoardUtils::printBoard(const std::vector<Piece*>& board, const Player& turn
 	std::cout << "  a b c d e f g h" << std::endl;
 	setConsoleColor(WHITE);
 }
+
 
 void BoardUtils::actualMoveOfPiece(std::vector<Piece*>& board, const Point& src, const Point& dst)
 {

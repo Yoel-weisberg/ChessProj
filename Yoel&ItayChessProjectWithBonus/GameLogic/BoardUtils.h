@@ -15,19 +15,16 @@
 #include "Player.h"
 #include "Constants.h"
 
-#define ROWS 8
-#define COLS 8
-
 
 class BoardUtils
 {
 public:
 	static Point findKingPoint(const std::vector<Piece*>& board, const Player& player);
 
-	static bool isPointInBoundaries(const Point& point);
 	static bool isKingInCheck(const std::vector<Piece*>& board, const Player& player);
-	static returnCode isMoveValid(const std::vector<Piece*>& board, const Player& turn, const Point& src, const Point& dst);
+	static bool isKingInCheckMate(const std::vector<Piece*>& board, const Player& player);
 
+	static returnCode isMoveValid(const std::vector<Piece*>& board, const Player& turn, const Point& src, const Point& dst);
 	static returnCode movePiece(std::vector<Piece*>& board, const Player& turn, const Point& src, const Point& dst);
 
 	static void duplicatePieceOnBoard(std::vector<Piece*>& board, const Point& src, const Point& dst);

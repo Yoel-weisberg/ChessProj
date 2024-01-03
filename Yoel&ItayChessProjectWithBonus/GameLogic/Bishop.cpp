@@ -12,6 +12,110 @@ Bishop::Bishop(const char& type, const Point& location, const Player& color, std
 
 
 /**
+ @brief		Returns all the possible destinations of the Bishop.
+ @return	vector of all the possible destination Points of the Beshop.
+ */
+std::vector<Point> Bishop::returnPossibleDestinations() const
+{
+    return Bishop::returnPossibleDestinationsBishop(*this);
+}
+
+
+/**
+ @brief		Returns all the possible destinations of the Bishop.
+ @return	vector of all the possible destination Points of the Beshop.
+ */
+std::vector<Point> Bishop::returnPossibleDestinationsBishop(const Piece& piece)
+{
+    std::vector<Point> possibleDestinations;
+    std::string currentBishopColor = piece.getColor().getPlayerColor();
+    std::string opponentColor = (currentBishopColor == WHITE_PLAYER) ? BLACK_PLAYER : WHITE_PLAYER;
+
+    // North-West
+    for (int row = piece.getLocation().getRow() - 1, col = piece.getLocation().getCol() - 1; (row >= 0) && (col >= 0); row--, col--)
+    {
+        Point currentDstPoint = Point(row, col);
+
+        if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == EMPTY_PLAYER)
+        {
+            possibleDestinations.push_back(currentDstPoint);
+        }
+        else if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == opponentColor)
+		{
+			possibleDestinations.push_back(currentDstPoint);
+			break;
+		}
+		else if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == currentBishopColor)
+		{
+			break;
+		}
+    }
+
+    // North-East
+    for (int row = piece.getLocation().getRow() - 1, col = piece.getLocation().getCol() + 1; (row >= 0) && (col < COLS); row--, col++)
+    {
+        Point currentDstPoint = Point(row, col);
+
+        if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == EMPTY_PLAYER)
+        {
+            possibleDestinations.push_back(currentDstPoint);
+        }
+        else if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == opponentColor)
+        {
+            possibleDestinations.push_back(currentDstPoint);
+            break;
+        }
+        else if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == currentBishopColor)
+        {
+            break;
+        }
+    }
+
+    // South-West
+    for (int row = piece.getLocation().getRow() + 1, col = piece.getLocation().getCol() - 1; (row < ROWS) && (col >= 0); row++, col--)
+    {
+        Point currentDstPoint = Point(row, col);
+
+        if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == EMPTY_PLAYER)
+        {
+            possibleDestinations.push_back(currentDstPoint);
+        }
+        else if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == opponentColor)
+        {
+            possibleDestinations.push_back(currentDstPoint);
+            break;
+        }
+        else if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == currentBishopColor)
+        {
+            break;
+        }
+    }
+
+    // South-East
+    for (int row = piece.getLocation().getRow() + 1, col = piece.getLocation().getCol() + 1; (row < ROWS) && (col < COLS); row++, col++)
+    {
+        Point currentDstPoint = Point(row, col);
+
+        if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == EMPTY_PLAYER)
+        {
+            possibleDestinations.push_back(currentDstPoint);
+        }
+        else if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == opponentColor)
+        {
+            possibleDestinations.push_back(currentDstPoint);
+            break;
+        }
+        else if (Piece::getElementAtLoc(piece.getBoard(), row, col)->getColor().getPlayerColor() == currentBishopColor)
+        {
+            break;
+        }
+    }
+
+    return possibleDestinations;
+}
+
+
+/**
  @brief		Checks if the trip is legal for the Bishop.
  @param		dst		The destination point of the piece.
  @return	true if the trip is legal, false otherwise.

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "Constants.h"
 
 
 class Point
@@ -14,6 +15,7 @@ public:
 	void setRow(const int& row);
 	void setCol(const int& col);
 
+	static bool isPointInBoundaries(const Point& point);
 	static Point chessNotationToPoint(std::string chessNotation);
 
 	bool operator==(const Point& other) const;

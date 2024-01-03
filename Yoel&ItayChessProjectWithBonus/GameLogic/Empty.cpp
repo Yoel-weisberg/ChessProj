@@ -12,6 +12,16 @@ Empty::Empty(const char& type, const Point& location, const Player& color, std::
 
 
 /**
+ @brief		Returns all the possible destinations of Empty Piece.
+ @return	Empty vector
+ */
+std::vector<Point> Empty::returnPossibleDestinations() const
+{
+	return std::vector<Point>();
+}
+
+
+/**
  @brief		Empty Piece cannot move
  @param		dst		the destination point
  @return	false

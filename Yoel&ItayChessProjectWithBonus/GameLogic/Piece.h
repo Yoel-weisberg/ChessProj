@@ -8,11 +8,6 @@
 #include "Player.h"
 #include "Constants.h"
 
-#define ROWS 8
-#define COLS 8
-
-#define EMPTY '#'
-
 
 class Piece
 {
@@ -29,6 +24,8 @@ public:
 	returnCode checkIfLegallyForPiece(const Point& dst) const;
 	virtual bool checkIfTripLegallyForPiece(const Point& dst) const = 0;
 	virtual bool checkIfPiecesInTrip(const Point& dst) const = 0;
+
+	virtual std::vector<Point> returnPossibleDestinations() const = 0;
 
 	void operator= (const Piece& other);
 	

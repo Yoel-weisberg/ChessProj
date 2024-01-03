@@ -12,6 +12,53 @@ Knight::Knight(const char& type, const Point& location, const Player& color, std
 
 
 /**
+ @brief		Returns all the possible destinations of the Knight.
+ @return	vector of all the possible destination Points of the Knight.
+ */
+std::vector<Point> Knight::returnPossibleDestinations() const
+{
+	std::vector<Point> possibleDestinations;
+	std::string currentKnightColor = this->_color.getPlayerColor();
+
+
+	if (Point::isPointInBoundaries(TWO_NORTH_ONE_WEST) && Piece::getElementAtLoc(this->_board, TWO_NORTH_ONE_WEST.getRow(), TWO_NORTH_ONE_WEST.getCol())->getColor().getPlayerColor() != currentKnightColor)
+	{
+		possibleDestinations.push_back(TWO_NORTH_ONE_WEST);
+	}
+	if (Point::isPointInBoundaries(TWO_NORTH_ONE_EAST) && Piece::getElementAtLoc(this->_board, TWO_NORTH_ONE_EAST.getRow(), TWO_NORTH_ONE_EAST.getCol())->getColor().getPlayerColor() != currentKnightColor)
+	{
+		possibleDestinations.push_back(TWO_NORTH_ONE_EAST);
+	}
+	if (Point::isPointInBoundaries(TWO_SOUTH_ONE_WEST) && Piece::getElementAtLoc(this->_board, TWO_SOUTH_ONE_WEST.getRow(), TWO_SOUTH_ONE_WEST.getCol())->getColor().getPlayerColor() != currentKnightColor)
+	{
+		possibleDestinations.push_back(TWO_SOUTH_ONE_WEST);
+	}
+	if (Point::isPointInBoundaries(TWO_SOUTH_ONE_EAST) && Piece::getElementAtLoc(this->_board, TWO_SOUTH_ONE_EAST.getRow(), TWO_SOUTH_ONE_EAST.getCol())->getColor().getPlayerColor() != currentKnightColor)
+	{
+		possibleDestinations.push_back(TWO_SOUTH_ONE_EAST);
+	}
+	if (Point::isPointInBoundaries(ONE_NORTH_TWO_WEST) && Piece::getElementAtLoc(this->_board, ONE_NORTH_TWO_WEST.getRow(), ONE_NORTH_TWO_WEST.getCol())->getColor().getPlayerColor() != currentKnightColor)
+	{
+		possibleDestinations.push_back(ONE_NORTH_TWO_WEST);
+	}
+	if (Point::isPointInBoundaries(ONE_NORTH_TWO_EAST) && Piece::getElementAtLoc(this->_board, ONE_NORTH_TWO_EAST.getRow(), ONE_NORTH_TWO_EAST.getCol())->getColor().getPlayerColor() != currentKnightColor)
+	{
+		possibleDestinations.push_back(ONE_NORTH_TWO_EAST);
+	}
+	if (Point::isPointInBoundaries(ONE_SOUTH_TWO_WEST) && Piece::getElementAtLoc(this->_board, ONE_SOUTH_TWO_WEST.getRow(), ONE_SOUTH_TWO_WEST.getCol())->getColor().getPlayerColor() != currentKnightColor)
+	{
+		possibleDestinations.push_back(ONE_SOUTH_TWO_WEST);
+	}
+	if (Point::isPointInBoundaries(ONE_SOUTH_TWO_EAST) && Piece::getElementAtLoc(this->_board, ONE_SOUTH_TWO_EAST.getRow(), ONE_SOUTH_TWO_EAST.getCol())->getColor().getPlayerColor() != currentKnightColor)
+	{
+		possibleDestinations.push_back(ONE_SOUTH_TWO_EAST);
+	}
+
+	return possibleDestinations;
+}
+
+
+/**
  @brief		Checks if the trip is legal for the Knight.
  @param		dst		The destination point of the piece.
  @return	true if the trip is legal, false otherwise.
